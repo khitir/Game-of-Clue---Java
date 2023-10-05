@@ -159,8 +159,6 @@ class BoardTestsExp {
 		assertTrue(targets.contains(board.getCell(2, 0)));
 		assertTrue(targets.contains(board.getCell(3, 1)));
 		assertTrue(targets.contains(board.getCell(3, 3)));
-		
-		
 	}
 	
 	@Test
@@ -191,7 +189,6 @@ class BoardTestsExp {
 		assertTrue(targets.contains(board.getCell(1, 2)));
 		assertTrue(targets.contains(board.getCell(3, 3)));
 		assertTrue(targets.contains(board.getCell(3, 1)));
-		
 	}
 	
 	
