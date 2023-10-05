@@ -1,26 +1,37 @@
 package experiment;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class TestBoardCell {
 
-	public TestBoardCell() {
-		// TODO Auto-generated constructor stub
+	public TestBoardCell(int x, int y) {
+
 	}
 
 	public Set<TestBoardCell> getAdjList() {
-		// TODO Auto-generated method stub
-		return null;
+		Set<TestBoardCell> temp = new HashSet<TestBoardCell>();
+		return temp;
 	}
 
 	public void setOccupied(boolean b) {
-		// TODO Auto-generated method stub
-		
+		return;
+	}
+	
+	public boolean isOccupied() {
+		return false;
 	}
 
 	public void setIsRoom(boolean b) {
-		// TODO Auto-generated method stub
-		
+		return;
+	}
+	
+	public boolean isRoom() {
+		return false;
+	}
+	
+	public void addAdjacency(TestBoardCell cell) {
+		return;
 	}
 
 }
