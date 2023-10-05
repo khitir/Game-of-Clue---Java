@@ -221,7 +221,7 @@ class BoardTestsExp {
 	
 	@Test
 	public void testTargetsOccupied() {
-		// case 1  
+		// case 
 		TestBoardCell cell = board.getCell(1, 2);
 		board.calcTargets(cell, 1);
 		board.getCell(0, 2).setOccupied(true);
@@ -246,6 +246,25 @@ class BoardTestsExp {
 		assertTrue(targets.contains(board.getCell(3, 1)));
 		assertTrue(targets.contains(board.getCell(3, 3)));
 		assertFalse(targets.contains(board.getCell(2, 2)));
+		
+		// case 2
+		cell = board.getCell(3, 0);
+		board.calcTargets(cell, 3);
+		board.getCell(2, 2).setOccupied(true);
+		board.getCell(0, 0).setOccupied(true);
+		board.getCell(1, 1).setOccupied(true);
+		board.getCell(2, 0).setOccupied(true);
+		board.getCell(3, 1).setOccupied(true);
+		board.getCell(3, 3).setOccupied(true);
+		targets = board.getTargets();
+		assertEquals(0, targets.size());
+		assertFalse(targets.contains(board.getCell(0, 0)));
+		assertFalse(targets.contains(board.getCell(1, 1)));
+		assertFalse(targets.contains(board.getCell(2, 0)));
+		assertFalse(targets.contains(board.getCell(3, 1)));
+		assertFalse(targets.contains(board.getCell(3, 3)));
+		assertFalse(targets.contains(board.getCell(2, 2)));
+		assertFalse(targets.contains(board.getCell(3, 0)));
 	
 	}
 
