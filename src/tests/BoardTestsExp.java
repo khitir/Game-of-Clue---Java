@@ -10,6 +10,12 @@ import org.junit.jupiter.api.Test;
 import experiment.TestBoard;
 import experiment.TestBoardCell;
 
+/*
+ * Authors: John Taylor and Zakaria Khitirishvili
+ * BoardTestsExp JUnit Test Class
+ * 		Tests out the functionality of the TestBoard and TestBoardCell Class
+ */
+
 class BoardTestsExp {
 	TestBoard board;
 	

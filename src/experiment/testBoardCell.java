@@ -3,6 +3,12 @@ package experiment;
 import java.util.HashSet;
 import java.util.Set;
 
+/*
+ * Authors: John Taylor and Zakaria Khitirishvili
+ * TestBoardCell Class
+ * 		Acts as a pseudo cell on the game board to allow the testing of movement
+ */
+
 public class TestBoardCell {
 
 	public TestBoardCell(int x, int y) {

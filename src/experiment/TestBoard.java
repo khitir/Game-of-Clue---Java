@@ -3,13 +3,18 @@ package experiment;
 import java.util.HashSet;
 import java.util.Set;
 
+/*
+ * Authors: John Taylor and Zakaria Khitirishvili
+ * TestBoard Class
+ * 		Acts as a pseudo game board to allow the testing of movement
+ */
+
 public class TestBoard {
-	Set<TestBoardCell> cells;
 
 	public TestBoard() {
-		cells = new HashSet<TestBoardCell>();
-	}
 
+	}
+	
 	public TestBoardCell getCell(int i, int j) {
 		TestBoardCell temp = new TestBoardCell(i, j);
 		return temp;
