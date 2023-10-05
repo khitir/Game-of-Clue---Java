@@ -194,10 +194,10 @@ class BoardTestsExp {
 	
 	@Test
 	public void testTargetsRoom() {
-		// case 1  
+		// case 1, when dice number is not within exact straigth count to Room  
 		TestBoardCell cell = board.getCell(1, 1);
-		board.calcTargets(cell, 2);
 		board.getCell(0, 1).setIsRoom(true);
+		board.calcTargets(cell, 2);
 		Set<TestBoardCell> targets = board.getTargets();
 		assertEquals(7, targets.size());
 		assertTrue(targets.contains(board.getCell(0, 0)));
@@ -209,10 +209,11 @@ class BoardTestsExp {
 		assertTrue(targets.contains(board.getCell(3, 1)));
 		
 		
-		// case 2
+		// case 2, when dice number is exact straigth count to Room  
+		board = new TestBoard();
 		cell = board.getCell(1, 1);
-		board.calcTargets(cell, 1);
 		board.getCell(0, 1).setIsRoom(true);
+		board.calcTargets(cell, 1);
 		targets = board.getTargets();
 		assertEquals(4, targets.size());
 		assertTrue(targets.contains(board.getCell(0, 1)));
@@ -224,10 +225,10 @@ class BoardTestsExp {
 	
 	@Test
 	public void testTargetsOccupied() {
-		// case 
+		// case 1, when 1 potential target is occuoied, simple case for dice = 1
 		TestBoardCell cell = board.getCell(1, 2);
-		board.calcTargets(cell, 1);
 		board.getCell(0, 2).setOccupied(true);
+		board.calcTargets(cell, 1);
 		Set<TestBoardCell> targets = board.getTargets();
 		assertEquals(3, targets.size());
 		assertTrue(targets.contains(board.getCell(1, 3)));
@@ -237,10 +238,11 @@ class BoardTestsExp {
 
 		
 		
-		// case 2
+		// case 2, When only 1 place is occupied, but more complex case with dice = 3 
+		board = new TestBoard();
 		cell = board.getCell(3, 0);
-		board.calcTargets(cell, 3);
 		board.getCell(2, 2).setOccupied(true);
+		board.calcTargets(cell, 3);
 		targets = board.getTargets();
 		assertEquals(5, targets.size());
 		assertTrue(targets.contains(board.getCell(0, 0)));
@@ -250,7 +252,8 @@ class BoardTestsExp {
 		assertTrue(targets.contains(board.getCell(3, 3)));
 		assertFalse(targets.contains(board.getCell(2, 2)));
 		
-		// case 2
+		// case 3, when all available targets are occupied, so nothings available
+		board = new TestBoard();
 		cell = board.getCell(3, 0);
 		board.calcTargets(cell, 3);
 		board.getCell(2, 2).setOccupied(true);
