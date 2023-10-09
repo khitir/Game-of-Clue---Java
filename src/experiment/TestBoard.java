@@ -49,10 +49,15 @@ public class TestBoard {
 	
 	
 	public void calcTargets(TestBoardCell cell, int pathLength) {
+		visited.add(cell);
+		findTargets(cell, pathLength);
+	}
+	
+	public void findTargets(TestBoardCell cell, int pathLength) {
 		for (TestBoardCell adjCell : cell.adjList) {
-			if (!visited.contains(adjCell)) {
+			if (!visited.contains(adjCell) && !adjCell.isOccupied()) {
 				visited.add(adjCell);
-				if (pathLength == 1) {
+				if (pathLength == 1 || adjCell.isRoom()) {
 					targets.add(adjCell);
 				}
 				else {
