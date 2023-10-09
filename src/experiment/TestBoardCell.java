@@ -11,10 +11,15 @@ import java.util.Set;
 
 public class TestBoardCell {
 	private int row, col;
-	private Boolean isRoom, isOccupied ;
+	private boolean isRoom, isOccupied;
+	Set<TestBoardCell> adjList;
 
 	public TestBoardCell(int x, int y) {
-
+		adjList = new HashSet<TestBoardCell>();
+		this.row = x;
+		this.col = y;
+		this.isRoom = false;
+		this.isOccupied = false;
 	}
 
 	public Set<TestBoardCell> getAdjList() {
@@ -23,23 +28,23 @@ public class TestBoardCell {
 	}
 
 	public void setOccupied(boolean b) {
-		return;
+		this.isOccupied = b;
 	}
 	
 	public boolean isOccupied() {
-		return false;
+		return this.isOccupied;
 	}
 
 	public void setIsRoom(boolean b) {
-		return;
+		this.isRoom = b;
 	}
 	
 	public boolean isRoom() {
-		return false;
+		return this.isRoom;
 	}
 	
 	public void addAdjacency(TestBoardCell cell) {
-		return;
+		adjList.add(cell);
 	}
 
 }

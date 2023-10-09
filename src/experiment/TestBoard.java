@@ -14,32 +14,55 @@ public class TestBoard {
 
 	final static int COLS = 4;
 	final static int ROWS = 4;
-	private TestBoardCell[][] grid = new TestBoardCell[ROWS][COLS];
+	private TestBoardCell[][] grid;
 	private Set<TestBoardCell> targets ;
 	private Set<TestBoardCell> visited;
 	
 
 	public TestBoard() {
+		grid = new TestBoardCell[ROWS][COLS];
 		for (int i = 0; i < ROWS; i++) {
 			for (int j = 0; j < COLS; j++) {
-				// fill grid, now they are NULL
+				grid[i][j] = new TestBoardCell(i, j);
+			}
+		}
+		targets = new HashSet<TestBoardCell>();
+		visited = new HashSet<TestBoardCell>();
+		for (int i = 0; i < ROWS; i++) {
+			for (int j = 0; j < COLS; j++) {
+				if (i != 0 && !grid[i-1][j].isOccupied())
+					grid[i][j].addAdjacency(grid[i-1][j]);
+				if (j != 0 && !grid[i][j-1].isOccupied())
+					grid[i][j].addAdjacency(grid[i][j-1]);
+				if (i != ROWS-1 && !grid[i+1][j].isOccupied())
+					grid[i][j].addAdjacency(grid[i+1][j]);
+				if (j != COLS-1 && !grid[i][j+1].isOccupied())
+					grid[i][j].addAdjacency(grid[i][j+1]);
 			}
 		}
 	}
 	
 	public TestBoardCell getCell(int i, int j) {
-		TestBoardCell temp = new TestBoardCell(i, j);
-		return temp;
+		return grid[i][j];
 	}
 
 	public void calcTargets(TestBoardCell cell, int pathLength) {
-		// TODO Auto-generated method stub
-		
+		for (TestBoardCell adjCell : cell.adjList) {
+			if (!visited.contains(adjCell)) {
+				visited.add(adjCell);
+				if (pathLength == 1) {
+					targets.add(adjCell);
+				}
+				else {
+					calcTargets(adjCell, pathLength - 1);
+				}
+				visited.remove(adjCell);
+			}
+		}
 	}
 
 	public Set<TestBoardCell> getTargets() {
-		Set<TestBoardCell> temp = new HashSet<TestBoardCell>();
-		return temp;
+		return targets;
 	}
 
 }
