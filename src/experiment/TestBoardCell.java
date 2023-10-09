@@ -10,6 +10,8 @@ import java.util.Set;
  */
 
 public class TestBoardCell {
+	private int row, col;
+	private Boolean isRoom, isOccupied ;
 
 	public TestBoardCell(int x, int y) {
 
