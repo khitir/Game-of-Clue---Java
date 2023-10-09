@@ -11,10 +11,7 @@ import java.util.Set;
  */
 
 public class TestBoard {
-<<<<<<< HEAD
 
-	public TestBoard() {
-=======
 	final static int COLS = 4;
 	final static int ROWS = 4;
 	private TestBoardCell[][] grid = new TestBoardCell[ROWS][COLS];
@@ -28,9 +25,6 @@ public class TestBoard {
 				// fill grid, now they are NULL
 			}
 		}
-	}
->>>>>>> 7506cbcb696748743e05b01b83e223bed0ea0194
-
 	}
 	
 	public TestBoardCell getCell(int i, int j) {
