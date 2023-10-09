@@ -23,8 +23,7 @@ public class TestBoardCell {
 	}
 
 	public Set<TestBoardCell> getAdjList() {
-		Set<TestBoardCell> temp = new HashSet<TestBoardCell>();
-		return temp;
+		return adjList;
 	}
 
 	public void setOccupied(boolean b) {

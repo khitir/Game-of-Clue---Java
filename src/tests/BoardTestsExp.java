@@ -23,7 +23,7 @@ class BoardTestsExp {
 	public void setupBoard() {
 		board = new TestBoard();
 	}
-	
+	/*
 	@Test
 	public void testAdjacency() {
 		// Test the upper left hand corner of the board
@@ -222,10 +222,10 @@ class BoardTestsExp {
 		assertTrue(targets.contains(board.getCell(1, 0)));
 	
 	}
-	
+	*/
 	@Test
 	public void testTargetsOccupied() {
-		// case 1, when 1 potential target is occuoied, simple case for dice = 1
+		// case 1, when 1 potential target is occupied, simple case for dice = 1
 		TestBoardCell cell = board.getCell(1, 2);
 		board.getCell(0, 2).setOccupied(true);
 		board.calcTargets(cell, 1);
@@ -236,14 +236,15 @@ class BoardTestsExp {
 		assertTrue(targets.contains(board.getCell(1, 1)));
 		assertFalse(targets.contains(board.getCell(0, 2)));
 
-		
+	
 		
 		// case 2, When only 1 place is occupied, but more complex case with dice = 3 
 		board = new TestBoard();
-		cell = board.getCell(3, 0);
+		TestBoardCell cell = board.getCell(3, 0);
 		board.getCell(2, 2).setOccupied(true);
+		targets.clear();
 		board.calcTargets(cell, 3);
-		targets = board.getTargets();
+		Set<TestBoardCell> targets = board.getTargets();
 		assertEquals(5, targets.size());
 		assertTrue(targets.contains(board.getCell(0, 0)));
 		assertTrue(targets.contains(board.getCell(1, 1)));

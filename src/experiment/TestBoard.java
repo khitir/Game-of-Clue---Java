@@ -46,6 +46,8 @@ public class TestBoard {
 		return grid[i][j];
 	}
 
+	
+	
 	public void calcTargets(TestBoardCell cell, int pathLength) {
 		for (TestBoardCell adjCell : cell.adjList) {
 			if (!visited.contains(adjCell)) {
@@ -61,6 +63,8 @@ public class TestBoard {
 		}
 	}
 
+	
+	
 	public Set<TestBoardCell> getTargets() {
 		return targets;
 	}
