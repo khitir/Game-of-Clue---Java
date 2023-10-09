@@ -161,7 +161,6 @@ class BoardTestsExp {
 		assertEquals(7, targets.size());
 		assertTrue(targets.contains(board.getCell(0, 0)));
 		assertTrue(targets.contains(board.getCell(0, 2)));
-//		assertTrue(targets.contains(board.getCell(0, 3)));
 		assertTrue(targets.contains(board.getCell(1, 1)));
 		assertTrue(targets.contains(board.getCell(1, 3)));
 		assertTrue(targets.contains(board.getCell(2, 0)));
@@ -177,27 +176,26 @@ class BoardTestsExp {
 		board.getCell(1, 2).setIsRoom(true);
 		board.calcTargets(cell, 2);
 		Set<TestBoardCell> targets = board.getTargets();
-		assertEquals(6, targets.size());
+		assertEquals(5, targets.size());
 		assertTrue(targets.contains(board.getCell(0, 2)));
 		assertTrue(targets.contains(board.getCell(1, 2)));
-		assertTrue(targets.contains(board.getCell(1, 3)));
 		assertTrue(targets.contains(board.getCell(2, 0)));
 		assertTrue(targets.contains(board.getCell(2, 2)));
 		assertTrue(targets.contains(board.getCell(3, 1)));
 		
-//		// Test if surrounded on 2 sides by occupied squares
-//		board = new TestBoard();
-//		cell = board.getCell(2, 2);
-//		board.getCell(2, 1).setOccupied(true);
-//		board.getCell(2, 3).setOccupied(true);
-//		board.getCell(1, 2).setIsRoom(true);
-//		targets.clear();
-//		board.calcTargets(cell,  2);
-//		targets = board.getTargets();
-//		assertEquals(3, targets.size());
-//		assertTrue(targets.contains(board.getCell(1, 2)));
-//		assertTrue(targets.contains(board.getCell(3, 3)));
-//		assertTrue(targets.contains(board.getCell(3, 1)));
+		// Test if surrounded on 2 sides by occupied squares
+		board = new TestBoard();
+		cell = board.getCell(2, 2);
+		board.getCell(2, 1).setOccupied(true);
+		board.getCell(2, 3).setOccupied(true);
+		board.getCell(1, 2).setIsRoom(true);
+		targets.clear();
+		board.calcTargets(cell,  2);
+		targets = board.getTargets();
+		assertEquals(3, targets.size());
+		assertTrue(targets.contains(board.getCell(1, 2)));
+		assertTrue(targets.contains(board.getCell(3, 3)));
+		assertTrue(targets.contains(board.getCell(3, 1)));
 	}
 	
 	

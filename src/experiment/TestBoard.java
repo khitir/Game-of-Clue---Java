@@ -49,6 +49,7 @@ public class TestBoard {
 	public void calcTargets(TestBoardCell cell, int pathLength) {
 		visited.add(cell);
 		findTargets(cell, pathLength);
+		visited.clear();
 	}
 	
 	public void findTargets(TestBoardCell cell, int pathLength) {
@@ -59,7 +60,7 @@ public class TestBoard {
 					targets.add(adjCell);
 				}
 				else {
-					calcTargets(adjCell, pathLength - 1);
+					findTargets(adjCell, pathLength - 1);
 				}
 				visited.remove(adjCell);
 			}
