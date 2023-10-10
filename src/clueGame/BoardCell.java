@@ -16,7 +16,16 @@ public class BoardCell {
 	private boolean isRoom, isOccupied,isRoomCenter,isLabel,isDoorway; // bools for checking status
 	Set<BoardCell> adjList;
 	DoorDirection doorDirection;
-	char secretPassage;
+	private char secretPassage;
+	private char roomName;
+	
+	public char getRoomName() {
+		return roomName;
+	}
+
+	public void setRoomName(char roomName) {
+		this.roomName = roomName;
+	}
 	
 	
 	public char getSecretPassage() { // gets the secret passage
@@ -65,8 +74,16 @@ public class BoardCell {
 		return this.isRoomCenter;
 	}
 	
+	public void setIsRoomCenter(boolean b) {
+		this.isRoomCenter = b;
+	}
+	
 	public boolean isLabel() {
 		return this.isLabel;
+	}
+	
+	public void setIsLabel(boolean b) {
+		this.isLabel = b;
 	}
 
 	public boolean isDoorway() {
