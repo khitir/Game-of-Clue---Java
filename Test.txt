@@ -1,0 +1,8 @@
+For our tests, we made sure to select rooms with a variety of
+door directions. For example, the X room has an UP door, the Y
+room has a DOWN door, the Z room has a LEFT door, and the 
+A room has a RIGHT door.
+
+We also tested to make sure that the label cells and center cells
+were functioning properly, as well as the secret passageways and
+walkways.
