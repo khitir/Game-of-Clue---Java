@@ -13,20 +13,23 @@ import java.util.Set;
 
 public class BoardCell {
 	private int row, col;
-	private boolean isRoom, isOccupied,isRoomCenter,isLabel,isDoorway;
+	private boolean isRoom, isOccupied,isRoomCenter,isLabel,isDoorway; // bools for checking status
 	Set<BoardCell> adjList;
-	public char getSecretPassage() {
+	DoorDirection doorDirection;
+	char secretPassage;
+	
+	
+	public char getSecretPassage() { // gets the secret passage
 		return secretPassage;
 	}
 
-	public void setSecretPassage(char secretPassage) {
+	public void setSecretPassage(char secretPassage) { // gets the secret passage
 		this.secretPassage = secretPassage;
 	}
 
-	DoorDirection doorDirection;
-	char secretPassage;
 
-	public BoardCell(int x, int y) {
+
+	public BoardCell(int x, int y) { // constructor, that sets cell location on board, and intitializes room and occupied to false
 		adjList = new HashSet<BoardCell>();
 		this.row = x;
 		this.col = y;
@@ -70,11 +73,11 @@ public class BoardCell {
 		return this.isDoorway;
 	}
 
-	public DoorDirection getDoorDirection() {
+	public DoorDirection getDoorDirection() { // gets door orientation
 		return doorDirection;
 	}
 
-	public void setDoorDirection(DoorDirection doorDirection) {
+	public void setDoorDirection(DoorDirection doorDirection) { // sets door orientation
 		this.doorDirection = doorDirection;
 	}
 

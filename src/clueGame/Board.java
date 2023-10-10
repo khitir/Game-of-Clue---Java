@@ -23,8 +23,9 @@ public class Board {
 
 	private static Board theInstance = new Board();
 	
-	String csv_file;
-	String txt_file;
+	// set the file names to use config files
+	String csv_file; 
+	String txt_file; 
 
 	// this method returns the only Board
 	public static Board getInstance() {
@@ -43,7 +44,7 @@ public class Board {
 		}
 		targets = new HashSet<BoardCell>();
 		visited = new HashSet<BoardCell>();
-		for (int i = 0; i < ROWS; i++) {
+		for (int i = 0; i < ROWS; i++) { // fill in the board
 			for (int j = 0; j < COLS; j++) {
 				if (i != 0 && !grid[i-1][j].isOccupied())
 					grid[i][j].addAdjacency(grid[i-1][j]);
@@ -58,19 +59,19 @@ public class Board {
     }
 
 	
-	public BoardCell getCell(int i, int j) {
+	public BoardCell getCell(int i, int j) { // gets a cell
 		return grid[i][j];
 	}
 
 	
 	
-	public void calcTargets(BoardCell cell, int pathLength) {
+	public void calcTargets(BoardCell cell, int pathLength) { // adds visited cells to to list and calls findtarget()
 		visited.add(cell);
 		findTargets(cell, pathLength);
 		visited.clear();
 	}
 	
-	public void findTargets(BoardCell cell, int pathLength) {
+	public void findTargets(BoardCell cell, int pathLength) { // recursively finds targets by looking at adjacent list cells and also checks if those cells are occupied or if a room
 		for (BoardCell adjCell : cell.adjList) {
 			if (!visited.contains(adjCell) && !adjCell.isOccupied()) {
 				visited.add(adjCell);
@@ -87,21 +88,21 @@ public class Board {
 
 	
 	
-	public Set<BoardCell> getTargets() {
+	public Set<BoardCell> getTargets() { // gets target
 		return targets;
 	}
 	
-	public void setConfigFiles(String csv, String file) {
+	public void setConfigFiles(String csv, String file) { // sets csv and text files
 		csv_file = csv;
 		txt_file = file;
 	}
 	
-	public Room getRoom(char room) {
+	public Room getRoom(char room) { //  gets a room, need to update in future
 		Room room1 = new Room("name", new BoardCell(0,0) , new BoardCell(0,0));
 		return room1;
 	}
 	
-	public Room getRoom(BoardCell room) {
+	public Room getRoom(BoardCell room) {//  gets a room with cell input, need to update in future
 		Room room1 = new Room("name", room , new BoardCell(0,0));
 		return room1;
 	}
