@@ -14,8 +14,8 @@ import java.util.Set;
 
 public class Board {
 
-	final static int COLS = 4;
-	final static int ROWS = 4;
+	final static int COLS = 50;
+	final static int ROWS = 50;
 	private BoardCell[][] grid;
 	private Set<BoardCell> targets ;
 	private Set<BoardCell> visited;
