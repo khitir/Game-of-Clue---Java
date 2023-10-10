@@ -97,8 +97,14 @@ public class Board {
 		txt_file = file;
 	}
 	
-	public char getRoom(char room) {
-		this.room.setName(room);
+	public Room getRoom(char room) {
+		Room room1 = new Room("name", new BoardCell(0,0) , new BoardCell(0,0));
+		return room1;
+	}
+	
+	public Room getRoom(BoardCell room) {
+		Room room1 = new Room("name", room , new BoardCell(0,0));
+		return room1;
 	}
 	
 	public static int getNumColumns() {

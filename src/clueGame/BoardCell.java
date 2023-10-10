@@ -13,8 +13,18 @@ import java.util.Set;
 
 public class BoardCell {
 	private int row, col;
-	private boolean isRoom, isOccupied;
+	private boolean isRoom, isOccupied,isRoomCenter,isLabel,isDoorway;
 	Set<BoardCell> adjList;
+	public char getSecretPassage() {
+		return secretPassage;
+	}
+
+	public void setSecretPassage(char secretPassage) {
+		this.secretPassage = secretPassage;
+	}
+
+	DoorDirection doorDirection;
+	char secretPassage;
 
 	public BoardCell(int x, int y) {
 		adjList = new HashSet<BoardCell>();
@@ -46,6 +56,26 @@ public class BoardCell {
 	
 	public void addAdjacency(BoardCell cell) {
 		adjList.add(cell);
+	}
+	
+	public boolean isRoomCenter() {
+		return this.isRoomCenter;
+	}
+	
+	public boolean isLabel() {
+		return this.isLabel;
+	}
+
+	public boolean isDoorway() {
+		return this.isDoorway;
+	}
+
+	public DoorDirection getDoorDirection() {
+		return doorDirection;
+	}
+
+	public void setDoorDirection(DoorDirection doorDirection) {
+		this.doorDirection = doorDirection;
 	}
 
 }
