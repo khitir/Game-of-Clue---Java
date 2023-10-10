@@ -1,0 +1,13 @@
+// Rooms and Room Cards
+Room, Physics Lounge, P
+Room, Laith's Office, L
+Room, Chuck's Office, S
+Room, Callan's Office, C
+Room, SPS Room, R
+Room, CK 130, 1
+Room, Pat's Office, K
+Room, Kuo's Office, V
+Room, Advanced Lab, A
+// other spaces on board
+Space, Unused, X
+Space, Walkway, W
