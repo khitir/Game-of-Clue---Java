@@ -7,8 +7,8 @@ import java.util.Set;
 
 /*
  * Authors: John Taylor and Zakaria Khitirishvili
- * TestBoardCell Class
- * 		Acts as a pseudo cell on the game board to allow the testing of movement
+ * BoardCell Class
+ * 		Acts as a cell on the game board of Clue
  */
 
 public class BoardCell {

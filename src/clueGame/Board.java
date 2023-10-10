@@ -86,5 +86,18 @@ public class Board {
 	public Set<BoardCell> getTargets() {
 		return targets;
 	}
+	
+	public void setConfigFiles(String s1, String s2) {
+		// TODO Auto-generated method stub
+		
+	}
+	public void loadSetupConfig() {
+		// TODO Auto-generated method stub
+		
+	}
+	public void loadLayoutConfig() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
