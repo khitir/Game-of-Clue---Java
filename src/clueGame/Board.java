@@ -19,8 +19,12 @@ public class Board {
 	private BoardCell[][] grid;
 	private Set<BoardCell> targets ;
 	private Set<BoardCell> visited;
+	private Set<Room> room;
 
 	private static Board theInstance = new Board();
+	
+	String csv_file;
+	String txt_file;
 
 	// this method returns the only Board
 	public static Board getInstance() {
@@ -86,5 +90,23 @@ public class Board {
 	public Set<BoardCell> getTargets() {
 		return targets;
 	}
+	
+	
+	public void setConfigFiles(String csv, String file) {
+		csv_file = csv;
+		txt_file = file;
+	}
+	
+	public char getRoom(char room) {
+		this.room.setName(room);
+	}
+	
+	public static int getNumColumns() {
+		return COLS;
+	}
+	public static int getNumRows() {
+		return ROWS;
+	}
+	
 
 }

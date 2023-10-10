@@ -1,22 +1,22 @@
 package clueGame;
 
 public class Room {
-	private String name;
+	private char name;
 	private BoardCell centerCell;
 	private BoardCell labelCell;
 	
-	public Room(String name, BoardCell centerCell, BoardCell labelCell) {
+	public Room(char name, BoardCell centerCell, BoardCell labelCell) {
 		super();
 		this.name = name;
 		this.centerCell = centerCell;
 		this.labelCell = labelCell;
 	}
 
-	public String getName() {
+	public char getName() {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(char name) {
 		this.name = name;
 	}
 
