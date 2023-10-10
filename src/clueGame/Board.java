@@ -91,7 +91,6 @@ public class Board {
 		return targets;
 	}
 	
-	
 	public void setConfigFiles(String csv, String file) {
 		csv_file = csv;
 		txt_file = file;
@@ -113,6 +112,13 @@ public class Board {
 	public static int getNumRows() {
 		return ROWS;
 	}
-	
 
+	public void loadSetupConfig() {
+		// TODO Auto-generated method stub
+		
+	}
+	public void loadLayoutConfig() {
+		// TODO Auto-generated method stub
+		
+	}
 }
