@@ -20,12 +20,12 @@ import java.util.Set;
 
 public class Board {
 
-	private static int COLS = 0;
-	private static int ROWS = 0;
+	private int COLS = 0;
+	private int ROWS = 0;
 	private BoardCell[][] grid;
 	private Set<BoardCell> targets ;
 	private Set<BoardCell> visited;
-	private Set<Room> room;
+	private Set<Room> rooms;
 
 	private static Board theInstance = new Board();
 	
@@ -46,7 +46,7 @@ public class Board {
     	FileReader in;
     	BufferedReader reader;
     	try {
-			in = new FileReader("data/ClueLayout.csv");
+			in = new FileReader(csv_file);
 			reader = new BufferedReader(in);
 			String tempLine = reader.readLine();
 			while (tempLine != null) {
@@ -72,45 +72,21 @@ public class Board {
     	
     	// Initialize the board
 		grid = new BoardCell[ROWS][COLS];
-		for (int i = 0; i < ROWS; i++) {
-			String[] spaces = fileLines.get(i).split(",", COLS);
-			for (int j = 0; j < COLS; j++) {
-				BoardCell tempCell = new BoardCell(i, j);
-				tempCell.setRoomName(spaces[j].charAt(0));
-				// Set space to be a room if it is not unused or a walkway
-				if (spaces[j].charAt(0) != 'X' && spaces[j].charAt(0) != 'W') {
-					tempCell.setIsRoom(true);
-				}
-				else if (spaces[j] == "X") {
-					tempCell.setOccupied(true);
-				}
-				if (spaces[j].length() == 2) {
-					// Set door directions
-					if (spaces[j].charAt(0) == 'W') {
-						if (spaces[j].charAt(1) == '<')
-							tempCell.setDoorDirection(DoorDirection.LEFT);
-						else if (spaces[j].charAt(1) == '>')
-							tempCell.setDoorDirection(DoorDirection.RIGHT);
-						else if (spaces[j].charAt(1) == '^')
-							tempCell.setDoorDirection(DoorDirection.UP);
-						else if (spaces[j].charAt(1) == 'v')
-							tempCell.setDoorDirection(DoorDirection.DOWN);
-					}
-					// Set if the square is a room label
-					else if (spaces[j].charAt(1) == '#') {
-						tempCell.setIsLabel(true);
-					}
-					// Set if the square is a room center
-					else if (spaces[j].charAt(1) == '*') {
-						tempCell.setIsRoomCenter(true);
-					}
-					// Set secret passages
-					else {
-						tempCell.setSecretPassage(spaces[j].charAt(1));
+		for (int row = 0; row < ROWS; row++) {
+			String[] spaces = fileLines.get(row).split(",", COLS);
+			for (int col = 0; col < COLS; col++) {
+				BoardCell tempCell = new BoardCell(row, col);
+				grid[row][col] = setCellProperties(tempCell, spaces, row, col);
+				if (tempCell.isRoom()) {
+					char a = tempCell.getRoomName();
+					if (col != COLS-1 && a != spaces[col+1].charAt(0)) {
+						if (col != 0 && a != grid[row][col-1].getRoomName()) {
+							if (row != 0 && a != grid[row-1][col].getRoomName()) {
+								throw new BadConfigFormatException("Invalid Room Configuration");
+							}
+						}
 					}
 				}
-//				tempCell.
-				grid[i][j] = tempCell;
 			}
 		}
 		targets = new HashSet<BoardCell>();
@@ -127,6 +103,43 @@ public class Board {
 					grid[i][j].addAdjacency(grid[i][j+1]);
 			}
 		}
+    }
+    
+    private BoardCell setCellProperties(BoardCell tempCell, String[] spaces, int i, int j) {
+    	tempCell.setRoomName(spaces[j].charAt(0));
+		// Set space to be a room if it is not unused or a walkway
+		if (spaces[j].charAt(0) != 'X' && spaces[j].charAt(0) != 'W') {
+			tempCell.setIsRoom(true);
+		}
+		else if (spaces[j] == "X") {
+			tempCell.setOccupied(true);
+		}
+		if (spaces[j].length() == 2) {
+			// Set door directions
+			if (spaces[j].charAt(0) == 'W') {
+				if (spaces[j].charAt(1) == '<')
+					tempCell.setDoorDirection(DoorDirection.LEFT);
+				else if (spaces[j].charAt(1) == '>')
+					tempCell.setDoorDirection(DoorDirection.RIGHT);
+				else if (spaces[j].charAt(1) == '^')
+					tempCell.setDoorDirection(DoorDirection.UP);
+				else if (spaces[j].charAt(1) == 'v')
+					tempCell.setDoorDirection(DoorDirection.DOWN);
+			}
+			// Set if the square is a room label
+			else if (spaces[j].charAt(1) == '#') {
+				tempCell.setIsLabel(true);
+			}
+			// Set if the square is a room center
+			else if (spaces[j].charAt(1) == '*') {
+				tempCell.setIsRoomCenter(true);
+			}
+			// Set secret passages
+			else {
+				tempCell.setSecretPassage(spaces[j].charAt(1));
+			}
+		}
+		return tempCell;
     }
 
 	
@@ -164,8 +177,8 @@ public class Board {
 	}
 	
 	public void setConfigFiles(String csv, String file) { // sets csv and text files
-		csv_file = csv;
-		txt_file = file;
+		csv_file = "data/" + csv;
+		txt_file = "data/" + file;
 	}
 	
 	public Room getRoom(char room) { //  gets a room, need to update in future
@@ -178,19 +191,43 @@ public class Board {
 		return room1;
 	}
 	
-	public static int getNumColumns() {
+	public int getNumColumns() {
 		return COLS;
 	}
-	public static int getNumRows() {
+	public int getNumRows() {
 		return ROWS;
 	}
 
-	public void loadSetupConfig() {
-		// TODO Auto-generated method stub
-		
+	public void loadSetupConfig() throws BadConfigFormatException {
+		ArrayList<String> fileLines = new ArrayList<String>();
+		FileReader in;
+    	BufferedReader reader;
+    	try {
+			in = new FileReader(csv_file);
+			reader = new BufferedReader(in);
+			String tempLine = reader.readLine();
+			while (tempLine != null) {
+				String[] elements = tempLine.split(", ");
+				if (elements.length != 3) {
+					throw new BadConfigFormatException("Invalid Initialization File");
+				}
+				if (elements[0] == "Room") {
+					Room tempRoom = new Room(elements[1], elements[2]);
+					rooms.add(tempRoom);
+				}
+				else if (elements[0] != "Space" && elements[0].charAt(0) != '/')
+					throw new BadConfigFormatException("Invalid Initialization File");
+				fileLines.add(tempLine);
+				tempLine = reader.readLine();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-	public void loadLayoutConfig() {
-		// TODO Auto-generated method stub
+	public void loadLayoutConfig() throws BadConfigFormatException {
+		initialize();
 		
 	}
 }

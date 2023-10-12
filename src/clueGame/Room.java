@@ -9,6 +9,7 @@ package clueGame;
 
 public class Room {
 	private String name;
+	private String label;
 	private BoardCell centerCell;
 	private BoardCell labelCell;
 
@@ -19,6 +20,12 @@ public class Room {
 		this.name = name;
 		this.centerCell = centerCell;
 		this.labelCell = labelCell;
+	}
+	
+	public Room(String name, String elements) {
+		super();
+		this.name = name;
+		this.label = elements;
 	}
 
 	// Returns the room's name
