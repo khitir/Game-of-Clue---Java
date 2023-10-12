@@ -41,7 +41,152 @@ public class Board {
      * initialize the board (since we are using singleton pattern)
      */
     public void initialize() throws BadConfigFormatException{
-    	
+    	loadSetupConfig();
+    	loadLayoutConfig();
+    }
+    
+    private BoardCell setCellProperties(BoardCell tempCell, String[] spaces, int i, int j) {
+    	tempCell.setRoomName(spaces[j].charAt(0));
+		// Set space to be a room if it is not unused or a walkway
+		if (spaces[j].charAt(0) != 'X' && spaces[j].charAt(0) != 'W') {
+			tempCell.setIsRoom(true);
+		}
+		else if (spaces[j] == "X") {
+			tempCell.setOccupied(true);
+		}
+		if (spaces[j].length() == 2) {
+			// Set door directions
+			if (spaces[j].charAt(0) == 'W') {
+				if (spaces[j].charAt(1) == '<')
+					tempCell.setDoorDirection(DoorDirection.LEFT);
+				else if (spaces[j].charAt(1) == '>')
+					tempCell.setDoorDirection(DoorDirection.RIGHT);
+				else if (spaces[j].charAt(1) == '^')
+					tempCell.setDoorDirection(DoorDirection.UP);
+				else if (spaces[j].charAt(1) == 'v')
+					tempCell.setDoorDirection(DoorDirection.DOWN);
+			}
+			// Set if the square is a room label
+			else if (spaces[j].charAt(1) == '#') {
+				tempCell.setIsLabel(true);
+				for (Room tempRoom : rooms) {
+					if (tempRoom.getLabel() == spaces[j].charAt(0)) {
+						tempRoom.setLabelCell(tempCell);
+					}
+				}
+			}
+			// Set if the square is a room center
+			else if (spaces[j].charAt(1) == '*') {
+				tempCell.setIsRoomCenter(true);
+				for (Room tempRoom : rooms) {
+					if (tempRoom.getLabel() == spaces[j].charAt(0)) {
+						tempRoom.setCenterCell(tempCell);
+					}
+				}
+			}
+			// Set secret passages
+			else {
+				tempCell.setSecretPassage(spaces[j].charAt(1));
+			}
+		}
+		return tempCell;
+    }
+
+	public BoardCell getCell(int i, int j) { // gets a cell
+		return grid[i][j];
+	}
+	
+	public void calcTargets(BoardCell cell, int pathLength) { // adds visited cells to to list and calls findtarget()
+		visited.add(cell);
+		findTargets(cell, pathLength);
+		visited.clear();
+	}
+	
+	public void findTargets(BoardCell cell, int pathLength) { // recursively finds targets by looking at adjacent list cells and also checks if those cells are occupied or if a room
+		for (BoardCell adjCell : cell.adjList) {
+			if (!visited.contains(adjCell) && !adjCell.isOccupied()) {
+				visited.add(adjCell);
+				if (pathLength == 1 || adjCell.isRoom()) {
+					targets.add(adjCell);
+				}
+				else {
+					findTargets(adjCell, pathLength - 1);
+				}
+				visited.remove(adjCell);
+			}
+		}
+	}
+
+	
+	
+	public Set<BoardCell> getTargets() { // gets target
+		return targets;
+	}
+	
+	public void setConfigFiles(String csv, String file) { // sets csv and text files
+		csv_file = "data/" + csv;
+		txt_file = "data/" +  file;
+	}
+	
+	public Room getRoom(char room) { //  gets a room, need to update in future
+		for (Room tempRoom : rooms) {
+			if (tempRoom.getLabel() == room) {
+				return tempRoom;
+			}
+		}
+		return null;
+	}
+	
+	public Room getRoom(BoardCell cell) {//  gets a room with cell input, need to update in future
+		char name = cell.getRoomName();
+		Room room1 = null;
+		for (Room tempRoom : rooms) {
+			if (tempRoom.getLabel() == cell.getRoomName()) {
+				room1 = tempRoom;
+				break;
+			}
+		}
+		return room1;
+	}
+
+	
+	public int getNumColumns() {
+		return COLS;
+	}
+	public int getNumRows() {
+		return ROWS;
+	}
+
+	public void loadSetupConfig() throws BadConfigFormatException {
+		ArrayList<String> fileLines = new ArrayList<String>();
+		FileReader in;
+    	BufferedReader reader;
+    	rooms = new HashSet<Room>();
+    	try {
+			in = new FileReader(txt_file);
+			reader = new BufferedReader(in);
+			String tempLine = reader.readLine();
+			while (tempLine != null) {
+				String[] elements = tempLine.split(", ");
+				if (elements.length != 3 && elements[0].charAt(0) != '/') {
+					throw new BadConfigFormatException("Invalid Initialization File");
+				}
+				if (elements[0].equals("Room") || elements[0].equals("Space")) {
+					Room tempRoom = new Room(elements[2].charAt(0), elements[1]);
+					rooms.add(tempRoom);
+				}
+				else if (elements[0].charAt(0) != '/' && !elements[0].isEmpty())
+					throw new BadConfigFormatException("Invalid Initialization File");
+				fileLines.add(tempLine);
+				tempLine = reader.readLine();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	public void loadLayoutConfig() throws BadConfigFormatException {
     	ArrayList<String> fileLines = new ArrayList<String>();
     	FileReader in;
     	BufferedReader reader;
@@ -103,149 +248,5 @@ public class Board {
 					grid[i][j].addAdjacency(grid[i][j+1]);
 			}
 		}
-    }
-    
-    private BoardCell setCellProperties(BoardCell tempCell, String[] spaces, int i, int j) {
-    	tempCell.setRoomName(spaces[j].charAt(0));
-		// Set space to be a room if it is not unused or a walkway
-		if (spaces[j].charAt(0) != 'X' && spaces[j].charAt(0) != 'W') {
-			tempCell.setIsRoom(true);
-		}
-		else if (spaces[j] == "X") {
-			tempCell.setOccupied(true);
-		}
-		if (spaces[j].length() == 2) {
-			// Set door directions
-			if (spaces[j].charAt(0) == 'W') {
-				if (spaces[j].charAt(1) == '<')
-					tempCell.setDoorDirection(DoorDirection.LEFT);
-				else if (spaces[j].charAt(1) == '>')
-					tempCell.setDoorDirection(DoorDirection.RIGHT);
-				else if (spaces[j].charAt(1) == '^')
-					tempCell.setDoorDirection(DoorDirection.UP);
-				else if (spaces[j].charAt(1) == 'v')
-					tempCell.setDoorDirection(DoorDirection.DOWN);
-			}
-			// Set if the square is a room label
-			else if (spaces[j].charAt(1) == '#') {
-				tempCell.setIsLabel(true);
-				for (Room tempRoom : rooms) {
-					if (tempRoom.getName() == spaces[j].charAt(0)) {
-						tempRoom.setLabelCell(tempCell);
-					}
-				}
-			}
-			// Set if the square is a room center
-			else if (spaces[j].charAt(1) == '*') {
-				tempCell.setIsRoomCenter(true);
-				for (Room tempRoom : rooms) {
-					if (tempRoom.getName() == spaces[j].charAt(0)) {
-						tempRoom.setCenterCell(tempCell);
-					}
-				}
-			}
-			// Set secret passages
-			else {
-				tempCell.setSecretPassage(spaces[j].charAt(1));
-			}
-		}
-		return tempCell;
-    }
-
-	public BoardCell getCell(int i, int j) { // gets a cell
-		return grid[i][j];
-	}
-	
-	public void calcTargets(BoardCell cell, int pathLength) { // adds visited cells to to list and calls findtarget()
-		visited.add(cell);
-		findTargets(cell, pathLength);
-		visited.clear();
-	}
-	
-	public void findTargets(BoardCell cell, int pathLength) { // recursively finds targets by looking at adjacent list cells and also checks if those cells are occupied or if a room
-		for (BoardCell adjCell : cell.adjList) {
-			if (!visited.contains(adjCell) && !adjCell.isOccupied()) {
-				visited.add(adjCell);
-				if (pathLength == 1 || adjCell.isRoom()) {
-					targets.add(adjCell);
-				}
-				else {
-					findTargets(adjCell, pathLength - 1);
-				}
-				visited.remove(adjCell);
-			}
-		}
-	}
-
-	
-	
-	public Set<BoardCell> getTargets() { // gets target
-		return targets;
-	}
-	
-	public void setConfigFiles(String csv, String file) { // sets csv and text files
-		csv_file = "data/" + csv;
-		txt_file = "data/" +  file;
-	}
-	
-	public Room getRoom(char room) { //  gets a room, need to update in future
-		for (Room tempRoom : rooms) {
-			if (tempRoom.getName() == room) {
-				return tempRoom;
-			}
-		}
-		return null;
-	}
-	
-	public Room getRoom(BoardCell cell) {//  gets a room with cell input, need to update in future
-		char name = cell.getRoomName();
-		Room room1 = null;
-		for (Room tempRoom : rooms) {
-			if (tempRoom.getName() == cell.getRoomName()) {
-				room1 = tempRoom;
-				break;
-			}
-		}
-		return room1;
-	}
-
-	
-	public int getNumColumns() {
-		return COLS;
-	}
-	public int getNumRows() {
-		return ROWS;
-	}
-
-	public void loadSetupConfig() throws BadConfigFormatException {
-		ArrayList<String> fileLines = new ArrayList<String>();
-		FileReader in;
-    	BufferedReader reader;
-    	try {
-			in = new FileReader(txt_file);
-			reader = new BufferedReader(in);
-			String tempLine = reader.readLine();
-			while (tempLine != null) {
-				String[] elements = tempLine.split(", ");
-				if (elements.length != 3) {
-					throw new BadConfigFormatException("Invalid Initialization File");
-				}
-				if (elements[0] == "Room") {
-					Room tempRoom = new Room(elements[2].charAt(0), elements[1]);
-					rooms.add(tempRoom);
-				}
-				else if (elements[0] != "Space" && elements[0].charAt(0) != '/')
-					throw new BadConfigFormatException("Invalid Initialization File");
-				fileLines.add(tempLine);
-				tempLine = reader.readLine();
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	public void loadLayoutConfig() throws BadConfigFormatException {
-		initialize();
 	}
 }

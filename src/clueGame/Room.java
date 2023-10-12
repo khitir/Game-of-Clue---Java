@@ -8,8 +8,8 @@ package clueGame;
  */
 
 public class Room {
-	private char nameChar;
-	private String labelString;
+	private char labelChar;
+	private String nameString;
 	private BoardCell centerCell;
 	private BoardCell labelCell;
 
@@ -17,25 +17,29 @@ public class Room {
 	// and location of room name
 	public Room(char name, BoardCell centerCell, BoardCell labelCell) {
 		super();
-		this.nameChar = name;
+		this.labelChar = name;
 		this.centerCell = centerCell;
 		this.labelCell = labelCell;
 	}
 	
 	public Room(char name, String elements) {
 		super();
-		this.nameChar = name;
-		this.labelString = elements;
+		this.labelChar = name;
+		this.nameString = elements;
 	}
 
 	// Returns the room's name
-	public char getName() {
-		return nameChar;
+	public String getName() {
+		return nameString;
+	}
+	
+	public char getLabel() {
+		return labelChar;
 	}
 
 	// Sets the room's name
-	public void setName(char name) {
-		this.nameChar = name;
+	public void setName(String name) {
+		this.nameString = name;
 	}
 
 	// Returns the center cell of the room
