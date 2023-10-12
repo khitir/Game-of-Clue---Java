@@ -40,13 +40,13 @@ public class Board {
     /*
      * initialize the board (since we are using singleton pattern)
      */
-    public void initialize() throws BadConfigFormatException {
+    public void initialize() throws BadConfigFormatException{
     	
     	ArrayList<String> fileLines = new ArrayList<String>();
     	FileReader in;
     	BufferedReader reader;
     	try {
-			in = new FileReader("ClueLayout.csv");
+			in = new FileReader("data/ClueLayout.csv");
 			reader = new BufferedReader(in);
 			String tempLine = reader.readLine();
 			while (tempLine != null) {
@@ -65,7 +65,7 @@ public class Board {
     	for (int i = 1; i < fileLines.size(); i++) {
     		tempStr= fileLines.get(i).split(",");
     		if (tempStr.length != numCols)
-    			throw new BadConfigFormatException();
+    			throw new BadConfigFormatException("Cannot find File");
     	}
     	ROWS = fileLines.size();
     	COLS = numCols;
