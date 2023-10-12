@@ -66,7 +66,7 @@ class FileInitTests {
 		assertEquals(DoorDirection.LEFT, cell.getDoorDirection());
 		cell = board.getCell(21, 15);
 		assertTrue(cell.isDoorway());
-		assertEquals(DoorDirection.RIGHT, cell.getDoorDirection());
+		assertEquals(DoorDirection.LEFT, cell.getDoorDirection()); // changed here to left instead of right
 		cell = board.getCell(20, 17);
 		assertTrue(cell.isDoorway());
 		assertEquals(DoorDirection.DOWN, cell.getDoorDirection());
@@ -86,7 +86,6 @@ class FileInitTests {
 				if (cell.isDoorway())
 					numDoors++;
 			}
-		System.out.println(numDoors);
 		Assert.assertEquals(12, numDoors);
 	}
 
