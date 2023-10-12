@@ -198,6 +198,7 @@ public class Board {
 	}
 	
 	public Room getRoom(BoardCell cell) {//  gets a room with cell input, need to update in future
+<<<<<<< HEAD
 		char name = cell.getRoomName();
 		Room room1 = null;
 		for (Room tempRoom : rooms) {
@@ -207,6 +208,13 @@ public class Board {
 			}
 		}
 		return room1;
+=======
+		cell.getRoomName();
+		for (Room room : rooms ) {
+			
+		}
+
+>>>>>>> 70b5debd06fb41e016f975449ab19f3e680acb7a
 	}
 	
 	public int getNumColumns() {
