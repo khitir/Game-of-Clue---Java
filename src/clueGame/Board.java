@@ -46,7 +46,11 @@ public class Board {
     	FileReader in;
     	BufferedReader reader;
     	try {
+<<<<<<< HEAD
 			in = new FileReader("data/ClueLayout.csv");
+=======
+			in = new FileReader(csv_file);
+>>>>>>> 81cc407516dcc30d366aa2efde42f5de661dad47
 			reader = new BufferedReader(in);
 			String tempLine = reader.readLine();
 			while (tempLine != null) {
@@ -164,8 +168,8 @@ public class Board {
 	}
 	
 	public void setConfigFiles(String csv, String file) { // sets csv and text files
-		csv_file = csv;
-		txt_file = file;
+		csv_file = "data/" + csv;
+		txt_file = "data/" +  file;
 	}
 	
 	public Room getRoom(char room) { //  gets a room, need to update in future
@@ -173,8 +177,8 @@ public class Board {
 		return room1;
 	}
 	
-	public Room getRoom(BoardCell room) {//  gets a room with cell input, need to update in future
-		Room room1 = new Room("name", room , new BoardCell(0,0));
+	public Room getRoom(BoardCell cell) {//  gets a room with cell input, need to update in future
+		cell.getRoomName();
 		return room1;
 	}
 	
