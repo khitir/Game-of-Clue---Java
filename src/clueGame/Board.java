@@ -187,9 +187,9 @@ public class Board {
 	}
 	
 	public Room getRoom(BoardCell cell) {//  gets a room with cell input, need to update in future
-		cell.getRoomName();
+		char Label = cell.getRoomName();
 		for (Room room : rooms ) {
-			
+			if 
 		}
 
 	}
