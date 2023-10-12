@@ -223,10 +223,10 @@ public class Board {
 				BoardCell tempCell = new BoardCell(row, col);
 				grid[row][col] = setCellProperties(tempCell, spaces, row, col);
 				if (tempCell.isRoom()) {
-					char a = tempCell.getRoomName();
-					if (col != COLS-1 && a != spaces[col+1].charAt(0)) {
-						if (col != 0 && a != grid[row][col-1].getRoomName()) {
-							if (row != 0 && a != grid[row-1][col].getRoomName()) {
+					char tempName = tempCell.getRoomName();
+					if (col != COLS-1 && tempName != spaces[col+1].charAt(0)) {
+						if (col != 0 && tempName != grid[row][col-1].getRoomName()) {
+							if (row != 0 && tempName != grid[row-1][col].getRoomName()) {
 								throw new BadConfigFormatException("Invalid Room Configuration");
 							}
 						}
