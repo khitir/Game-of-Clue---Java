@@ -129,10 +129,20 @@ public class Board {
 			// Set if the square is a room label
 			else if (spaces[j].charAt(1) == '#') {
 				tempCell.setIsLabel(true);
+				for (Room tempRoom : rooms) {
+					if (tempRoom.getName() == spaces[j].charAt(0)) {
+						tempRoom.setLabelCell(tempCell);
+					}
+				}
 			}
 			// Set if the square is a room center
 			else if (spaces[j].charAt(1) == '*') {
 				tempCell.setIsRoomCenter(true);
+				for (Room tempRoom : rooms) {
+					if (tempRoom.getName() == spaces[j].charAt(0)) {
+						tempRoom.setCenterCell(tempCell);
+					}
+				}
 			}
 			// Set secret passages
 			else {
@@ -142,12 +152,9 @@ public class Board {
 		return tempCell;
     }
 
-	
 	public BoardCell getCell(int i, int j) { // gets a cell
 		return grid[i][j];
 	}
-
-	
 	
 	public void calcTargets(BoardCell cell, int pathLength) { // adds visited cells to to list and calls findtarget()
 		visited.add(cell);
@@ -182,15 +189,25 @@ public class Board {
 	}
 	
 	public Room getRoom(char room) { //  gets a room, need to update in future
-		Room room1 = new Room("name", new BoardCell(0,0) , new BoardCell(0,0));
-		return room1;
+		for (Room tempRoom : rooms) {
+			if (tempRoom.getName() == room) {
+				return tempRoom;
+			}
+		}
+		return null;
 	}
 	
 	public Room getRoom(BoardCell cell) {//  gets a room with cell input, need to update in future
-		char Label = cell.getRoomName();
-		for (Room room : rooms ) {
-			if 
+
+		char name = cell.getRoomName();
+		Room room1 = null;
+		for (Room tempRoom : rooms) {
+			if (tempRoom.getName() == cell.getRoomName()) {
+				room1 = tempRoom;
+				break;
+			}
 		}
+		return room1;
 
 	}
 	
@@ -215,7 +232,7 @@ public class Board {
 					throw new BadConfigFormatException("Invalid Initialization File");
 				}
 				if (elements[0] == "Room") {
-					Room tempRoom = new Room(elements[1], elements[2]);
+					Room tempRoom = new Room(elements[2].charAt(0), elements[1]);
 					rooms.add(tempRoom);
 				}
 				else if (elements[0] != "Space" && elements[0].charAt(0) != '/')
@@ -231,6 +248,5 @@ public class Board {
 	}
 	public void loadLayoutConfig() throws BadConfigFormatException {
 		initialize();
-		
 	}
 }
