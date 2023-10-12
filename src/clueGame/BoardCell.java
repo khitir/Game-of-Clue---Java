@@ -44,6 +44,8 @@ public class BoardCell {
 		this.col = y;
 		this.isRoom = false;
 		this.isOccupied = false;
+		this.isDoorway = false;
+		
 	}
 
 	public Set<BoardCell> getAdjList() {
@@ -86,9 +88,9 @@ public class BoardCell {
 		this.isLabel = b;
 	}
 
-	public boolean isDoorway() {
-		return this.isDoorway;
-	}
+//	public boolean isDoorway() {
+//		return this.isDoorway;
+//	}
 
 	public DoorDirection getDoorDirection() { // gets door orientation
 		return doorDirection;
@@ -96,6 +98,14 @@ public class BoardCell {
 
 	public void setDoorDirection(DoorDirection doorDirection) { // sets door orientation
 		this.doorDirection = doorDirection;
+	}
+
+	public boolean isDoorway() {
+		return this.isDoorway;
+	}
+
+	public void setDoorway(boolean isDoorway) {
+		this.isDoorway = isDoorway;
 	}
 
 }

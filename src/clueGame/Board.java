@@ -57,14 +57,18 @@ public class Board {
 		if (spaces[j].length() == 2) {
 			// Set door directions
 			if (spaces[j].charAt(0) == 'W') {
-				if (spaces[j].charAt(1) == '<')
+				if (spaces[j].charAt(1) == '<') {
 					tempCell.setDoorDirection(DoorDirection.LEFT);
-				else if (spaces[j].charAt(1) == '>')
+					tempCell.setDoorway(true);}
+				else if (spaces[j].charAt(1) == '>') {
 					tempCell.setDoorDirection(DoorDirection.RIGHT);
-				else if (spaces[j].charAt(1) == '^')
+				    tempCell.setDoorway(true);}
+				else if (spaces[j].charAt(1) == '^') {
 					tempCell.setDoorDirection(DoorDirection.UP);
-				else if (spaces[j].charAt(1) == 'v')
+					tempCell.setDoorway(true);}
+				else if (spaces[j].charAt(1) == 'v') {
 					tempCell.setDoorDirection(DoorDirection.DOWN);
+					tempCell.setDoorway(true);}
 			}
 			// Set if the square is a room label
 			else if (spaces[j].charAt(1) == '#') {
