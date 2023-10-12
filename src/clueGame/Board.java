@@ -188,7 +188,10 @@ public class Board {
 	
 	public Room getRoom(BoardCell cell) {//  gets a room with cell input, need to update in future
 		cell.getRoomName();
-		return room1;
+		for (Room room : rooms ) {
+			
+		}
+
 	}
 	
 	public int getNumColumns() {
@@ -203,7 +206,7 @@ public class Board {
 		FileReader in;
     	BufferedReader reader;
     	try {
-			in = new FileReader(csv_file);
+			in = new FileReader(txt_file);
 			reader = new BufferedReader(in);
 			String tempLine = reader.readLine();
 			while (tempLine != null) {
