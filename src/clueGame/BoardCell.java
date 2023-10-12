@@ -19,6 +19,16 @@ public class BoardCell {
 	private char secretPassage;
 	private char roomName;
 	
+	public BoardCell(int x, int y) { // constructor, that sets cell location on board, and intitializes room and occupied to false
+		adjList = new HashSet<BoardCell>();
+		this.row = x;
+		this.col = y;
+		this.isRoom = false;
+		this.isOccupied = false;
+		this.isDoorway = false;
+		
+	}
+	
 	public char getRoomName() {
 		return roomName;
 	}
@@ -34,18 +44,6 @@ public class BoardCell {
 
 	public void setSecretPassage(char secretPassage) { // gets the secret passage
 		this.secretPassage = secretPassage;
-	}
-
-
-
-	public BoardCell(int x, int y) { // constructor, that sets cell location on board, and intitializes room and occupied to false
-		adjList = new HashSet<BoardCell>();
-		this.row = x;
-		this.col = y;
-		this.isRoom = false;
-		this.isOccupied = false;
-		this.isDoorway = false;
-		
 	}
 
 	public Set<BoardCell> getAdjList() {
@@ -87,10 +85,6 @@ public class BoardCell {
 	public void setIsLabel(boolean b) {
 		this.isLabel = b;
 	}
-
-//	public boolean isDoorway() {
-//		return this.isDoorway;
-//	}
 
 	public DoorDirection getDoorDirection() { // gets door orientation
 		return doorDirection;

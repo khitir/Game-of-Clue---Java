@@ -5,17 +5,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-
-//package experiment;
-
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
 /*
  * Authors: John Taylor and Zakaria Khitirishvili
- * TestBoard Class
- * 		Acts as a pseudo game board to allow the testing of movement
+ * Board Class
+ * 		Acts as a game board to allow the testing of movement
  */
 
 public class Board {
@@ -29,7 +26,7 @@ public class Board {
 
 	private static Board theInstance = new Board();
 	
-	// set the file names to use config files
+	// The file names to use for the initial configuration
 	String csv_file; 
 	String txt_file; 
 
@@ -45,6 +42,7 @@ public class Board {
     	loadLayoutConfig();
     }
     
+    // Helper function for initialize(), to set the properties of each cell on the board that we construct
     private BoardCell setCellProperties(BoardCell tempCell, String[] spaces, int i, int j) {
     	tempCell.setRoomName(spaces[j].charAt(0));
 		// Set space to be a room if it is not unused or a walkway
@@ -95,7 +93,7 @@ public class Board {
 		}
 		return tempCell;
     }
-
+    // Getter for each cell Object
 	public BoardCell getCell(int i, int j) { // gets a cell
 		return grid[i][j];
 	}
@@ -160,7 +158,8 @@ public class Board {
 	public int getNumRows() {
 		return ROWS;
 	}
-
+	
+	// Loads the .txt file used for setting up the board
 	public void loadSetupConfig() throws BadConfigFormatException {
 		ArrayList<String> fileLines = new ArrayList<String>();
 		FileReader in;
@@ -190,6 +189,8 @@ public class Board {
 			e.printStackTrace();
 		}
 	}
+	
+	// Loads the .csv file for the board layout
 	public void loadLayoutConfig() throws BadConfigFormatException {
     	ArrayList<String> fileLines = new ArrayList<String>();
     	FileReader in;
@@ -213,6 +214,10 @@ public class Board {
     	int numCols = tempStr.length;
     	for (int i = 1; i < fileLines.size(); i++) {
     		tempStr= fileLines.get(i).split(",");
+    		for (String elem : tempStr) {
+    			if (elem.isEmpty())
+    				throw new BadConfigFormatException("Empty element in Layout file");
+    		}
     		if (tempStr.length != numCols)
     			throw new BadConfigFormatException("Cannot find File");
     	}
