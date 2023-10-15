@@ -13,7 +13,7 @@ import java.util.Set;
 
 public class BoardCell {
 	private int row, col;
-	private boolean isRoom, isOccupied,isRoomCenter,isLabel,isDoorway; // bools for checking status
+	private boolean isRoom, isOccupied, isRoomCenter, isLabel, isDoorway; // bools for checking status
 	Set<BoardCell> adjList;
 	DoorDirection doorDirection;
 	private char secretPassage;

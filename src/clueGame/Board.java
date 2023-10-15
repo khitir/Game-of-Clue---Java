@@ -42,57 +42,59 @@ public class Board {
     	loadLayoutConfig();
     }
     
-    // Helper function for initialize(), to set the properties of each cell on the board that we construct
-    private BoardCell setCellProperties(BoardCell tempCell, String[] spaces, int i, int j) {
-    	tempCell.setRoomName(spaces[j].charAt(0));
+    // Helper function for loadLayoutConfig(), to set the properties of each cell on the board that we construct
+    private BoardCell setCellProperties(BoardCell tempCell, String currSpace) {
+    	tempCell.setRoomName(currSpace.charAt(0));
 		// Set space to be a room if it is not unused or a walkway
-		if (spaces[j].charAt(0) != 'X' && spaces[j].charAt(0) != 'W') {
+		if (currSpace.charAt(0) != 'X' && currSpace.charAt(0) != 'W') {
 			tempCell.setIsRoom(true);
 		}
-		else if (spaces[j] == "X") {
+		else if (currSpace == "X") {
 			tempCell.setOccupied(true);
 		}
-		if (spaces[j].length() == 2) {
+		// Cover all possible cases when a space has two characters
+		if (currSpace.length() == 2) {
 			// Set door directions
-			if (spaces[j].charAt(0) == 'W') {
-				if (spaces[j].charAt(1) == '<') {
+			if (currSpace.charAt(0) == 'W') {
+				if (currSpace.charAt(1) == '<') {
 					tempCell.setDoorDirection(DoorDirection.LEFT);
 					tempCell.setDoorway(true);}
-				else if (spaces[j].charAt(1) == '>') {
+				else if (currSpace.charAt(1) == '>') {
 					tempCell.setDoorDirection(DoorDirection.RIGHT);
 				    tempCell.setDoorway(true);}
-				else if (spaces[j].charAt(1) == '^') {
+				else if (currSpace.charAt(1) == '^') {
 					tempCell.setDoorDirection(DoorDirection.UP);
 					tempCell.setDoorway(true);}
-				else if (spaces[j].charAt(1) == 'v') {
+				else if (currSpace.charAt(1) == 'v') {
 					tempCell.setDoorDirection(DoorDirection.DOWN);
 					tempCell.setDoorway(true);}
 			}
 			// Set if the square is a room label
-			else if (spaces[j].charAt(1) == '#') {
+			else if (currSpace.charAt(1) == '#') {
 				tempCell.setIsLabel(true);
 				for (Room tempRoom : rooms) {
-					if (tempRoom.getLabel() == spaces[j].charAt(0)) {
+					if (tempRoom.getLabel() == currSpace.charAt(0)) {
 						tempRoom.setLabelCell(tempCell);
 					}
 				}
 			}
 			// Set if the square is a room center
-			else if (spaces[j].charAt(1) == '*') {
+			else if (currSpace.charAt(1) == '*') {
 				tempCell.setIsRoomCenter(true);
 				for (Room tempRoom : rooms) {
-					if (tempRoom.getLabel() == spaces[j].charAt(0)) {
+					if (tempRoom.getLabel() == currSpace.charAt(0)) {
 						tempRoom.setCenterCell(tempCell);
 					}
 				}
 			}
 			// Set secret passages
 			else {
-				tempCell.setSecretPassage(spaces[j].charAt(1));
+				tempCell.setSecretPassage(currSpace.charAt(1));
 			}
 		}
 		return tempCell;
     }
+    
     // Getter for each cell Object
 	public BoardCell getCell(int i, int j) { // gets a cell
 		return grid[i][j];
@@ -140,15 +142,12 @@ public class Board {
 	}
 	
 	public Room getRoom(BoardCell cell) {//  gets a room with cell input, need to update in future
-		char name = cell.getRoomName();
-		Room room1 = null;
 		for (Room tempRoom : rooms) {
 			if (tempRoom.getLabel() == cell.getRoomName()) {
-				room1 = tempRoom;
-				break;
+				return tempRoom;
 			}
 		}
-		return room1;
+		return null;
 	}
 
 	
@@ -161,7 +160,6 @@ public class Board {
 	
 	// Loads the .txt file used for setting up the board
 	public void loadSetupConfig() throws BadConfigFormatException {
-		ArrayList<String> fileLines = new ArrayList<String>();
 		FileReader in;
     	BufferedReader reader;
     	rooms = new HashSet<Room>();
@@ -171,18 +169,21 @@ public class Board {
 			String tempLine = reader.readLine();
 			while (tempLine != null) {
 				String[] elements = tempLine.split(", ");
+				// If the line is not a comment or configured in the following format, throw an exception
+				// Room/Space, Name, Label
 				if (elements.length != 3 && elements[0].charAt(0) != '/') {
 					throw new BadConfigFormatException("Invalid Initialization File");
 				}
-				if (elements[0].equals("Room") || elements[0].equals("Space")) {
+				else if (elements[0].equals("Room") || elements[0].equals("Space")) {
 					Room tempRoom = new Room(elements[2].charAt(0), elements[1]);
 					rooms.add(tempRoom);
 				}
 				else if (elements[0].charAt(0) != '/' && !elements[0].isEmpty())
 					throw new BadConfigFormatException("Invalid Initialization File");
-				fileLines.add(tempLine);
 				tempLine = reader.readLine();
 			}
+			reader.close();
+			in.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -203,6 +204,8 @@ public class Board {
 				fileLines.add(tempLine);
 				tempLine = reader.readLine();
 			}
+			reader.close();
+			in.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -219,7 +222,7 @@ public class Board {
     				throw new BadConfigFormatException("Empty element in Layout file");
     		}
     		if (tempStr.length != numCols)
-    			throw new BadConfigFormatException("Cannot find File");
+    			throw new BadConfigFormatException("Unmatched number of columns or rows");
     	}
     	ROWS = fileLines.size();
     	COLS = numCols;
@@ -230,8 +233,9 @@ public class Board {
 			String[] spaces = fileLines.get(row).split(",", COLS);
 			for (int col = 0; col < COLS; col++) {
 				BoardCell tempCell = new BoardCell(row, col);
-				grid[row][col] = setCellProperties(tempCell, spaces, row, col);
+				grid[row][col] = setCellProperties(tempCell, spaces[col]);
 				if (tempCell.isRoom()) {
+					// Check if the cell matches those around it for room configuration
 					char tempName = tempCell.getRoomName();
 					if (col != COLS-1 && tempName != spaces[col+1].charAt(0)) {
 						if (col != 0 && tempName != grid[row][col-1].getRoomName()) {
