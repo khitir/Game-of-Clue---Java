@@ -21,7 +21,7 @@ public class Room {
 		this.centerCell = centerCell;
 		this.labelCell = labelCell;
 	}
-	
+	// Secondary Constructor, for when only the name and label of the room are available
 	public Room(char name, String elements) {
 		super();
 		this.labelChar = name;
@@ -32,7 +32,7 @@ public class Room {
 	public String getName() {
 		return nameString;
 	}
-	
+	// Returns the room's one character label
 	public char getLabel() {
 		return labelChar;
 	}
