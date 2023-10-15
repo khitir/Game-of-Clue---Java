@@ -6,7 +6,7 @@ public class BadConfigFormatException extends Exception{
 	}
 	
 	public BadConfigFormatException(String message) {
-		System.out.println("error, can open file: " + message);
+		System.out.println("error, can't open file: " + message);
 		
 	}
 }
