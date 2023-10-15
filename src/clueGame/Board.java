@@ -34,12 +34,22 @@ public class Board {
 	public static Board getInstance() {
 		return theInstance;
 	}
+	
+	public Set<BoardCell> getAdjList(int row, int col) {
+		return grid[row][col].adjList;
+	}
+	
     /*
      * initialize the board (since we are using singleton pattern)
      */
-    public void initialize() throws BadConfigFormatException{
-    	loadSetupConfig();
-    	loadLayoutConfig();
+    public void initialize(){
+    	try {
+			loadSetupConfig();
+			loadLayoutConfig();
+		} catch (BadConfigFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     // Helper function for loadLayoutConfig(), to set the properties of each cell on the board that we construct

@@ -46,10 +46,6 @@ public class BoardCell {
 		this.secretPassage = secretPassage;
 	}
 
-	public Set<BoardCell> getAdjList() {
-		return adjList;
-	}
-
 	public void setOccupied(boolean b) {
 		this.isOccupied = b;
 	}
