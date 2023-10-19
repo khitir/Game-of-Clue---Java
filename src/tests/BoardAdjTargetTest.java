@@ -162,7 +162,7 @@ class BoardAdjTargetTest {
 		assertTrue(targets.contains(board.getCell(19, 19)));
 		assertTrue(targets.contains(board.getCell(20, 18)));
 	}
-		
+
 	@Test
 	public void testTargetsInSPSRoom() {
 		// test a roll of 1
@@ -361,6 +361,4 @@ class BoardAdjTargetTest {
 		assertFalse(targets.contains(board.getCell(19, 8)));	
 		
 	}
-
-
 }
