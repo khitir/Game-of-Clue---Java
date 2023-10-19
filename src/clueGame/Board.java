@@ -90,7 +90,7 @@ public class Board {
 				Room currRoom = null;
 				Room secretPassageRoom = null;
 				for (Room tempRoom : rooms) {
-					if (cell.getRoomName() == tempRoom.getLabel()) {
+					if (currSpace.charAt(0) == tempRoom.getLabel()) {
 						currRoom = tempRoom;
 					}
 					else if (currSpace.charAt(1) == tempRoom.getLabel()) {
