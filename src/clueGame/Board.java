@@ -93,7 +93,6 @@ public class Board {
 					if (currSpace.charAt(0) == tempRoom.getLabel()) {
 						currRoom = tempRoom;
 					}
-					System.out.println(currSpace.charAt(1));
 					if (currSpace.charAt(1) == tempRoom.getLabel()) {
 						secretPassageRoom = tempRoom;
 					}
@@ -116,6 +115,7 @@ public class Board {
 					for (Room tempRoom : rooms) {
 						if (grid[row][col-1].getRoomName() == tempRoom.getLabel()) {
 							tempRoom.setEntrance(cell);
+							cell.addAdjacency(tempRoom.getCenterCell());
 						}
 					}
 				}
@@ -125,6 +125,7 @@ public class Board {
 				    for (Room tempRoom : rooms) {
 						if (grid[row][col+1].getRoomName() == tempRoom.getLabel()) {
 							tempRoom.setEntrance(cell);
+							cell.addAdjacency(tempRoom.getCenterCell());
 						}
 					}
 				}
@@ -134,6 +135,7 @@ public class Board {
 					for (Room tempRoom : rooms) {
 						if (grid[row-1][col].getRoomName() == tempRoom.getLabel()) {
 							tempRoom.setEntrance(cell);
+							cell.addAdjacency(tempRoom.getCenterCell());
 						}
 					}
 				}
@@ -143,6 +145,7 @@ public class Board {
 					for (Room tempRoom : rooms) {
 						if (grid[row+1][col].getRoomName() == tempRoom.getLabel()) {
 							tempRoom.setEntrance(cell);
+							cell.addAdjacency(tempRoom.getCenterCell());
 						}
 					}
 				}
@@ -163,9 +166,14 @@ public class Board {
 	
 	public void findTargets(BoardCell cell, int pathLength) { // recursively finds targets by looking at adjacent list cells and also checks if those cells are occupied or if a room
 		for (BoardCell adjCell : cell.adjList) {
-			if (!visited.contains(adjCell) && !adjCell.isOccupied()) {
+			System.out.println(adjCell.getRow());
+			System.out.println(adjCell.getCol());
+			if (adjCell.isRoom()) {
+				targets.add(adjCell);
+			}
+			else if (!visited.contains(adjCell) && !adjCell.isOccupied()) {
 				visited.add(adjCell);
-				if (pathLength == 1 || adjCell.isRoom()) {
+				if (pathLength == 1) {
 					targets.add(adjCell);
 				}
 				else {
@@ -285,14 +293,15 @@ public class Board {
     	// Initialize the board
 		grid = new BoardCell[ROWS][COLS];
 		for (int row = 0; row < ROWS; row++) {
+			String[] spaces = fileLines.get(row).split(",", COLS);
 			for (int col = 0; col < COLS; col++) {
 				grid[row][col] = new BoardCell(row, col);
+				setCellPropertiesFirst(grid[row][col], spaces[col]);
 			}
 		}
 		for (int row = 0; row < ROWS; row++) {
 			String[] spaces = fileLines.get(row).split(",", COLS);
 			for (int col = 0; col < COLS; col++) {
-				setCellPropertiesFirst(grid[row][col], spaces[col]);
 				setCellPropertiesSecond(grid[row][col], spaces[col], row, col);
 				if (grid[row][col].isRoom()) {
 					// Check if the cell matches those around it for room configuration
@@ -324,13 +333,13 @@ public class Board {
 					}
 				}
 				else if (!grid[i][j].isRoom()) {
-					if (i != 0 && !grid[i-1][j].isOccupied())
+					if (i != 0 && !grid[i-1][j].isOccupied() && grid[i-1][j].getRoomName() == 'W')
 						grid[i][j].addAdjacency(grid[i-1][j]);
-					if (j != 0 && !grid[i][j-1].isOccupied())
+					if (j != 0 && !grid[i][j-1].isOccupied() && grid[i][j-1].getRoomName() == 'W')
 						grid[i][j].addAdjacency(grid[i][j-1]);
-					if (i != ROWS-1 && !grid[i+1][j].isOccupied())
+					if (i != ROWS-1 && !grid[i+1][j].isOccupied() && grid[i+1][j].getRoomName() == 'W')
 						grid[i][j].addAdjacency(grid[i+1][j]);
-					if (j != COLS-1 && !grid[i][j+1].isOccupied())
+					if (j != COLS-1 && !grid[i][j+1].isOccupied() && grid[i][j+1].getRoomName() == 'W')
 						grid[i][j].addAdjacency(grid[i][j+1]);
 				}
 			}
