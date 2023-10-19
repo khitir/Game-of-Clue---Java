@@ -1,5 +1,8 @@
 package clueGame;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /*
  * Authors: John Taylor and Zakaria Khitirishvili
  * Room Class
@@ -12,6 +15,8 @@ public class Room {
 	private String nameString;
 	private BoardCell centerCell;
 	private BoardCell labelCell;
+	private Set<BoardCell> entrances;
+	private BoardCell secretPassageTo;
 
 	// Constructor. Takes in room names, location of room center
 	// and location of room name
@@ -20,12 +25,14 @@ public class Room {
 		this.labelChar = name;
 		this.centerCell = centerCell;
 		this.labelCell = labelCell;
+		entrances = new HashSet<BoardCell>();
 	}
 	// Secondary Constructor, for when only the name and label of the room are available
 	public Room(char name, String elements) {
 		super();
 		this.labelChar = name;
 		this.nameString = elements;
+		entrances = new HashSet<BoardCell>();
 	}
 
 	// Returns the room's name
@@ -59,6 +66,16 @@ public class Room {
 	// Sets the cell where the room's label is drawn
 	public void setLabelCell(BoardCell labelCell) {
 		this.labelCell = labelCell;
+	}
+	public void setEntrance(BoardCell cell) {
+		entrances.add(cell);
+	}
+	public Set<BoardCell> getEntrances() {
+		return entrances;
+	}
+	public void setSecretPassageTo(BoardCell cell) {
+		secretPassageTo = cell;
+		entrances.add(secretPassageTo);
 	}
 
 

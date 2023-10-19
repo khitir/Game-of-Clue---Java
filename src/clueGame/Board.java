@@ -52,57 +52,101 @@ public class Board {
 		}
     }
     
-    // Helper function for loadLayoutConfig(), to set the properties of each cell on the board that we construct
-    private BoardCell setCellProperties(BoardCell tempCell, String currSpace) {
-    	tempCell.setRoomName(currSpace.charAt(0));
+    // Helper function for loadLayoutConfig()
+    // Sets the room properties of all cells on the board
+    // We need to know what room each cell is for setCellPropertiesSecond, where we set the entrances to a room
+    private void setCellPropertiesFirst(BoardCell cell, String currSpace) {
+    	cell.setRoomName(currSpace.charAt(0));
 		// Set space to be a room if it is not unused or a walkway
 		if (currSpace.charAt(0) != 'X' && currSpace.charAt(0) != 'W') {
-			tempCell.setIsRoom(true);
+			cell.setIsRoom(true);
 		}
 		else if (currSpace == "X") {
-			tempCell.setOccupied(true);
+			cell.setOccupied(true);
 		}
 		// Cover all possible cases when a space has two characters
 		if (currSpace.length() == 2) {
-			// Set door directions
-			if (currSpace.charAt(0) == 'W') {
-				if (currSpace.charAt(1) == '<') {
-					tempCell.setDoorDirection(DoorDirection.LEFT);
-					tempCell.setDoorway(true);}
-				else if (currSpace.charAt(1) == '>') {
-					tempCell.setDoorDirection(DoorDirection.RIGHT);
-				    tempCell.setDoorway(true);}
-				else if (currSpace.charAt(1) == '^') {
-					tempCell.setDoorDirection(DoorDirection.UP);
-					tempCell.setDoorway(true);}
-				else if (currSpace.charAt(1) == 'v') {
-					tempCell.setDoorDirection(DoorDirection.DOWN);
-					tempCell.setDoorway(true);}
-			}
 			// Set if the square is a room label
-			else if (currSpace.charAt(1) == '#') {
-				tempCell.setIsLabel(true);
+			if (currSpace.charAt(1) == '#') {
+				cell.setIsLabel(true);
 				for (Room tempRoom : rooms) {
 					if (tempRoom.getLabel() == currSpace.charAt(0)) {
-						tempRoom.setLabelCell(tempCell);
+						tempRoom.setLabelCell(cell);
 					}
 				}
 			}
 			// Set if the square is a room center
 			else if (currSpace.charAt(1) == '*') {
-				tempCell.setIsRoomCenter(true);
+				cell.setIsRoomCenter(true);
 				for (Room tempRoom : rooms) {
 					if (tempRoom.getLabel() == currSpace.charAt(0)) {
-						tempRoom.setCenterCell(tempCell);
+						tempRoom.setCenterCell(cell);
 					}
 				}
 			}
 			// Set secret passages
 			else {
-				tempCell.setSecretPassage(currSpace.charAt(1));
+				cell.setSecretPassage(currSpace.charAt(1));
+				Room currRoom = null;
+				Room secretPassageRoom = null;
+				for (Room tempRoom : rooms) {
+					if (cell.getRoomName() == tempRoom.getLabel()) {
+						currRoom = tempRoom;
+					}
+					else if (currSpace.charAt(1) == tempRoom.getLabel()) {
+						secretPassageRoom = tempRoom;
+					}
+				}
+				currRoom.setSecretPassageTo(secretPassageRoom.getCenterCell());
 			}
 		}
-		return tempCell;
+    }
+    
+    // Helper function for loadLayoutConfig()
+    // Sets if a space is an entrance to a room
+    private void setCellPropertiesSecond(BoardCell cell, String currSpace, int row, int col) {
+		// Cover all possible cases when a space has two characters
+		if (currSpace.length() == 2) {
+			// Set door directions
+			if (currSpace.charAt(0) == 'W') {
+				if (currSpace.charAt(1) == '<') {
+					cell.setDoorDirection(DoorDirection.LEFT);
+					cell.setDoorway(true);
+					for (Room tempRoom : rooms) {
+						if (grid[row][col-1].getRoomName() == tempRoom.getLabel()) {
+							tempRoom.setEntrance(cell);
+						}
+					}
+				}
+				else if (currSpace.charAt(1) == '>') {
+					cell.setDoorDirection(DoorDirection.RIGHT);
+				    cell.setDoorway(true);
+				    for (Room tempRoom : rooms) {
+						if (grid[row][col+1].getRoomName() == tempRoom.getLabel()) {
+							tempRoom.setEntrance(cell);
+						}
+					}
+				}
+				else if (currSpace.charAt(1) == '^') {
+					cell.setDoorDirection(DoorDirection.UP);
+					cell.setDoorway(true);
+					for (Room tempRoom : rooms) {
+						if (grid[row-1][col].getRoomName() == tempRoom.getLabel()) {
+							tempRoom.setEntrance(cell);
+						}
+					}
+				}
+				else if (currSpace.charAt(1) == 'v') {
+					cell.setDoorDirection(DoorDirection.DOWN);
+					cell.setDoorway(true);
+					for (Room tempRoom : rooms) {
+						if (grid[row+1][col].getRoomName() == tempRoom.getLabel()) {
+							tempRoom.setEntrance(cell);
+						}
+					}
+				}
+			}
+		}
     }
     
     // Getter for each cell Object
@@ -240,13 +284,18 @@ public class Board {
     	// Initialize the board
 		grid = new BoardCell[ROWS][COLS];
 		for (int row = 0; row < ROWS; row++) {
+			for (int col = 0; col < COLS; col++) {
+				grid[row][col] = new BoardCell(row, col);
+			}
+		}
+		for (int row = 0; row < ROWS; row++) {
 			String[] spaces = fileLines.get(row).split(",", COLS);
 			for (int col = 0; col < COLS; col++) {
-				BoardCell tempCell = new BoardCell(row, col);
-				grid[row][col] = setCellProperties(tempCell, spaces[col]);
-				if (tempCell.isRoom()) {
+				setCellPropertiesFirst(grid[row][col], spaces[col]);
+				setCellPropertiesSecond(grid[row][col], spaces[col], row, col);
+				if (grid[row][col].isRoom()) {
 					// Check if the cell matches those around it for room configuration
-					char tempName = tempCell.getRoomName();
+					char tempName = grid[row][col].getRoomName();
 					if (col != COLS-1 && tempName != spaces[col+1].charAt(0)) {
 						if (col != 0 && tempName != grid[row][col-1].getRoomName()) {
 							if (row != 0 && tempName != grid[row-1][col].getRoomName()) {
@@ -261,14 +310,28 @@ public class Board {
 		visited = new HashSet<BoardCell>();
 		for (int i = 0; i < ROWS; i++) { // fill in the board
 			for (int j = 0; j < COLS; j++) {
-				if (i != 0 && !grid[i-1][j].isOccupied())
-					grid[i][j].addAdjacency(grid[i-1][j]);
-				if (j != 0 && !grid[i][j-1].isOccupied())
-					grid[i][j].addAdjacency(grid[i][j-1]);
-				if (i != ROWS-1 && !grid[i+1][j].isOccupied())
-					grid[i][j].addAdjacency(grid[i+1][j]);
-				if (j != COLS-1 && !grid[i][j+1].isOccupied())
-					grid[i][j].addAdjacency(grid[i][j+1]);
+				if (grid[i][j].isRoomCenter()) {
+					Room currRoom = null;
+					for (Room tempRoom : rooms) {
+						if (grid[i][j].getRoomName() == tempRoom.getLabel()) {
+							currRoom = tempRoom;
+						}
+					}
+					Set<BoardCell> entrances = currRoom.getEntrances();
+					for (BoardCell cell : entrances) {
+						grid[i][j].addAdjacency(cell);
+					}
+				}
+				else if (!grid[i][j].isRoom()) {
+					if (i != 0 && !grid[i-1][j].isOccupied())
+						grid[i][j].addAdjacency(grid[i-1][j]);
+					if (j != 0 && !grid[i][j-1].isOccupied())
+						grid[i][j].addAdjacency(grid[i][j-1]);
+					if (i != ROWS-1 && !grid[i+1][j].isOccupied())
+						grid[i][j].addAdjacency(grid[i+1][j]);
+					if (j != COLS-1 && !grid[i][j+1].isOccupied())
+						grid[i][j].addAdjacency(grid[i][j+1]);
+				}
 			}
 		}
 	}
