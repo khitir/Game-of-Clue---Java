@@ -85,7 +85,7 @@ public class Board {
 				}
 			}
 			// Set secret passages
-			else {
+			else if (currSpace.charAt(0) != 'W'){
 				cell.setSecretPassage(currSpace.charAt(1));
 				Room currRoom = null;
 				Room secretPassageRoom = null;
@@ -93,7 +93,8 @@ public class Board {
 					if (currSpace.charAt(0) == tempRoom.getLabel()) {
 						currRoom = tempRoom;
 					}
-					else if (currSpace.charAt(1) == tempRoom.getLabel()) {
+					System.out.println(currSpace.charAt(1));
+					if (currSpace.charAt(1) == tempRoom.getLabel()) {
 						secretPassageRoom = tempRoom;
 					}
 				}
