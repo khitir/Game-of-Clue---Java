@@ -84,8 +84,13 @@ public class Board {
 					}
 				}
 			}
-			// Set secret passages
-			else if (currSpace.charAt(0) != 'W'){
+		}
+    }
+    
+    private void setCellPropertiesOnePointFive(BoardCell cell, String currSpace) {
+    	// Set secret passages
+    	if (currSpace.length() == 2) {
+			if (currSpace.charAt(0) != 'W' && currSpace.charAt(1) != '#' && currSpace.charAt(1) != '*'){
 				cell.setSecretPassage(currSpace.charAt(1));
 				Room currRoom = null;
 				Room secretPassageRoom = null;
@@ -99,7 +104,7 @@ public class Board {
 				}
 				currRoom.setSecretPassageTo(secretPassageRoom.getCenterCell());
 			}
-		}
+    	}
     }
     
     // Helper function for loadLayoutConfig()
@@ -159,16 +164,16 @@ public class Board {
 	}
 	
 	public void calcTargets(BoardCell cell, int pathLength) { // adds visited cells to to list and calls findtarget()
+		targets.clear();
 		visited.add(cell);
 		findTargets(cell, pathLength);
 		visited.clear();
 	}
+	// LEtting you go back into a room
 	
 	public void findTargets(BoardCell cell, int pathLength) { // recursively finds targets by looking at adjacent list cells and also checks if those cells are occupied or if a room
 		for (BoardCell adjCell : cell.adjList) {
-			System.out.println(adjCell.getRow());
-			System.out.println(adjCell.getCol());
-			if (adjCell.isRoom()) {
+			if (adjCell.isRoom() && !visited.contains(adjCell)) {
 				targets.add(adjCell);
 			}
 			else if (!visited.contains(adjCell) && !adjCell.isOccupied()) {
@@ -297,6 +302,12 @@ public class Board {
 			for (int col = 0; col < COLS; col++) {
 				grid[row][col] = new BoardCell(row, col);
 				setCellPropertiesFirst(grid[row][col], spaces[col]);
+			}
+		}
+		for (int row = 0; row < ROWS; row++) {
+			String[] spaces = fileLines.get(row).split(",", COLS);
+			for (int col = 0; col < COLS; col++) {
+				setCellPropertiesOnePointFive(grid[row][col], spaces[col]);
 			}
 		}
 		for (int row = 0; row < ROWS; row++) {
