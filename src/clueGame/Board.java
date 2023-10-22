@@ -106,7 +106,7 @@ public class Board {
 			}
     	}
     }
-    
+ /*   
     // Helper function for loadLayoutConfig()
     // Sets if a space is an entrance to a room
     private void setCellPropertiesSecond(BoardCell cell, String currSpace, int row, int col) {
@@ -157,6 +157,69 @@ public class Board {
 			}
 		}
     }
+  */  /////////////////////////////////////////////////////////////////////////////////////////  commented above code was replaced by code below
+    // Helper function for loadLayoutConfig()
+    // Sets if a space is an entrance to a room
+    private void setCellPropertiesSecond(BoardCell cell, String currSpace, int row, int col) {
+        if (currSpace.length() == 2 && currSpace.charAt(0) == 'W') {
+            char doorDirectionChar = currSpace.charAt(1);
+            DoorDirection doorDirection = null;
+
+            switch (doorDirectionChar) {
+                case '<':
+                    doorDirection = DoorDirection.LEFT;
+                    break;
+                case '>':
+                    doorDirection = DoorDirection.RIGHT;
+                    break;
+                case '^':
+                    doorDirection = DoorDirection.UP;
+                    break;
+                case 'v':
+                    doorDirection = DoorDirection.DOWN;
+                    break;
+            }
+
+            if (doorDirection != null) {
+                cell.setDoorDirection(doorDirection);
+                cell.setDoorway(true);
+                
+                int adjacentRow = row;
+                int adjacentCol = col;
+
+                switch (doorDirection) {
+                    case LEFT:
+                        adjacentCol--;
+                        break;
+                    case RIGHT:
+                        adjacentCol++;
+                        break;
+                    case UP:
+                        adjacentRow--;
+                        break;
+                    case DOWN:
+                        adjacentRow++;
+                        break;
+                }
+
+                for (Room tempRoom : rooms) {
+                    if (isValidCell(adjacentRow, adjacentCol) && grid[adjacentRow][adjacentCol].getRoomName() == tempRoom.getLabel()) {
+                        tempRoom.setEntrance(cell);
+                        cell.addAdjacency(tempRoom.getCenterCell());
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean isValidCell(int row, int col) {
+    
+        return row >= 0 && row < ROWS && col >= 0 && col < COLS;
+    }
+    
+    
+   
+    
     
     // Getter for each cell Object
 	public BoardCell getCell(int i, int j) { // gets a cell
