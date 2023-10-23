@@ -87,7 +87,7 @@ public class Board {
 		}
     }
     
-    private void setCellPropertiesOnePointFive(BoardCell cell, String currSpace) {
+    private void setCellPropertiesSecond(BoardCell cell, String currSpace) {
     	// Set secret passages
     	if (currSpace.length() == 2) {
 			if (currSpace.charAt(0) != 'W' && currSpace.charAt(1) != '#' && currSpace.charAt(1) != '*'){
@@ -106,61 +106,10 @@ public class Board {
 			}
     	}
     }
- /*   
+ 
     // Helper function for loadLayoutConfig()
     // Sets if a space is an entrance to a room
-    private void setCellPropertiesSecond(BoardCell cell, String currSpace, int row, int col) {
-		// Cover all possible cases when a space has two characters
-		if (currSpace.length() == 2) {
-			// Set door directions
-			if (currSpace.charAt(0) == 'W') {
-				if (currSpace.charAt(1) == '<') {
-					cell.setDoorDirection(DoorDirection.LEFT);
-					cell.setDoorway(true);
-					for (Room tempRoom : rooms) {
-						if (grid[row][col-1].getRoomName() == tempRoom.getLabel()) {
-							tempRoom.setEntrance(cell);
-							cell.addAdjacency(tempRoom.getCenterCell());
-						}
-					}
-				}
-				else if (currSpace.charAt(1) == '>') {
-					cell.setDoorDirection(DoorDirection.RIGHT);
-				    cell.setDoorway(true);
-				    for (Room tempRoom : rooms) {
-						if (grid[row][col+1].getRoomName() == tempRoom.getLabel()) {
-							tempRoom.setEntrance(cell);
-							cell.addAdjacency(tempRoom.getCenterCell());
-						}
-					}
-				}
-				else if (currSpace.charAt(1) == '^') {
-					cell.setDoorDirection(DoorDirection.UP);
-					cell.setDoorway(true);
-					for (Room tempRoom : rooms) {
-						if (grid[row-1][col].getRoomName() == tempRoom.getLabel()) {
-							tempRoom.setEntrance(cell);
-							cell.addAdjacency(tempRoom.getCenterCell());
-						}
-					}
-				}
-				else if (currSpace.charAt(1) == 'v') {
-					cell.setDoorDirection(DoorDirection.DOWN);
-					cell.setDoorway(true);
-					for (Room tempRoom : rooms) {
-						if (grid[row+1][col].getRoomName() == tempRoom.getLabel()) {
-							tempRoom.setEntrance(cell);
-							cell.addAdjacency(tempRoom.getCenterCell());
-						}
-					}
-				}
-			}
-		}
-    }
-  */  /////////////////////////////////////////////////////////////////////////////////////////  commented above code was replaced by code below
-    // Helper function for loadLayoutConfig()
-    // Sets if a space is an entrance to a room
-    private void setCellPropertiesSecond(BoardCell cell, String currSpace, int row, int col) {
+    private void setCellPropertiesThird(BoardCell cell, String currSpace, int row, int col) {
         if (currSpace.length() == 2 && currSpace.charAt(0) == 'W') {
             char doorDirectionChar = currSpace.charAt(1);
             DoorDirection doorDirection = null;
@@ -213,13 +162,8 @@ public class Board {
     }
 
     private boolean isValidCell(int row, int col) {
-    
         return row >= 0 && row < ROWS && col >= 0 && col < COLS;
-    }
-    
-    
-   
-    
+    }    
     
     // Getter for each cell Object
 	public BoardCell getCell(int i, int j) { // gets a cell
@@ -232,7 +176,6 @@ public class Board {
 		findTargets(cell, pathLength);
 		visited.clear();
 	}
-	// LEtting you go back into a room
 	
 	public void findTargets(BoardCell cell, int pathLength) { // recursively finds targets by looking at adjacent list cells and also checks if those cells are occupied or if a room
 		for (BoardCell adjCell : cell.adjList) {
@@ -370,13 +313,13 @@ public class Board {
 		for (int row = 0; row < ROWS; row++) {
 			String[] spaces = fileLines.get(row).split(",", COLS);
 			for (int col = 0; col < COLS; col++) {
-				setCellPropertiesOnePointFive(grid[row][col], spaces[col]);
+				setCellPropertiesSecond(grid[row][col], spaces[col]);
 			}
 		}
 		for (int row = 0; row < ROWS; row++) {
 			String[] spaces = fileLines.get(row).split(",", COLS);
 			for (int col = 0; col < COLS; col++) {
-				setCellPropertiesSecond(grid[row][col], spaces[col], row, col);
+				setCellPropertiesThird(grid[row][col], spaces[col], row, col);
 				if (grid[row][col].isRoom()) {
 					// Check if the cell matches those around it for room configuration
 					char tempName = grid[row][col].getRoomName();

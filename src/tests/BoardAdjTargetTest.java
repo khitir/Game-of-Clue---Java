@@ -41,10 +41,6 @@ class BoardAdjTargetTest {
 		
 		// Next, test Vince Kuo's office, which has three doors
 		testList = board.getAdjList(23, 11);
-		for (BoardCell i : testList) {
-			System.out.println(i.getRow());
-			System.out.println(i.getCol());
-		}
 		assertEquals(3, testList.size());
 		assertTrue(testList.contains(board.getCell(21, 8)));
 		assertTrue(testList.contains(board.getCell(21, 15)));
