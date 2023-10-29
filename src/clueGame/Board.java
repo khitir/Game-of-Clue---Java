@@ -5,10 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 
 /*
@@ -24,7 +22,7 @@ public class Board {
 	private BoardCell[][] grid;
 	private Set<BoardCell> targets ;
 	private Set<BoardCell> visited;
-	private Map<Character, Room> rooms;
+	private Set<Room> rooms;
 
 	private static Board theInstance = new Board();
 	
@@ -70,26 +68,20 @@ public class Board {
 			// Set if the square is a room label
 			if (currSpace.charAt(1) == '#') {
 				cell.setIsLabel(true);
-				Room tempRoom = rooms.get(currSpace.charAt(0));
-				tempRoom.setLabelCell(cell);
-				rooms.put(tempRoom.getLabel(), tempRoom);
-//				for (Room tempRoom : rooms) {
-//					if (tempRoom.getLabel() == currSpace.charAt(0)) {
-//						tempRoom.setLabelCell(cell);
-//					}
-//				}
+				for (Room tempRoom : rooms) {
+					if (tempRoom.getLabel() == currSpace.charAt(0)) {
+						tempRoom.setLabelCell(cell);
+					}
+				}
 			}
 			// Set if the square is a room center
 			else if (currSpace.charAt(1) == '*') {
 				cell.setIsRoomCenter(true);
-				Room tempRoom = rooms.get(currSpace.charAt(0));
-				tempRoom.setCenterCell(cell);
-				rooms.put(tempRoom.getLabel(), tempRoom);
-//				for (Room tempRoom : rooms) {
-//					if (tempRoom.getLabel() == currSpace.charAt(0)) {
-//						tempRoom.setCenterCell(cell);
-//					}
-//				}
+				for (Room tempRoom : rooms) {
+					if (tempRoom.getLabel() == currSpace.charAt(0)) {
+						tempRoom.setCenterCell(cell);
+					}
+				}
 			}
 		}
     }
@@ -101,17 +93,14 @@ public class Board {
 				cell.setSecretPassage(currSpace.charAt(1));
 				Room currRoom = null;
 				Room secretPassageRoom = null;
-				currRoom = rooms.get(currSpace.charAt(0));
-				secretPassageRoom = rooms.get(currSpace.charAt(1));
-				rooms.put(currRoom.getLabel(), currRoom);
-//				for (Room tempRoom : rooms) {
-//					if (currSpace.charAt(0) == tempRoom.getLabel()) {
-//						currRoom = tempRoom;
-//					}
-//					if (currSpace.charAt(1) == tempRoom.getLabel()) {
-//						secretPassageRoom = tempRoom;
-//					}
-//				}
+				for (Room tempRoom : rooms) {
+					if (currSpace.charAt(0) == tempRoom.getLabel()) {
+						currRoom = tempRoom;
+					}
+					if (currSpace.charAt(1) == tempRoom.getLabel()) {
+						secretPassageRoom = tempRoom;
+					}
+				}
 				currRoom.setSecretPassageTo(secretPassageRoom.getCenterCell());
 			}
     	}
@@ -160,9 +149,12 @@ public class Board {
                         adjacentRow++;
                         break;
                 }
-                if (isValidCell(adjacentRow, adjacentCol)) {
-                	Room tempRoom = rooms.get(grid[adjacentRow][adjacentCol].getRoomName());
-                	cell.addAdjacency(tempRoom.getCenterCell());
+
+                for (Room tempRoom : rooms) {
+                    if (isValidCell(adjacentRow, adjacentCol) && grid[adjacentRow][adjacentCol].getRoomName() == tempRoom.getLabel()) {
+                        tempRoom.setEntrance(cell);
+                        cell.addAdjacency(tempRoom.getCenterCell());
+                    }
                 }
             }
         }
@@ -213,12 +205,22 @@ public class Board {
 		txt_file = "data/" +  file;
 	}
 	
-	public Room getRoom(char roomLabel) { //  gets a room, need to update in future
-		return rooms.get(roomLabel);
+	public Room getRoom(char room) { //  gets a room, need to update in future
+		for (Room tempRoom : rooms) {
+			if (tempRoom.getLabel() == room) {
+				return tempRoom;
+			}
+		}
+		return null;
 	}
 	
 	public Room getRoom(BoardCell cell) {//  gets a room with cell input, need to update in future
-		return rooms.get(cell.getRoomName());
+		for (Room tempRoom : rooms) {
+			if (tempRoom.getLabel() == cell.getRoomName()) {
+				return tempRoom;
+			}
+		}
+		return null;
 	}
 
 	
@@ -233,7 +235,7 @@ public class Board {
 	public void loadSetupConfig() throws BadConfigFormatException {
 		FileReader in;
     	BufferedReader reader;
-    	rooms = new HashMap<Character, Room>();
+    	rooms = new HashSet<Room>();
     	try {
 			in = new FileReader(txt_file);
 			reader = new BufferedReader(in);
@@ -247,7 +249,7 @@ public class Board {
 				}
 				else if (elements[0].equals("Room") || elements[0].equals("Space")) {
 					Room tempRoom = new Room(elements[2].charAt(0), elements[1]);
-					rooms.put(elements[2].charAt(0), tempRoom);
+					rooms.add(tempRoom);
 				}
 				else if (elements[0].charAt(0) != '/' && !elements[0].isEmpty())
 					throw new BadConfigFormatException("Invalid Initialization File");
@@ -335,7 +337,11 @@ public class Board {
 			for (int j = 0; j < COLS; j++) {
 				if (grid[i][j].isRoomCenter()) {
 					Room currRoom = null;
-					currRoom = rooms.get(grid[i][j].getRoomName());
+					for (Room tempRoom : rooms) {
+						if (grid[i][j].getRoomName() == tempRoom.getLabel()) {
+							currRoom = tempRoom;
+						}
+					}
 					Set<BoardCell> entrances = currRoom.getEntrances();
 					for (BoardCell cell : entrances) {
 						grid[i][j].addAdjacency(cell);
