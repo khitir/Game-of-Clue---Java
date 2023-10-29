@@ -47,7 +47,6 @@ public class Board {
 			loadSetupConfig();
 			loadLayoutConfig();
 		} catch (BadConfigFormatException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
@@ -170,7 +169,7 @@ public class Board {
 		return grid[i][j];
 	}
 	
-	public void calcTargets(BoardCell cell, int pathLength) { // adds visited cells to to list and calls findtarget()
+	public void calcTargets(BoardCell cell, int pathLength) { // adds visited cells to to list and calls findTargets()
 		targets.clear();
 		visited.add(cell);
 		findTargets(cell, pathLength);
@@ -286,7 +285,6 @@ public class Board {
 			e.printStackTrace();
 		}
     	// Set the number of rows and columns based on the width and height of the pseudo 2D array
-    	boolean badRows = false;
     	String[] tempStr = fileLines.get(0).split(",");
     	int numCols = tempStr.length;
     	for (int i = 1; i < fileLines.size(); i++) {

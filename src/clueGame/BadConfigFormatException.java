@@ -6,7 +6,7 @@ package clueGame;
  * 		A catch all exception for any problems with the Clue setup files
  */
 
-public class BadConfigFormatException extends Exception{
+public class BadConfigFormatException extends Exception {
 	public BadConfigFormatException() {
 		System.out.println("Initialization from setup files failed");
 	}
