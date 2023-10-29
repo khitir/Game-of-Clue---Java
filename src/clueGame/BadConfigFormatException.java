@@ -10,10 +10,8 @@ public class BadConfigFormatException extends Exception {
 	public BadConfigFormatException() {
 		System.out.println("Initialization from setup files failed");
 	}
-	
+
 	public BadConfigFormatException(String message) {
 		System.out.println("Error: " + message);
-
-		
 	}
 }

@@ -12,11 +12,11 @@ import java.util.Set;
 public class BoardCell {
 	private int row, col;
 	private boolean isRoom, isOccupied, isRoomCenter, isLabel, isDoorway; // bools for checking status
-	Set<BoardCell> adjList;
-	DoorDirection doorDirection;
+	private Set<BoardCell> adjList;
+	private DoorDirection doorDirection;
 	private char secretPassage;
 	private char roomName;
-	
+
 	public BoardCell(int x, int y) { // constructor, that sets cell location on board, and intitializes room and occupied to false
 		adjList = new HashSet<BoardCell>();
 		this.row = x;
@@ -24,9 +24,12 @@ public class BoardCell {
 		this.isRoom = false;
 		this.isOccupied = false;
 		this.isDoorway = false;
-		
 	}
 	
+	public Set<BoardCell> getAdjList() {
+		return adjList;
+	}
+
 	public char getRoomName() {
 		return roomName;
 	}
@@ -34,8 +37,8 @@ public class BoardCell {
 	public void setRoomName(char roomName) {
 		this.roomName = roomName;
 	}
-	
-	
+
+
 	public char getSecretPassage() { // gets the secret passage
 		return secretPassage;
 	}
@@ -47,7 +50,7 @@ public class BoardCell {
 	public void setOccupied(boolean b) {
 		this.isOccupied = b;
 	}
-	
+
 	public boolean isOccupied() {
 		return this.isOccupied;
 	}
@@ -55,27 +58,27 @@ public class BoardCell {
 	public void setIsRoom(boolean b) {
 		this.isRoom = b;
 	}
-	
+
 	public boolean isRoom() {
 		return this.isRoom;
 	}
-	
+
 	public void addAdjacency(BoardCell cell) {
 		adjList.add(cell);
 	}
-	
+
 	public boolean isRoomCenter() {
 		return this.isRoomCenter;
 	}
-	
+
 	public void setIsRoomCenter(boolean b) {
 		this.isRoomCenter = b;
 	}
-	
+
 	public boolean isLabel() {
 		return this.isLabel;
 	}
-	
+
 	public void setIsLabel(boolean b) {
 		this.isLabel = b;
 	}

@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -24,11 +23,11 @@ public class Board {
 	private BoardCell[][] grid;
 	private Set<BoardCell> targets ;
 	private Set<BoardCell> visited;
-//	private Set<Room> rooms;
+	//	private Set<Room> rooms;
 	private Map<Character, Room> rooms;
 
 	private static Board theInstance = new Board();
-	
+
 	// The file names to use for the initial configuration
 	String csv_file; 
 	String txt_file; 
@@ -37,28 +36,28 @@ public class Board {
 	public static Board getInstance() {
 		return theInstance;
 	}
-	
+
 	public Set<BoardCell> getAdjList(int row, int col) {
-		return grid[row][col].adjList;
+		return grid[row][col].getAdjList();
 	}
-	
-    /*
-     * initialize the board (since we are using singleton pattern)
-     */
-    public void initialize(){
-    	try {
+
+	/*
+	 * initialize the board (since we are using singleton pattern)
+	 */
+	public void initialize(){
+		try {
 			loadSetupConfig();
 			loadLayoutConfig();
 		} catch (BadConfigFormatException e) {
 			e.printStackTrace();
 		}
-    }
-    
-    // Helper function for loadLayoutConfig()
-    // Sets the room properties of all cells on the board
-    // We need to know what room each cell is for setCellPropertiesSecond, where we set the entrances to a room
-    private void setCellPropertiesFirst(BoardCell cell, String currSpace) {
-    	cell.setRoomName(currSpace.charAt(0));
+	}
+
+	// Helper function for loadLayoutConfig()
+	// Sets the room properties of all cells on the board
+	// We need to know what room each cell is for setCellPropertiesSecond, where we set the entrances to a room
+	private void setCellPropertiesFirst(BoardCell cell, String currSpace) {
+		cell.setRoomName(currSpace.charAt(0));
 		// Set space to be a room if it is not unused or a walkway
 		if (currSpace.charAt(0) != 'X' && currSpace.charAt(0) != 'W') {
 			cell.setIsRoom(true);
@@ -83,11 +82,11 @@ public class Board {
 				rooms.put(tempRoom.getLabel(), tempRoom);
 			}
 		}
-    }
-    
-    private void setCellPropertiesSecond(BoardCell cell, String currSpace) {
-    	// Set secret passages
-    	if (currSpace.length() == 2) {
+	}
+
+	private void setCellPropertiesSecond(BoardCell cell, String currSpace) {
+		// Set secret passages
+		if (currSpace.length() == 2) {
 			if (currSpace.charAt(0) != 'W' && currSpace.charAt(1) != '#' && currSpace.charAt(1) != '*'){
 				cell.setSecretPassage(currSpace.charAt(1));
 				Room currRoom = rooms.get(currSpace.charAt(0));
@@ -95,80 +94,80 @@ public class Board {
 				currRoom.setSecretPassageTo(secretPassageRoom.getCenterCell());
 				rooms.put(currRoom.getLabel(), currRoom);
 			}
-    	}
-    }
- 
-    // Helper function for loadLayoutConfig()
-    // Sets if a space is an entrance to a room
-    private void setCellPropertiesThird(BoardCell cell, String currSpace, int row, int col) {
-        if (currSpace.length() == 2 && currSpace.charAt(0) == 'W') {
-            char doorDirectionChar = currSpace.charAt(1);
-            DoorDirection doorDirection = null;
+		}
+	}
 
-            switch (doorDirectionChar) {
-                case '<':
-                    doorDirection = DoorDirection.LEFT;
-                    break;
-                case '>':
-                    doorDirection = DoorDirection.RIGHT;
-                    break;
-                case '^':
-                    doorDirection = DoorDirection.UP;
-                    break;
-                case 'v':
-                    doorDirection = DoorDirection.DOWN;
-                    break;
-            }
+	// Helper function for loadLayoutConfig()
+	// Sets if a space is an entrance to a room
+	private void setCellPropertiesThird(BoardCell cell, String currSpace, int row, int col) {
+		if (currSpace.length() == 2 && currSpace.charAt(0) == 'W') {
+			char doorDirectionChar = currSpace.charAt(1);
+			DoorDirection doorDirection = null;
 
-            if (doorDirection != null) {
-                cell.setDoorDirection(doorDirection);
-                cell.setDoorway(true);
-                
-                int adjacentRow = row;
-                int adjacentCol = col;
+			switch (doorDirectionChar) {
+			case '<':
+				doorDirection = DoorDirection.LEFT;
+				break;
+			case '>':
+				doorDirection = DoorDirection.RIGHT;
+				break;
+			case '^':
+				doorDirection = DoorDirection.UP;
+				break;
+			case 'v':
+				doorDirection = DoorDirection.DOWN;
+				break;
+			}
 
-                switch (doorDirection) {
-                    case LEFT:
-                        adjacentCol--;
-                        break;
-                    case RIGHT:
-                        adjacentCol++;
-                        break;
-                    case UP:
-                        adjacentRow--;
-                        break;
-                    case DOWN:
-                        adjacentRow++;
-                        break;
-                }
-                if (isValidCell(adjacentRow, adjacentCol)) {
-                	Room tempRoom = rooms.get(grid[adjacentRow][adjacentCol].getRoomName());
-                	tempRoom.setEntrance(cell);
-                	rooms.put(tempRoom.getLabel(), tempRoom);
-                	cell.addAdjacency(tempRoom.getCenterCell());
-                }
-            }
-        }
-    }
+			if (doorDirection != null) {
+				cell.setDoorDirection(doorDirection);
+				cell.setDoorway(true);
 
-    private boolean isValidCell(int row, int col) {
-        return row >= 0 && row < ROWS && col >= 0 && col < COLS;
-    }    
-    
-    // Getter for each cell Object
+				int adjacentRow = row;
+				int adjacentCol = col;
+
+				switch (doorDirection) {
+				case LEFT:
+					adjacentCol--;
+					break;
+				case RIGHT:
+					adjacentCol++;
+					break;
+				case UP:
+					adjacentRow--;
+					break;
+				case DOWN:
+					adjacentRow++;
+					break;
+				}
+				if (isValidCell(adjacentRow, adjacentCol)) {
+					Room tempRoom = rooms.get(grid[adjacentRow][adjacentCol].getRoomName());
+					tempRoom.setEntrance(cell);
+					rooms.put(tempRoom.getLabel(), tempRoom);
+					cell.addAdjacency(tempRoom.getCenterCell());
+				}
+			}
+		}
+	}
+
+	private boolean isValidCell(int row, int col) {
+		return row >= 0 && row < ROWS && col >= 0 && col < COLS;
+	}    
+
+	// Getter for each cell Object
 	public BoardCell getCell(int i, int j) { // gets a cell
 		return grid[i][j];
 	}
-	
+
 	public void calcTargets(BoardCell cell, int pathLength) { // adds visited cells to to list and calls findTargets()
 		targets.clear();
 		visited.add(cell);
 		findTargets(cell, pathLength);
 		visited.clear();
 	}
-	
+
 	public void findTargets(BoardCell cell, int pathLength) { // recursively finds targets by looking at adjacent list cells and also checks if those cells are occupied or if a room
-		for (BoardCell adjCell : cell.adjList) {
+		for (BoardCell adjCell : cell.getAdjList()) {
 			if (adjCell.isRoom() && !visited.contains(adjCell)) {
 				targets.add(adjCell);
 			}
@@ -185,39 +184,39 @@ public class Board {
 		}
 	}
 
-	
-	
+
+
 	public Set<BoardCell> getTargets() { // gets target
 		return targets;
 	}
-	
+
 	public void setConfigFiles(String csv, String file) { // sets csv and text files
 		csv_file = "data/" + csv;
 		txt_file = "data/" +  file;
 	}
-	
+
 	public Room getRoom(char roomLabel) { //  gets a room, need to update in future
 		return rooms.get(roomLabel);
 	}
-	
+
 	public Room getRoom(BoardCell cell) {//  gets a room with cell input, need to update in future
 		return rooms.get(cell.getRoomName());
 	}
 
-	
+
 	public int getNumColumns() {
 		return COLS;
 	}
 	public int getNumRows() {
 		return ROWS;
 	}
-	
+
 	// Loads the .txt file used for setting up the board
 	public void loadSetupConfig() throws BadConfigFormatException {
 		FileReader in;
-    	BufferedReader reader;
-    	rooms = new HashMap<Character, Room>();
-    	try {
+		BufferedReader reader;
+		rooms = new HashMap<Character, Room>();
+		try {
 			in = new FileReader(txt_file);
 			reader = new BufferedReader(in);
 			String tempLine = reader.readLine();
@@ -244,13 +243,13 @@ public class Board {
 			e.printStackTrace();
 		}
 	}
-	
+
 	// Loads the .csv file for the board layout
 	public void loadLayoutConfig() throws BadConfigFormatException {
-    	ArrayList<String> fileLines = new ArrayList<String>();
-    	FileReader in;
-    	BufferedReader reader;
-    	try {
+		ArrayList<String> fileLines = new ArrayList<String>();
+		FileReader in;
+		BufferedReader reader;
+		try {
 			in = new FileReader(csv_file);
 			reader = new BufferedReader(in);
 			String tempLine = reader.readLine();
@@ -265,22 +264,22 @@ public class Board {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-    	// Set the number of rows and columns based on the width and height of the pseudo 2D array
-    	String[] tempStr = fileLines.get(0).split(",");
-    	int numCols = tempStr.length;
-    	for (int i = 1; i < fileLines.size(); i++) {
-    		tempStr= fileLines.get(i).split(",");
-    		for (String elem : tempStr) {
-    			if (elem.isEmpty())
-    				throw new BadConfigFormatException("Empty element in Layout file");
-    		}
-    		if (tempStr.length != numCols)
-    			throw new BadConfigFormatException("Unmatched number of columns or rows");
-    	}
-    	ROWS = fileLines.size();
-    	COLS = numCols;
-    	
-    	// Initialize the board
+		// Set the number of rows and columns based on the width and height of the pseudo 2D array
+		String[] tempStr = fileLines.get(0).split(",");
+		int numCols = tempStr.length;
+		for (int i = 1; i < fileLines.size(); i++) {
+			tempStr= fileLines.get(i).split(",");
+			for (String elem : tempStr) {
+				if (elem.isEmpty())
+					throw new BadConfigFormatException("Empty element in Layout file");
+			}
+			if (tempStr.length != numCols)
+				throw new BadConfigFormatException("Unmatched number of columns or rows");
+		}
+		ROWS = fileLines.size();
+		COLS = numCols;
+
+		// Initialize the board
 		grid = new BoardCell[ROWS][COLS];
 		for (int row = 0; row < ROWS; row++) {
 			String[] spaces = fileLines.get(row).split(",", COLS);
