@@ -70,6 +70,9 @@ class FileInitTests {
 		cell = board.getCell(20, 17);
 		assertTrue(cell.isDoorway());
 		assertEquals(DoorDirection.DOWN, cell.getDoorDirection());
+		cell = board.getCell(21, 8);
+		assertTrue(cell.isDoorway());
+		assertEquals(DoorDirection.RIGHT, cell.getDoorDirection());
 		// Test that walkways are not doors
 		cell = board.getCell(0, 0);
 		assertFalse(cell.isDoorway());
