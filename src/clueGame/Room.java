@@ -18,16 +18,7 @@ public class Room {
 	private Set<BoardCell> entrances;
 	private BoardCell secretPassageTo;
 
-	// Constructor. Takes in room names, location of room center
-	// and location of room name
-	public Room(char name, BoardCell centerCell, BoardCell labelCell) {
-		super();
-		this.labelChar = name;
-		this.centerCell = centerCell;
-		this.labelCell = labelCell;
-		entrances = new HashSet<BoardCell>();
-	}
-	// Secondary Constructor, for when only the name and label of the room are available
+	// Constructor, for when only the name and label of the room are available
 	public Room(char name, String elements) {
 		super();
 		this.labelChar = name;
