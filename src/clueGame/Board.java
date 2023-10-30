@@ -122,19 +122,19 @@ public class Board {
 			String[] spaces = fileLines.get(row).split(",", totalBoardCols);
 			for (int col = 0; col < totalBoardCols; col++) {
 				grid[row][col] = new BoardCell(row, col);
-				setCellPropertiesFirst(grid[row][col], spaces[col]);
+				setCellProperties(grid[row][col], spaces[col]);
 			}
 		}
 		for (int row = 0; row < totalBoardRows; row++) {
 			String[] spaces = fileLines.get(row).split(",", totalBoardCols);
 			for (int col = 0; col < totalBoardCols; col++) {
-				setCellPropertiesSecond(grid[row][col], spaces[col]);
+				setRoomProperties(grid[row][col], spaces[col]);
 			}
 		}
 		for (int row = 0; row < totalBoardRows; row++) {
 			String[] spaces = fileLines.get(row).split(",", totalBoardCols);
 			for (int col = 0; col < totalBoardCols; col++) {
-				setCellPropertiesThird(grid[row][col], spaces[col], row, col);
+				setDoorProperties(grid[row][col], spaces[col], row, col);
 				if (grid[row][col].isRoom()) {
 					// Check if the cell matches those around it for room configuration
 					char tempName = grid[row][col].getRoomName();
@@ -178,7 +178,7 @@ public class Board {
 	// Helper function for loadLayoutConfig()
 	// Sets the room properties of all cells on the board
 	// We need to know what room each cell is for setCellPropertiesSecond, where we set the entrances to a room
-	private void setCellPropertiesFirst(BoardCell cell, String currSpace) {
+	private void setCellProperties(BoardCell cell, String currSpace) {
 		cell.setRoomName(currSpace.charAt(0));
 		// Set space to be a room if it is not unused or a walkway
 		if (currSpace.charAt(0) != 'X' && currSpace.charAt(0) != 'W') {
@@ -206,7 +206,7 @@ public class Board {
 		}
 	}
 
-	private void setCellPropertiesSecond(BoardCell cell, String currSpace) {
+	private void setRoomProperties(BoardCell cell, String currSpace) {
 		// Set secret passages
 		if (currSpace.length() == 2 &&  (currSpace.charAt(0) != 'W' && currSpace.charAt(1) != '#' && currSpace.charAt(1) != '*')){
 			cell.setSecretPassage(currSpace.charAt(1));
@@ -220,7 +220,7 @@ public class Board {
 
 	// Helper function for loadLayoutConfig()
 	// Sets if a space is an entrance to a room
-	private void setCellPropertiesThird(BoardCell cell, String currSpace, int row, int col) {
+	private void setDoorProperties(BoardCell cell, String currSpace, int row, int col) {
 		// if it's a door, define directions based on second character
 		if (currSpace.length() == 2 && currSpace.charAt(0) == 'W') {
 			char doorDirectionChar = currSpace.charAt(1);
