@@ -1,7 +1,6 @@
 package clueGame;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -205,14 +204,13 @@ public class Board {
 
 	private void setCellPropertiesSecond(BoardCell cell, String currSpace) {
 		// Set secret passages
-		if (currSpace.length() == 2) {
-			if (currSpace.charAt(0) != 'W' && currSpace.charAt(1) != '#' && currSpace.charAt(1) != '*'){
+		if (currSpace.length() == 2 &&  (currSpace.charAt(0) != 'W' && currSpace.charAt(1) != '#' && currSpace.charAt(1) != '*')){
 				cell.setSecretPassage(currSpace.charAt(1));
 				Room currRoom = rooms.get(currSpace.charAt(0));
 				Room secretPassageRoom = rooms.get(currSpace.charAt(1));
 				currRoom.setSecretPassageTo(secretPassageRoom.getCenterCell());
 				rooms.put(currRoom.getLabel(), currRoom);
-			}
+			
 		}
 	}
 
