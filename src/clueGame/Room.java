@@ -19,10 +19,10 @@ public class Room {
 	private BoardCell secretPassageTo;
 
 	// Constructor, for when only the name and label of the room are available
-	public Room(char name, String elements) {
+	public Room(char name, String fullNameOfRoom) {
 		super();
 		this.labelChar = name;
-		this.nameString = elements;
+		this.nameString = fullNameOfRoom;
 		entrances = new HashSet<BoardCell>();
 	}
 
