@@ -18,8 +18,8 @@ import java.util.Set;
 
 public class Board {
 
-	private int COLS = 0;
-	private int ROWS = 0;
+	private int totalBoardCols = 0;
+	private int totalBoardRows = 0;
 	private BoardCell[][] grid;
 	private Set<BoardCell> targets ;
 	private Set<BoardCell> visited;
@@ -118,32 +118,32 @@ public class Board {
 			if (tempStr.length != numCols)
 				throw new BadConfigFormatException("Unmatched number of columns or rows");
 		}
-		ROWS = fileLines.size();
-		COLS = numCols;
+		totalBoardRows = fileLines.size();
+		totalBoardCols = numCols;
 
 		// Initialize the board
-		grid = new BoardCell[ROWS][COLS];
-		for (int row = 0; row < ROWS; row++) {
-			String[] spaces = fileLines.get(row).split(",", COLS);
-			for (int col = 0; col < COLS; col++) {
+		grid = new BoardCell[totalBoardRows][totalBoardCols];
+		for (int row = 0; row < totalBoardRows; row++) {
+			String[] spaces = fileLines.get(row).split(",", totalBoardCols);
+			for (int col = 0; col < totalBoardCols; col++) {
 				grid[row][col] = new BoardCell(row, col);
 				setCellPropertiesFirst(grid[row][col], spaces[col]);
 			}
 		}
-		for (int row = 0; row < ROWS; row++) {
-			String[] spaces = fileLines.get(row).split(",", COLS);
-			for (int col = 0; col < COLS; col++) {
+		for (int row = 0; row < totalBoardRows; row++) {
+			String[] spaces = fileLines.get(row).split(",", totalBoardCols);
+			for (int col = 0; col < totalBoardCols; col++) {
 				setCellPropertiesSecond(grid[row][col], spaces[col]);
 			}
 		}
-		for (int row = 0; row < ROWS; row++) {
-			String[] spaces = fileLines.get(row).split(",", COLS);
-			for (int col = 0; col < COLS; col++) {
+		for (int row = 0; row < totalBoardRows; row++) {
+			String[] spaces = fileLines.get(row).split(",", totalBoardCols);
+			for (int col = 0; col < totalBoardCols; col++) {
 				setCellPropertiesThird(grid[row][col], spaces[col], row, col);
 				if (grid[row][col].isRoom()) {
 					// Check if the cell matches those around it for room configuration
 					char tempName = grid[row][col].getRoomName();
-					if (col != COLS-1 && tempName != spaces[col+1].charAt(0)) {
+					if (col != totalBoardCols-1 && tempName != spaces[col+1].charAt(0)) {
 						if (col != 0 && tempName != grid[row][col-1].getRoomName()) {
 							if (row != 0 && tempName != grid[row-1][col].getRoomName()) {
 								throw new BadConfigFormatException("Invalid Room Configuration");
@@ -155,8 +155,8 @@ public class Board {
 		}
 		targets = new HashSet<BoardCell>();
 		visited = new HashSet<BoardCell>();
-		for (int i = 0; i < ROWS; i++) { // fill in the board
-			for (int j = 0; j < COLS; j++) {
+		for (int i = 0; i < totalBoardRows; i++) { // fill in the board
+			for (int j = 0; j < totalBoardCols; j++) {
 				if (grid[i][j].isRoomCenter()) {
 					Room currRoom = rooms.get(grid[i][j].getRoomName());
 					Set<BoardCell> entrances = currRoom.getEntrances();
@@ -169,9 +169,9 @@ public class Board {
 						grid[i][j].addAdjacency(grid[i-1][j]);
 					if (j != 0 && !grid[i][j-1].isOccupied() && grid[i][j-1].getRoomName() == 'W')
 						grid[i][j].addAdjacency(grid[i][j-1]);
-					if (i != ROWS-1 && !grid[i+1][j].isOccupied() && grid[i+1][j].getRoomName() == 'W')
+					if (i != totalBoardRows-1 && !grid[i+1][j].isOccupied() && grid[i+1][j].getRoomName() == 'W')
 						grid[i][j].addAdjacency(grid[i+1][j]);
-					if (j != COLS-1 && !grid[i][j+1].isOccupied() && grid[i][j+1].getRoomName() == 'W')
+					if (j != totalBoardCols-1 && !grid[i][j+1].isOccupied() && grid[i][j+1].getRoomName() == 'W')
 						grid[i][j].addAdjacency(grid[i][j+1]);
 				}
 			}
@@ -276,7 +276,7 @@ public class Board {
 	}
 
 	private boolean isValidCell(int row, int col) {
-		return row >= 0 && row < ROWS && col >= 0 && col < COLS;
+		return row >= 0 && row < totalBoardRows && col >= 0 && col < totalBoardCols;
 	}    
 
 	// Getter for each cell Object
@@ -329,9 +329,9 @@ public class Board {
 	}
 
 	public int getNumColumns() {
-		return COLS;
+		return totalBoardCols;
 	}
 	public int getNumRows() {
-		return ROWS;
+		return totalBoardRows;
 	}
 }
