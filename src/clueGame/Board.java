@@ -79,11 +79,9 @@ public class Board {
 			}
 			reader.close();
 			in.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		} 
 	}
 
 	// Loads the .csv file for the board layout
@@ -101,11 +99,9 @@ public class Board {
 			}
 			reader.close();
 			in.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		} 
 		// Set the number of rows and columns based on the width and height of the pseudo 2D array
 		String[] tempStr = fileLines.get(0).split(",");
 		int numCols = tempStr.length;
@@ -143,12 +139,10 @@ public class Board {
 				if (grid[row][col].isRoom()) {
 					// Check if the cell matches those around it for room configuration
 					char tempName = grid[row][col].getRoomName();
-					if (col != totalBoardCols-1 && tempName != spaces[col+1].charAt(0)) {
-						if (col != 0 && tempName != grid[row][col-1].getRoomName()) {
-							if (row != 0 && tempName != grid[row-1][col].getRoomName()) {
+					if (col != totalBoardCols-1 && tempName != spaces[col+1].charAt(0) &&  (col != 0 && tempName != grid[row][col-1].getRoomName() &&  (row != 0 && tempName != grid[row-1][col].getRoomName()))) {
 								throw new BadConfigFormatException("Invalid Room Configuration");
-							}
-						}
+							
+						
 					}
 				}
 			}
