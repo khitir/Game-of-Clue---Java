@@ -1,7 +1,6 @@
 package clueGame;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,12 +17,11 @@ import java.util.Set;
 
 public class Board {
 
-	private int COLS = 0;
-	private int ROWS = 0;
+	private int totalBoardCols = 0;
+	private int totalBoardRows = 0;
 	private BoardCell[][] grid;
 	private Set<BoardCell> targets ;
 	private Set<BoardCell> visited;
-	//	private Set<Room> rooms;
 	private Map<Character, Room> rooms;
 
 	private static Board theInstance = new Board();
@@ -66,24 +64,22 @@ public class Board {
 				String[] elements = tempLine.split(", ");
 				// If the line is not a comment or configured in the following format, throw an exception
 				// Room/Space, Name, Label
-				if (elements.length != 3 && elements[0].charAt(0) != '/') {
+				if (elements.length != 3 && elements[0].charAt(0) != '/') { // make sure we are looking at some object
 					throw new BadConfigFormatException("Invalid Initialization File");
 				}
-				else if (elements[0].equals("Room") || elements[0].equals("Space")) {
+				else if (elements[0].equals("Room") || elements[0].equals("Space")) { // if it's a room or space
 					Room tempRoom = new Room(elements[2].charAt(0), elements[1]);
 					rooms.put(elements[2].charAt(0), tempRoom);
 				}
-				else if (elements[0].charAt(0) != '/' && !elements[0].isEmpty())
+				else if (elements[0].charAt(0) != '/' && !elements[0].isEmpty()) // error case
 					throw new BadConfigFormatException("Invalid Initialization File");
 				tempLine = reader.readLine();
 			}
 			reader.close();
 			in.close();
-		} catch (FileNotFoundException e) {
+		} catch (IOException e) { // throw exception
 			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		} 
 	}
 
 	// Loads the .csv file for the board layout
@@ -101,16 +97,15 @@ public class Board {
 			}
 			reader.close();
 			in.close();
-		} catch (FileNotFoundException e) {
+		} catch (IOException e) { // catch error
 			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		} 
 		// Set the number of rows and columns based on the width and height of the pseudo 2D array
 		String[] tempStr = fileLines.get(0).split(",");
 		int numCols = tempStr.length;
 		for (int i = 1; i < fileLines.size(); i++) {
-			tempStr= fileLines.get(i).split(",");
+			tempStr= fileLines.get(i).split(","); // split lines by ","
+			// make sure to go though all the way through file
 			for (String elem : tempStr) {
 				if (elem.isEmpty())
 					throw new BadConfigFormatException("Empty element in Layout file");
@@ -118,60 +113,62 @@ public class Board {
 			if (tempStr.length != numCols)
 				throw new BadConfigFormatException("Unmatched number of columns or rows");
 		}
-		ROWS = fileLines.size();
-		COLS = numCols;
+		totalBoardRows = fileLines.size(); // set board dimensions based on file data size
+		totalBoardCols = numCols;
 
 		// Initialize the board
-		grid = new BoardCell[ROWS][COLS];
-		for (int row = 0; row < ROWS; row++) {
-			String[] spaces = fileLines.get(row).split(",", COLS);
-			for (int col = 0; col < COLS; col++) {
+		grid = new BoardCell[totalBoardRows][totalBoardCols];
+		for (int row = 0; row < totalBoardRows; row++) {
+			String[] spaces = fileLines.get(row).split(",", totalBoardCols);
+			for (int col = 0; col < totalBoardCols; col++) {
 				grid[row][col] = new BoardCell(row, col);
-				setCellPropertiesFirst(grid[row][col], spaces[col]);
+				setCellProperties(grid[row][col], spaces[col]);
 			}
 		}
-		for (int row = 0; row < ROWS; row++) {
-			String[] spaces = fileLines.get(row).split(",", COLS);
-			for (int col = 0; col < COLS; col++) {
-				setCellPropertiesSecond(grid[row][col], spaces[col]);
+		for (int row = 0; row < totalBoardRows; row++) {
+			String[] spaces = fileLines.get(row).split(",", totalBoardCols);
+			for (int col = 0; col < totalBoardCols; col++) {
+				setRoomProperties(grid[row][col], spaces[col]);
 			}
 		}
-		for (int row = 0; row < ROWS; row++) {
-			String[] spaces = fileLines.get(row).split(",", COLS);
-			for (int col = 0; col < COLS; col++) {
-				setCellPropertiesThird(grid[row][col], spaces[col], row, col);
+		for (int row = 0; row < totalBoardRows; row++) {
+			String[] spaces = fileLines.get(row).split(",", totalBoardCols);
+			for (int col = 0; col < totalBoardCols; col++) {
+				setDoorProperties(grid[row][col], spaces[col], row, col);
 				if (grid[row][col].isRoom()) {
 					// Check if the cell matches those around it for room configuration
 					char tempName = grid[row][col].getRoomName();
-					if (col != COLS-1 && tempName != spaces[col+1].charAt(0)) {
-						if (col != 0 && tempName != grid[row][col-1].getRoomName()) {
-							if (row != 0 && tempName != grid[row-1][col].getRoomName()) {
-								throw new BadConfigFormatException("Invalid Room Configuration");
-							}
-						}
+					if (col != totalBoardCols-1 && tempName != spaces[col+1].charAt(0) &&  (col != 0 && tempName != grid[row][col-1].getRoomName() &&  (row != 0 && tempName != grid[row-1][col].getRoomName()))) {
+						throw new BadConfigFormatException("Invalid Room Configuration");
+
+
 					}
 				}
 			}
 		}
+
 		targets = new HashSet<BoardCell>();
 		visited = new HashSet<BoardCell>();
-		for (int i = 0; i < ROWS; i++) { // fill in the board
-			for (int j = 0; j < COLS; j++) {
-				if (grid[i][j].isRoomCenter()) {
-					Room currRoom = rooms.get(grid[i][j].getRoomName());
+
+		for (int i = 0; i < totalBoardRows; i++) { // fill in the board
+			for (int j = 0; j < totalBoardCols; j++) {
+				// for a center of room, find entrances and adjacency  
+				if (grid[i][j].isRoomCenter()) { // check if room center
+					Room currRoom = rooms.get(grid[i][j].getRoomName()); // 
 					Set<BoardCell> entrances = currRoom.getEntrances();
 					for (BoardCell cell : entrances) {
 						grid[i][j].addAdjacency(cell);
 					}
 				}
+				// if not a room, add adacencies by looking lef,right, up, down and checking occuapncy.
 				else if (!grid[i][j].isRoom()) {
 					if (i != 0 && !grid[i-1][j].isOccupied() && grid[i-1][j].getRoomName() == 'W')
 						grid[i][j].addAdjacency(grid[i-1][j]);
 					if (j != 0 && !grid[i][j-1].isOccupied() && grid[i][j-1].getRoomName() == 'W')
 						grid[i][j].addAdjacency(grid[i][j-1]);
-					if (i != ROWS-1 && !grid[i+1][j].isOccupied() && grid[i+1][j].getRoomName() == 'W')
+					if (i != totalBoardRows-1 && !grid[i+1][j].isOccupied() && grid[i+1][j].getRoomName() == 'W')
 						grid[i][j].addAdjacency(grid[i+1][j]);
-					if (j != COLS-1 && !grid[i][j+1].isOccupied() && grid[i][j+1].getRoomName() == 'W')
+					if (j != totalBoardCols-1 && !grid[i][j+1].isOccupied() && grid[i][j+1].getRoomName() == 'W')
 						grid[i][j].addAdjacency(grid[i][j+1]);
 				}
 			}
@@ -181,7 +178,7 @@ public class Board {
 	// Helper function for loadLayoutConfig()
 	// Sets the room properties of all cells on the board
 	// We need to know what room each cell is for setCellPropertiesSecond, where we set the entrances to a room
-	private void setCellPropertiesFirst(BoardCell cell, String currSpace) {
+	private void setCellProperties(BoardCell cell, String currSpace) {
 		cell.setRoomName(currSpace.charAt(0));
 		// Set space to be a room if it is not unused or a walkway
 		if (currSpace.charAt(0) != 'X' && currSpace.charAt(0) != 'W') {
@@ -209,22 +206,22 @@ public class Board {
 		}
 	}
 
-	private void setCellPropertiesSecond(BoardCell cell, String currSpace) {
+	private void setRoomProperties(BoardCell cell, String currSpace) {
 		// Set secret passages
-		if (currSpace.length() == 2) {
-			if (currSpace.charAt(0) != 'W' && currSpace.charAt(1) != '#' && currSpace.charAt(1) != '*'){
-				cell.setSecretPassage(currSpace.charAt(1));
-				Room currRoom = rooms.get(currSpace.charAt(0));
-				Room secretPassageRoom = rooms.get(currSpace.charAt(1));
-				currRoom.setSecretPassageTo(secretPassageRoom.getCenterCell());
-				rooms.put(currRoom.getLabel(), currRoom);
-			}
+		if (currSpace.length() == 2 &&  (currSpace.charAt(0) != 'W' && currSpace.charAt(1) != '#' && currSpace.charAt(1) != '*')){
+			cell.setSecretPassage(currSpace.charAt(1));
+			Room currRoom = rooms.get(currSpace.charAt(0));
+			Room secretPassageRoom = rooms.get(currSpace.charAt(1));
+			currRoom.setSecretPassageTo(secretPassageRoom.getCenterCell());
+			rooms.put(currRoom.getLabel(), currRoom);
+
 		}
 	}
 
 	// Helper function for loadLayoutConfig()
 	// Sets if a space is an entrance to a room
-	private void setCellPropertiesThird(BoardCell cell, String currSpace, int row, int col) {
+	private void setDoorProperties(BoardCell cell, String currSpace, int row, int col) {
+		// if it's a door, define directions based on second character
 		if (currSpace.length() == 2 && currSpace.charAt(0) == 'W') {
 			char doorDirectionChar = currSpace.charAt(1);
 			DoorDirection doorDirection = null;
@@ -246,12 +243,12 @@ public class Board {
 
 			if (doorDirection != null) {
 				cell.setDoorDirection(doorDirection);
-				cell.setDoorway(true);
+				cell.setDoorway(true); // set doorways
 
 				int adjacentRow = row;
 				int adjacentCol = col;
 
-				switch (doorDirection) {
+				switch (doorDirection) { // define how to move on a board based on DoorDirections
 				case LEFT:
 					adjacentCol--;
 					break;
@@ -276,7 +273,7 @@ public class Board {
 	}
 
 	private boolean isValidCell(int row, int col) {
-		return row >= 0 && row < ROWS && col >= 0 && col < COLS;
+		return row >= 0 && row < totalBoardRows && col >= 0 && col < totalBoardCols;
 	}    
 
 	// Getter for each cell Object
@@ -329,9 +326,9 @@ public class Board {
 	}
 
 	public int getNumColumns() {
-		return COLS;
+		return totalBoardCols;
 	}
 	public int getNumRows() {
-		return ROWS;
+		return totalBoardRows;
 	}
 }
