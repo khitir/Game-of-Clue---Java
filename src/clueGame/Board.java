@@ -58,6 +58,13 @@ public class Board {
 		BufferedReader reader;
 		rooms = new HashMap<Character, Room>();
 		players = new HashMap<String, Player>();
+//		Player tempPlayer = new HumanPlayer("Name", "Color", false);
+//		players.put("Name", tempPlayer);
+//		players.put("Name2", tempPlayer);
+//		players.put("Name3", tempPlayer);
+//		for (String i : players.keySet()) {
+//			System.out.println(i);
+//		}
 		try {
 			in = new FileReader(txt_file);
 			reader = new BufferedReader(in);
