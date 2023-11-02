@@ -23,6 +23,7 @@ public class Board {
 	private Set<BoardCell> targets ;
 	private Set<BoardCell> visited;
 	private Map<Character, Room> rooms;
+	private Map<String, Player> players;
 
 	private static Board theInstance = new Board();
 
@@ -56,6 +57,7 @@ public class Board {
 		FileReader in;
 		BufferedReader reader;
 		rooms = new HashMap<Character, Room>();
+		players = new HashMap<String, Player>();
 		try {
 			in = new FileReader(txt_file);
 			reader = new BufferedReader(in);
@@ -330,5 +332,9 @@ public class Board {
 	}
 	public int getNumRows() {
 		return totalBoardRows;
+	}
+
+	public Map<String, Player> getPlayers() {
+		return players;
 	}
 }
