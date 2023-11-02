@@ -92,6 +92,9 @@ public class Board {
 						throw new BadConfigFormatException("Formatting for Players incorrect");
 					players.put(newPlayer.getName(), newPlayer);
 				}
+				else if (elements[0].equals("Player") && elements.length != 4) {
+					throw new BadConfigFormatException("Formatting for Players Incorrect, wrong number of elements");
+				}
 				else if (elements[0].charAt(0) != '/' && !elements[0].isEmpty()) // error case
 					throw new BadConfigFormatException("Invalid Initialization File");
 				tempLine = reader.readLine();

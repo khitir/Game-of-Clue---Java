@@ -1,11 +1,14 @@
 package tests;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.util.Map;
 
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
+import clueGame.BadConfigFormatException;
 import clueGame.Board;
 import clueGame.ComputerPlayer;
 import clueGame.HumanPlayer;
@@ -51,5 +54,15 @@ public class GameSetupTests extends TestCase {
 		}
 		assertEquals(5, numComputers);
 		assertEquals(1, numHumans);
+	}
+	
+	@Test
+	public void testPlayersBadInitialization() {
+		assertThrows(BadConfigFormatException.class, () -> {
+			board = Board.getInstance();
+			board.setConfigFiles("ClueLayout.csv", "ClueSetupBadPlayerFormat.txt");
+			board.loadSetupConfig();
+			board.loadLayoutConfig();
+		});
 	}
 }
