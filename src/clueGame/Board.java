@@ -73,12 +73,24 @@ public class Board {
 				String[] elements = tempLine.split(", ");
 				// If the line is not a comment or configured in the following format, throw an exception
 				// Room/Space, Name, Label
-				if (elements.length != 3 && elements[0].charAt(0) != '/') { // make sure we are looking at some object
+				for (String i : elements)
+					System.out.println(i);
+				if ((elements.length != 3 && elements.length != 4) && elements[0].charAt(0) != '/') { // make sure we are looking at some object
 					throw new BadConfigFormatException("Invalid Initialization File");
 				}
 				else if (elements[0].equals("Room") || elements[0].equals("Space")) { // if it's a room or space
 					Room tempRoom = new Room(elements[2].charAt(0), elements[1]);
 					rooms.put(elements[2].charAt(0), tempRoom);
+				}
+				else if (elements[0].equals("Player") && elements.length == 4) {
+					Player newPlayer;
+					if (elements[3].equals("Computer"))
+						newPlayer = new ComputerPlayer(elements[1], elements[2]);
+					else if (elements[3].equals("Human"))
+						newPlayer = new HumanPlayer(elements[1], elements[2]);
+					else
+						throw new BadConfigFormatException("Formatting for Players incorrect");
+					players.put(newPlayer.getName(), newPlayer);
 				}
 				else if (elements[0].charAt(0) != '/' && !elements[0].isEmpty()) // error case
 					throw new BadConfigFormatException("Invalid Initialization File");
