@@ -17,3 +17,9 @@ Player, Laith Haddad, Blue, Computer
 Player, Chuck Stone, Magenta, Computer
 Player, Pat Kohl, Green, Computer
 Player, Vince Kuo, Purple, Computer
+Weapon, Laser
+Weapon, Cs137
+Weapon, Chuck's bicycle
+Weapon, Dilution Refrigerator
+Weapon, Oscilloscope
+Weapon, Lead Block

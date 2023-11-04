@@ -24,6 +24,7 @@ public class Board {
 	private Set<BoardCell> visited;
 	private Map<Character, Room> rooms;
 	private Map<String, Player> players;
+	private Map<String, Card> cards; 
 
 	private static Board theInstance = new Board();
 
@@ -58,6 +59,7 @@ public class Board {
 		BufferedReader reader;
 		rooms = new HashMap<Character, Room>();
 		players = new HashMap<String, Player>();
+		cards = new HashMap<String, Card>();
 //		Player tempPlayer = new HumanPlayer("Name", "Color", false);
 //		players.put("Name", tempPlayer);
 //		players.put("Name2", tempPlayer);
