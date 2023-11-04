@@ -123,8 +123,17 @@ public class GameSetupTests extends TestCase {
 		assertEquals(gameSolution.getRoom().getType(), CardType.ROOM);
 		
 		Map<Card, Integer> peopleInSolution = new HashMap<Card, Integer>();
+		for (Card i : board.getPeopleCards()) {
+			peopleInSolution.put(i, 0);
+		}
 		Map<Card, Integer> roomsInSolution = new HashMap<Card, Integer>();
+		for (Card i : board.getRoomCards()) {
+			roomsInSolution.put(i, 0);
+		}
 		Map<Card, Integer> weaponsInSolution = new HashMap<Card, Integer>();
+		for (Card i : board.getWeaponCards()) {
+			weaponsInSolution.put(i, 0);
+		}
 		int numIterations = 1000;
 		for (int i = 0; i < numIterations; i++) {
 			board = Board.getInstance();
@@ -133,10 +142,10 @@ public class GameSetupTests extends TestCase {
 			Solution solution = board.getSolution();
 			Card person = solution.getPerson();
 			peopleInSolution.put(person, peopleInSolution.get(person)+1);
-			Card weapon = solution.getPerson();
-			weaponsInSolution.put(weapon, weaponsInSolution.get(person)+1);
-			Card room = solution.getPerson();
-			roomsInSolution.put(room, roomsInSolution.get(person)+1);
+			Card weapon = solution.getWeapon();
+			weaponsInSolution.put(weapon, weaponsInSolution.get(weapon)+1);
+			Card room = solution.getRoom();
+			roomsInSolution.put(room, roomsInSolution.get(room)+1);
 		}
 		for (Card temp : peopleInSolution.keySet()) {
 			assertTrue((numIterations/board.getNumPersonCards()*2) > peopleInSolution.get(temp));

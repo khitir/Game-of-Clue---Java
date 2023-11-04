@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 /*
@@ -25,7 +26,7 @@ public class Board {
 	private Map<Character, Room> rooms;
 	private Map<String, Player> players;
 	private Map<String, Card> cards; 
-	private int numPersonCards = 0, numWeaponCards = 0, numRoomCards = 0;
+	private int numPersonCards, numWeaponCards, numRoomCards;
 	private ArrayList<Card> peopleCards, roomCards, weaponCards;
 	private Solution gameSolution;
 
@@ -66,6 +67,9 @@ public class Board {
 		peopleCards = new ArrayList<Card>();
 		roomCards = new ArrayList<Card>();
 		weaponCards = new ArrayList<Card>();
+		numPersonCards = 0;
+		numRoomCards = 0;
+		numWeaponCards = 0;
 //		Player tempPlayer = new HumanPlayer("Name", "Color", false);
 //		players.put("Name", tempPlayer);
 //		players.put("Name2", tempPlayer);
@@ -94,6 +98,7 @@ public class Board {
 					cardRoom.setType(CardType.ROOM);
 					cards.put(elements[1], cardRoom);
 					numRoomCards++;
+					roomCards.add(cardRoom);
 				}
 				else if (elements[0].equals("Space") && elements.length == 3){
 					Room tempRoom = new Room(elements[2].charAt(0), elements[1]);
@@ -105,6 +110,7 @@ public class Board {
 					cardWeapon.setType(CardType.WEAPON);
 					cards.put(elements[1], cardWeapon);
 					numWeaponCards++;
+					weaponCards.add(cardWeapon);
 				}
 				
 				
@@ -122,6 +128,7 @@ public class Board {
 					cardPerson.setType(CardType.PERSON);
 					cards.put(elements[1], cardPerson);
 					numPersonCards++;
+					peopleCards.add(cardPerson);
 				}
 				else if (elements[0].equals("Room") && elements.length != 3) {
 					throw new BadConfigFormatException("Formatting for rooms incorrect, wrong number of elements");
@@ -142,11 +149,16 @@ public class Board {
 			reader.close();
 			in.close();
 			
-			Card tempCard1 = new Card("Card1");
-			Card tempCard2 = new Card("Card2");
-			Card tempCard3 = new Card("Card3");
+			// random number generation
+			Random rand = new Random();
+			int num = rand.nextInt(numPersonCards);
+			Card solutionPerson = peopleCards.get(num);
+			num = rand.nextInt(numWeaponCards);
+			Card solutionWeapon = weaponCards.get(num);
+			num = rand.nextInt(numRoomCards);
+			Card solutionRoom = roomCards.get(num);
 			
-			gameSolution = new Solution(tempCard1, tempCard2, tempCard3);
+			gameSolution = new Solution(solutionRoom, solutionPerson, solutionWeapon);
 		} catch (IOException e) { // throw exception
 			e.printStackTrace();
 		} 
