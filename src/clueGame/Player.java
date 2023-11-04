@@ -1,11 +1,15 @@
 package clueGame;
 
+import java.util.Set;
+
 public abstract class Player {
 	private String name;
 	private String color;
 	private int row, column;
 	private boolean isComputer;
 	private boolean isHuman;
+	
+	private Set<Card> cards2; // set of cards for each player 
 	
 	public Player(String name, String color, boolean isComputer) {
 		this.name = name;

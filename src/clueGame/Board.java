@@ -83,7 +83,20 @@ public class Board {
 				else if (elements[0].equals("Room") || elements[0].equals("Space")) { // if it's a room or space
 					Room tempRoom = new Room(elements[2].charAt(0), elements[1]);
 					rooms.put(elements[2].charAt(0), tempRoom);
+					
+					Card cardRoom = new Card(elements[1]); // create room card and set it's type**
+					cardRoom.setType(CardType.ROOM);
+					cards.put(elements[1], cardRoom);
+					
 				}
+				
+				else if (elements[0].equals("Weapon") && elements.length == 2) { // load weapon cards
+					Card cardWeapon = new Card(elements[1]); // create room card and set it's type**
+					cardWeapon.setType(CardType.WEAPON);
+					cards.put(elements[1], cardWeapon);
+				}
+				
+				
 				else if (elements[0].equals("Player") && elements.length == 4) {
 					Player newPlayer;
 					if (elements[3].equals("Computer"))
@@ -93,9 +106,16 @@ public class Board {
 					else
 						throw new BadConfigFormatException("Formatting for Players incorrect");
 					players.put(newPlayer.getName(), newPlayer);
+					
+					Card cardPerson = new Card(elements[1]); // create room card and set it's type **
+					cardPerson.setType(CardType.PERSON);
+					cards.put(elements[1], cardPerson);
 				}
 				else if (elements[0].equals("Player") && elements.length != 4) {
 					throw new BadConfigFormatException("Formatting for Players Incorrect, wrong number of elements");
+				}
+				else if (elements[0].equals("Weapon") && elements.length != 2) {
+					throw new BadConfigFormatException("Formatting for Weapons Incorrect, wrong number of elements");
 				}
 				else if (elements[0].charAt(0) != '/' && !elements[0].isEmpty()) // error case
 					throw new BadConfigFormatException("Invalid Initialization File");

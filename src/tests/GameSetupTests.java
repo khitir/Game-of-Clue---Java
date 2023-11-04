@@ -65,4 +65,27 @@ public class GameSetupTests extends TestCase {
 			board.loadLayoutConfig();
 		});
 	}
+	
+	
+	
+	
+	
+	@Test
+	public void testCardDeckCreated() {
+	//	Card card1 = new Card("a","b");
+	}
+	
+	
+	@Test
+	public void SolutionDealt() {
+		
+	}
+	
+	@Test
+	public void testPlayerCardsDealt() {
+		
+	}
+	
+	
+	
 }
