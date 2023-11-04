@@ -34,14 +34,11 @@ public class Card {
 	    if (this == obj) {
 	        return true;  // Same object reference
 	    }
-
-	    if (obj == null || getClass() != obj.getClass()) {
+	    else if (obj == null || this.getClass() != obj.getClass()) {
 	        return false;  // Not the same class or null
 	    }
-
 	    Card otherCard = (Card) obj;
-
-	    return this.cardName.equals(otherCard.cardName); //&& (this.getType() == otherCard.type); fix later on
+	    return (this.cardName.equals(otherCard.cardName) && (this.type == otherCard.getType())); // fix later on
 
 	}
 	

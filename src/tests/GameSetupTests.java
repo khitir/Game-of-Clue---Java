@@ -70,10 +70,6 @@ public class GameSetupTests extends TestCase {
 		});
 	}
 	
-	
-	
-	
-	
 	@Test
 	public void testCardEqualsMethodWorks() {
 		Card cardRoom = new Card("spades");
@@ -81,7 +77,13 @@ public class GameSetupTests extends TestCase {
 		
 		Card cardPerson = new Card("spades");
 		cardRoom.setType(CardType.ROOM);
-		assertEquals(cardRoom,cardPerson);
+		assertFalse(cardRoom.equals(cardPerson));
+		assertFalse(cardPerson.equals(cardRoom));
+		
+		Card cardRoom2 = new Card("spades");
+		cardRoom2.setType(CardType.ROOM);
+		assertTrue(cardRoom.equals(cardRoom2));
+		assertTrue(cardRoom2.equals(cardRoom));
 		//boolean exists = cards.containsKey("Card2"); // Checks if a card with the name "Card2" exists in the map
 	}
 	
@@ -90,11 +92,6 @@ public class GameSetupTests extends TestCase {
 		board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
 		board.initialize();
-
-//		Card Laser = new Card("Laser");
-//		Map<String, Card> cards = board.getCards();
-//		assertTrue(cards.get("Laser").equals(Laser));
-		
 
 		Map<String, Card> deck = board.getCards();
 		int numPersonCards = 0, numRoomCards = 0, numWeaponCards = 0;
@@ -112,6 +109,10 @@ public class GameSetupTests extends TestCase {
 		assertEquals(board.getNumRoomCards(), numRoomCards);
 		assertEquals(board.getNumPersonCards(), numPersonCards);
 		assertEquals(board.getNumWeaponCards(), numWeaponCards);
+		
+		for (String i : deck.keySet()) {
+			assertTrue(board.getPeopleCards().contains(deck.get(i)) || board.getWeaponCards().contains(deck.get(i)) || board.getRoomCards().contains(deck.get(i)));
+		}
 
 	}
 	
