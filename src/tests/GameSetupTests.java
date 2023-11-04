@@ -2,6 +2,7 @@ package tests;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
@@ -15,6 +16,7 @@ import clueGame.CardType;
 import clueGame.ComputerPlayer;
 import clueGame.HumanPlayer;
 import clueGame.Player;
+import clueGame.Solution;
 import junit.framework.TestCase;
 
 public class GameSetupTests extends TestCase {
@@ -88,17 +90,82 @@ public class GameSetupTests extends TestCase {
 		board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
 		board.initialize();
-		Card Laser = new Card("Laser");
-		Map<String, Card> cards = board.getCards();
-		assertTrue(cards.get("Laser").equals(Laser));
+
+//		Card Laser = new Card("Laser");
+//		Map<String, Card> cards = board.getCards();
+//		assertTrue(cards.get("Laser").equals(Laser));
 		
-		
+
+		Map<String, Card> deck = board.getCards();
+		int numPersonCards = 0, numRoomCards = 0, numWeaponCards = 0;
+		for (String i : deck.keySet()) {
+			if (deck.get(i).getType().equals(CardType.PERSON)) {
+				numPersonCards++;
+			}
+			else if (deck.get(i).getType().equals(CardType.WEAPON)) {
+				numWeaponCards++;
+			}
+			else if (deck.get(i).getType().equals(CardType.ROOM)) {
+				numRoomCards++;
+			}
+		}
+		assertEquals(board.getNumRoomCards(), numRoomCards);
+		assertEquals(board.getNumPersonCards(), numPersonCards);
+		assertEquals(board.getNumWeaponCards(), numWeaponCards);
+
 	}
 	
 	
 	@Test
-	public void SolutionDealt() {
+	public void testSolutionDealt() {
+		board = Board.getInstance();
+		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
+		board.initialize();
+		Solution gameSolution = board.getSolution();
+		assertNotNull(gameSolution.getPerson());
+		assertNotNull(gameSolution.getRoom());
+		assertNotNull(gameSolution.getWeapon());
+		assertEquals(gameSolution.getPerson().getType(), CardType.PERSON);
+		assertEquals(gameSolution.getWeapon().getType(), CardType.WEAPON);
+		assertEquals(gameSolution.getRoom().getType(), CardType.ROOM);
 		
+		Map<Card, Integer> peopleInSolution = new HashMap<Card, Integer>();
+		for (Card i : board.getPeopleCards()) {
+			peopleInSolution.put(i, 0);
+		}
+		Map<Card, Integer> roomsInSolution = new HashMap<Card, Integer>();
+		for (Card i : board.getRoomCards()) {
+			roomsInSolution.put(i, 0);
+		}
+		Map<Card, Integer> weaponsInSolution = new HashMap<Card, Integer>();
+		for (Card i : board.getWeaponCards()) {
+			weaponsInSolution.put(i, 0);
+		}
+		int numIterations = 1000;
+		for (int i = 0; i < numIterations; i++) {
+			board = Board.getInstance();
+			board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
+			board.initialize();
+			Solution solution = board.getSolution();
+			Card person = solution.getPerson();
+			peopleInSolution.put(person, peopleInSolution.get(person)+1);
+			Card weapon = solution.getWeapon();
+			weaponsInSolution.put(weapon, weaponsInSolution.get(weapon)+1);
+			Card room = solution.getRoom();
+			roomsInSolution.put(room, roomsInSolution.get(room)+1);
+		}
+		for (Card temp : peopleInSolution.keySet()) {
+			assertTrue((numIterations/board.getNumPersonCards()*2) > peopleInSolution.get(temp));
+			assertTrue((numIterations/board.getNumPersonCards()/10) < peopleInSolution.get(temp));
+		}
+		for (Card temp : weaponsInSolution.keySet()) {
+			assertTrue((numIterations/board.getNumWeaponCards()*2) > weaponsInSolution.get(temp));
+			assertTrue((numIterations/board.getNumWeaponCards()/10) < weaponsInSolution.get(temp));
+		}
+		for (Card temp : roomsInSolution.keySet()) {
+			assertTrue((numIterations/board.getNumRoomCards()*2) > roomsInSolution.get(temp));
+			assertTrue((numIterations/board.getNumRoomCards()/10) < roomsInSolution.get(temp));
+		}
 	}
 	
 	@Test
