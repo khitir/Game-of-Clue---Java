@@ -40,7 +40,7 @@ public class Card {
 	    }
 
 	    Card otherCard = (Card) obj;
-	    return this.cardName.equals(otherCard.cardName);
+	    return (this.cardName.equals(otherCard.cardName) && this.type.equals(otherCard.type));
 	}
 
 

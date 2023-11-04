@@ -85,8 +85,25 @@ public class GameSetupTests extends TestCase {
 	
 	@Test
 	public void testCardDeckCreated() {
-
-
+		board = Board.getInstance();
+		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
+		board.initialize();
+		Map<String, Card> deck = board.getCards();
+		int numPersonCards = 0, numRoomCards = 0, numWeaponCards = 0;
+		for (String i : deck.keySet()) {
+			if (deck.get(i).getType().equals(CardType.PERSON)) {
+				numPersonCards++;
+			}
+			else if (deck.get(i).getType().equals(CardType.WEAPON)) {
+				numWeaponCards++;
+			}
+			else if (deck.get(i).getType().equals(CardType.ROOM)) {
+				numRoomCards++;
+			}
+		}
+		assertEquals(board.getNumRoomCards(), numRoomCards);
+		assertEquals(board.getNumPersonCards(), numPersonCards);
+		assertEquals(board.getNumWeaponCards(), numWeaponCards);
 	}
 	
 	
