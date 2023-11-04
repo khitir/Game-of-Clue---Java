@@ -78,15 +78,21 @@ public class GameSetupTests extends TestCase {
 		cardRoom.setType(CardType.ROOM);
 		
 		Card cardPerson = new Card("spades");
-		cardRoom.setType(CardType.PERSON);
+		cardRoom.setType(CardType.ROOM);
 		assertEquals(cardRoom,cardPerson);
 		//boolean exists = cards.containsKey("Card2"); // Checks if a card with the name "Card2" exists in the map
 	}
 	
 	@Test
 	public void testCardDeckCreated() {
-
-
+		board = Board.getInstance();
+		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
+		board.initialize();
+		Card Laser = new Card("Laser");
+		Map<String, Card> cards = board.getCards();
+		assertTrue(cards.get("Laser").equals(Laser));
+		
+		
 	}
 	
 	

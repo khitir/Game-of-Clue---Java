@@ -17,6 +17,8 @@ import java.util.Set;
 
 public class Board {
 
+
+
 	private int totalBoardCols = 0;
 	private int totalBoardRows = 0;
 	private BoardCell[][] grid;
@@ -381,4 +383,13 @@ public class Board {
 	public Map<String, Player> getPlayers() {
 		return players;
 	}
+	
+	public Map<String, Card> getCards() {
+		return cards;
+	}
+
+	public void setCards(Map<String, Card> cards) {
+		this.cards = cards;
+	}
+	
 }
