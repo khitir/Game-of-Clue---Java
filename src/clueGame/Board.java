@@ -26,6 +26,8 @@ public class Board {
 	private Map<String, Player> players;
 	private Map<String, Card> cards; 
 	private int numPersonCards = 0, numWeaponCards = 0, numRoomCards = 0;
+	private ArrayList<Card> peopleCards, roomCards, weaponCards;
+	private Solution gameSolution;
 
 	private static Board theInstance = new Board();
 
@@ -61,6 +63,9 @@ public class Board {
 		rooms = new HashMap<Character, Room>();
 		players = new HashMap<String, Player>();
 		cards = new HashMap<String, Card>();
+		peopleCards = new ArrayList<Card>();
+		roomCards = new ArrayList<Card>();
+		weaponCards = new ArrayList<Card>();
 //		Player tempPlayer = new HumanPlayer("Name", "Color", false);
 //		players.put("Name", tempPlayer);
 //		players.put("Name2", tempPlayer);
@@ -136,6 +141,12 @@ public class Board {
 			}
 			reader.close();
 			in.close();
+			
+			Card tempCard1 = new Card("Card1");
+			Card tempCard2 = new Card("Card2");
+			Card tempCard3 = new Card("Card3");
+			
+			gameSolution = new Solution(tempCard1, tempCard2, tempCard3);
 		} catch (IOException e) { // throw exception
 			e.printStackTrace();
 		} 
@@ -409,5 +420,21 @@ public class Board {
 
 	public int getNumRoomCards() {
 		return numRoomCards;
+	}
+
+	public ArrayList<Card> getPeopleCards() {
+		return peopleCards;
+	}
+
+	public ArrayList<Card> getRoomCards() {
+		return roomCards;
+	}
+
+	public ArrayList<Card> getWeaponCards() {
+		return weaponCards;
+	}
+
+	public Solution getSolution() {
+		return gameSolution;
 	}
 }
