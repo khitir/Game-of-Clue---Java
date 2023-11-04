@@ -10,6 +10,8 @@ import org.junit.jupiter.api.BeforeEach;
 
 import clueGame.BadConfigFormatException;
 import clueGame.Board;
+import clueGame.Card;
+import clueGame.CardType;
 import clueGame.ComputerPlayer;
 import clueGame.HumanPlayer;
 import clueGame.Player;
@@ -18,12 +20,12 @@ import junit.framework.TestCase;
 public class GameSetupTests extends TestCase {
 	Board board;
 
-//	@BeforeAll
-//	public void setup() {
-//		board = Board.getInstance();
-//		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
-//		board.initialize();
-//	}
+	@BeforeAll
+	public void setup() {
+		board = Board.getInstance();
+		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
+		board.initialize();
+	}
 
 	@Test
 	public void testPlayer() {
@@ -71,8 +73,20 @@ public class GameSetupTests extends TestCase {
 	
 	
 	@Test
+	public void testCardEqualsMethodWorks() {
+		Card cardRoom = new Card("spades");
+		cardRoom.setType(CardType.ROOM);
+		
+		Card cardPerson = new Card("spades");
+		cardRoom.setType(CardType.PERSON);
+		assertEquals(cardRoom,cardPerson);
+		//boolean exists = cards.containsKey("Card2"); // Checks if a card with the name "Card2" exists in the map
+	}
+	
+	@Test
 	public void testCardDeckCreated() {
-	//	Card card1 = new Card("a","b");
+
+
 	}
 	
 	

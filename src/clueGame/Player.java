@@ -9,7 +9,7 @@ public abstract class Player {
 	private boolean isComputer;
 	private boolean isHuman;
 	
-	private Set<Card> cards2; // set of cards for each player 
+	private Set<Card> cards; // set of cards for each player 
 	
 	public Player(String name, String color, boolean isComputer) {
 		this.name = name;
