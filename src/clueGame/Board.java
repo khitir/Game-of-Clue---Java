@@ -28,6 +28,13 @@ public class Board {
 	private Map<Character, Room> rooms;
 	private Map<String, Player> players;
 	private Map<String, Card> cards; 
+	ArrayList<Player> playerList = new ArrayList<Player>();
+	ArrayList<Card> cardList = new ArrayList<Card>();
+	
+
+	
+	
+	
 	private int numPersonCards, numWeaponCards, numRoomCards;
 	private ArrayList<Card> peopleCards, roomCards, weaponCards;
 	private Solution gameSolution;
@@ -69,9 +76,12 @@ public class Board {
 		peopleCards = new ArrayList<Card>();
 		roomCards = new ArrayList<Card>();
 		weaponCards = new ArrayList<Card>();
+		playerList = new ArrayList<Player>();
+		cardList = new ArrayList<Card>();
 		numPersonCards = 0;
 		numRoomCards = 0;
 		numWeaponCards = 0;
+		
 //		Player tempPlayer = new HumanPlayer("Name", "Color", false);
 //		players.put("Name", tempPlayer);
 //		players.put("Name2", tempPlayer);
@@ -101,6 +111,7 @@ public class Board {
 					cards.put(elements[1], cardRoom);
 					numRoomCards++;
 					roomCards.add(cardRoom);
+					cardList.add(cardRoom);
 				}
 				else if (elements[0].equals("Space") && elements.length == 3){
 					Room tempRoom = new Room(elements[2].charAt(0), elements[1]);
@@ -113,6 +124,7 @@ public class Board {
 					cards.put(elements[1], cardWeapon);
 					numWeaponCards++;
 					weaponCards.add(cardWeapon);
+					cardList.add(cardWeapon);
 				}
 				
 				
@@ -125,12 +137,14 @@ public class Board {
 					else
 						throw new BadConfigFormatException("Formatting for Players incorrect");
 					players.put(newPlayer.getName(), newPlayer);
+					playerList.add(newPlayer);
 					
 					Card cardPerson = new Card(elements[1]); // create room card and set it's type **
 					cardPerson.setType(CardType.PERSON);
 					cards.put(elements[1], cardPerson);
 					numPersonCards++;
 					peopleCards.add(cardPerson);
+					cardList.add(cardPerson);
 				}
 				else if (elements[0].equals("Room") && elements.length != 3) {
 					throw new BadConfigFormatException("Formatting for rooms incorrect, wrong number of elements");
@@ -164,6 +178,14 @@ public class Board {
 		} catch (IOException e) { // throw exception
 			e.printStackTrace();
 		} 
+		
+		int num = playerList.size();
+		
+		Random rand = new Random();
+		int n = rand.nextInt(playerList.size());
+		while (int i=0; i<playerList.size) {
+			players.
+		}
 	}
 
 	// Loads the .csv file for the board layout
