@@ -22,14 +22,8 @@ import junit.framework.TestCase;
 public class GameSetupTests extends TestCase {
 	Board board;
 
-	@BeforeAll
-	public void setup() {
-		board = Board.getInstance();
-		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
-		board.initialize();
-	}
-
 	@Test
+	// This function tests that players can be created correctly, and can share their information correctly
 	public void testPlayer() {
 		Player player1 = new HumanPlayer("General Mustard", "Yellow");
 		assertEquals(player1.getName(), "General Mustard");
@@ -42,6 +36,7 @@ public class GameSetupTests extends TestCase {
 	}
 
 	@Test
+	// This function tests that, using our initialization file, 5 computer players are created and 1 human player is created
 	public void testPlayersInitialized() {
 		board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
@@ -61,6 +56,7 @@ public class GameSetupTests extends TestCase {
 	}
 	
 	@Test
+	// This function uses a bad initialization file to make sure it is caught during initialization
 	public void testPlayersBadInitialization() {
 		assertThrows(BadConfigFormatException.class, () -> {
 			board = Board.getInstance();
@@ -71,6 +67,7 @@ public class GameSetupTests extends TestCase {
 	}
 	
 	@Test
+	// This function tests to make sure we can check if two card are equivalent, even if they are 2 separate instances
 	public void testCardEqualsMethodWorks() {
 		Card cardRoom = new Card("spades");
 		cardRoom.setType(CardType.ROOM);
@@ -88,11 +85,13 @@ public class GameSetupTests extends TestCase {
 	}
 	
 	@Test
+	// This function tests that the card deck is initialized correctly
 	public void testCardDeckCreated() {
 		board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
 		board.initialize();
-
+		
+		// Make sure the number of cards created matches up with what it should be
 		Map<String, Card> deck = board.getCards();
 		int numPersonCards = 0, numRoomCards = 0, numWeaponCards = 0;
 		for (String i : deck.keySet()) {
@@ -110,6 +109,7 @@ public class GameSetupTests extends TestCase {
 		assertEquals(board.getNumPersonCards(), numPersonCards);
 		assertEquals(board.getNumWeaponCards(), numWeaponCards);
 		
+		// Checks that any card in our deck is one that is reflected in board
 		for (String i : deck.keySet()) {
 			assertTrue(board.getPeopleCards().contains(deck.get(i)) || board.getWeaponCards().contains(deck.get(i)) || board.getRoomCards().contains(deck.get(i)));
 		}
@@ -118,11 +118,13 @@ public class GameSetupTests extends TestCase {
 	
 	
 	@Test
+	// This function checks to make sure our solution is created correctly during initialization
 	public void testSolutionDealt() {
 		board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
 		board.initialize();
 		Solution gameSolution = board.getSolution();
+		// Make sure one weapon, one room, and one person is selected
 		assertNotNull(gameSolution.getPerson());
 		assertNotNull(gameSolution.getRoom());
 		assertNotNull(gameSolution.getWeapon());
@@ -142,6 +144,7 @@ public class GameSetupTests extends TestCase {
 		for (Card i : board.getWeaponCards()) {
 			weaponsInSolution.put(i, 0);
 		}
+		//  Create a solution 1000 times to check statistics of each creation
 		int numIterations = 1000;
 		for (int i = 0; i < numIterations; i++) {
 			board = Board.getInstance();
@@ -155,6 +158,7 @@ public class GameSetupTests extends TestCase {
 			Card room = solution.getRoom();
 			roomsInSolution.put(room, roomsInSolution.get(room)+1);
 		}
+		// Check that each player, room, and weapon is in the solution a statistically sound number of times
 		for (Card temp : peopleInSolution.keySet()) {
 			assertTrue((numIterations/board.getNumPersonCards()*2) > peopleInSolution.get(temp));
 			assertTrue((numIterations/board.getNumPersonCards()/10) < peopleInSolution.get(temp));
@@ -170,8 +174,34 @@ public class GameSetupTests extends TestCase {
 	}
 	
 	@Test
+	// This function checks to make sure that each player is dealt cards correctly
 	public void testPlayerCardsDealt() {
+		board = Board.getInstance();
+		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
+		board.initialize();
 		
+		// Check that the correct number of cards were dealt among all the players
+		int numCards = board.getCards().size();
+		int numDealt = 0;
+		Map<String, Player> players = board.getPlayers();
+		for (String i : players.keySet()) {
+			numDealt += players.get(i).getCards().size();
+			assertTrue(players.get(i).getCards().size() >= (board.getCards().size()/board.getNumPersonCards()));
+			assertTrue(players.get(i).getCards().size() <= (board.getCards().size()/board.getNumPersonCards() + 1));
+		}
+		assertEquals(numCards, numDealt);
+		
+		for (String name : players.keySet()) {
+			Player tempPlayer = players.get(name);
+			for (String card : tempPlayer.getCards().keySet()) {
+				for (String otherPlayer : players.keySet()) {
+					if (otherPlayer.equals(name))
+						continue;
+					assertFalse(players.get(otherPlayer).getCards().containsKey(card));
+				}
+			}
+			
+		}
 	}
 	
 	

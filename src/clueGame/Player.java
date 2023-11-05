@@ -38,4 +38,8 @@ public abstract class Player {
 	public boolean isHuman() {
 		return isHuman;
 	}
+
+	public Map<String, Card> getCards() {
+		return cards;
+	}
 }
