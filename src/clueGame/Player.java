@@ -21,6 +21,10 @@ public abstract class Player {
 		cards = new HashMap<String, Card>(); 
 	}
 	
+	public void deal(Card card) {
+		cards.put(card.getCardName(), card);
+	}
+	
 	public abstract void updateHand(Card card);
 	
 	public String getName() {

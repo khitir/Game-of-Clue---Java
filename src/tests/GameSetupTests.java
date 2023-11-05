@@ -2,6 +2,7 @@ package tests;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,11 +42,10 @@ public class GameSetupTests extends TestCase {
 		board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
 		board.initialize();
-		Map<String, Player> players = board.getPlayers();
+		ArrayList<Player> players = board.getPlayers();
 		int numComputers = 0, numHumans = 0;
-		for (String name : players.keySet()) {
-			Player tempPlayer = players.get(name);
-			assertEquals(name, tempPlayer.getName());
+		for (Player tempPlayer : players) {
+			assertEquals(tempPlayer.getName(), tempPlayer.getName());
 			if (tempPlayer.isComputer()) {
 				numComputers++;
 			} else if (tempPlayer.isHuman())
@@ -182,28 +182,26 @@ public class GameSetupTests extends TestCase {
 		
 		// Check that the correct number of cards were dealt among all the players
 		int numCards = board.getCards().size();
+		System.out.println(numCards);
 		int numDealt = 0;
-		Map<String, Player> players = board.getPlayers();
-		for (String i : players.keySet()) {
-			numDealt += players.get(i).getCards().size();
-			assertTrue(players.get(i).getCards().size() >= (board.getCards().size()/board.getNumPersonCards()));
-			assertTrue(players.get(i).getCards().size() <= (board.getCards().size()/board.getNumPersonCards() + 1));
+		ArrayList<Player> players = board.getPlayers();
+		for (Player tempPlayer : players) {
+			numDealt += tempPlayer.getCards().size();
+			assertTrue(tempPlayer.getCards().size() >= (board.getCards().size()/board.getNumPersonCards()));
+			assertTrue(tempPlayer.getCards().size() <= (board.getCards().size()/board.getNumPersonCards() + 1));
 		}
 		assertEquals(numCards, numDealt);
 		
-		for (String name : players.keySet()) {
-			Player tempPlayer = players.get(name);
+		// Check that each card doesn't match a card in any other player's hand
+		for (Player tempPlayer : players) {
 			for (String card : tempPlayer.getCards().keySet()) {
-				for (String otherPlayer : players.keySet()) {
-					if (otherPlayer.equals(name))
+				for (Player otherPlayer : players) {
+					if (otherPlayer.getName().equals(tempPlayer.getName()))
 						continue;
-					assertFalse(players.get(otherPlayer).getCards().containsKey(card));
+					assertFalse(otherPlayer.getCards().containsKey(card));
 				}
 			}
 			
 		}
 	}
-	
-	
-	
 }

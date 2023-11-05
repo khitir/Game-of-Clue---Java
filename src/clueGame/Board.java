@@ -18,22 +18,16 @@ import java.util.Set;
 
 public class Board {
 
-
-
 	private int totalBoardCols = 0;
 	private int totalBoardRows = 0;
 	private BoardCell[][] grid;
 	private Set<BoardCell> targets ;
 	private Set<BoardCell> visited;
 	private Map<Character, Room> rooms;
-	private Map<String, Player> players;
+	private ArrayList<Player> players;
 	private Map<String, Card> cards; 
-	ArrayList<Player> playerList = new ArrayList<Player>();
-	ArrayList<Card> cardList = new ArrayList<Card>();
-	
-
-	
-	
+	Set<Player> playerList;
+	ArrayList<Card> cardList;
 	
 	private int numPersonCards, numWeaponCards, numRoomCards;
 	private ArrayList<Card> peopleCards, roomCards, weaponCards;
@@ -71,24 +65,17 @@ public class Board {
 		FileReader in;
 		BufferedReader reader;
 		rooms = new HashMap<Character, Room>();
-		players = new HashMap<String, Player>();
+		players = new ArrayList<Player>();
 		cards = new HashMap<String, Card>();
 		peopleCards = new ArrayList<Card>();
 		roomCards = new ArrayList<Card>();
 		weaponCards = new ArrayList<Card>();
-		playerList = new ArrayList<Player>();
+		playerList = new HashSet<Player>();
 		cardList = new ArrayList<Card>();
 		numPersonCards = 0;
 		numRoomCards = 0;
 		numWeaponCards = 0;
-		
-//		Player tempPlayer = new HumanPlayer("Name", "Color", false);
-//		players.put("Name", tempPlayer);
-//		players.put("Name2", tempPlayer);
-//		players.put("Name3", tempPlayer);
-//		for (String i : players.keySet()) {
-//			System.out.println(i);
-//		}
+
 		try {
 			in = new FileReader(txt_file);
 			reader = new BufferedReader(in);
@@ -97,11 +84,6 @@ public class Board {
 				String[] elements = tempLine.split(", ");
 				// If the line is not a comment or configured in the following format, throw an exception
 				// Room/Space, Name, Label
-//				for (String i : elements)
-//					System.out.println(i);
-//				if (elements.length != 3 && elements.length != 4 && elements[0].charAt(0) != '/') { // make sure we are looking at some object
-//					throw new BadConfigFormatException("Invalid Initialization File");
-//				}
 				if (elements[0].equals("Room") && elements.length == 3) { // if it's a room
 					Room tempRoom = new Room(elements[2].charAt(0), elements[1]);
 					rooms.put(elements[2].charAt(0), tempRoom);
@@ -111,7 +93,6 @@ public class Board {
 					cards.put(elements[1], cardRoom);
 					numRoomCards++;
 					roomCards.add(cardRoom);
-					cardList.add(cardRoom);
 				}
 				else if (elements[0].equals("Space") && elements.length == 3){
 					Room tempRoom = new Room(elements[2].charAt(0), elements[1]);
@@ -124,7 +105,6 @@ public class Board {
 					cards.put(elements[1], cardWeapon);
 					numWeaponCards++;
 					weaponCards.add(cardWeapon);
-					cardList.add(cardWeapon);
 				}
 				
 				
@@ -136,7 +116,7 @@ public class Board {
 						newPlayer = new HumanPlayer(elements[1], elements[2]);
 					else
 						throw new BadConfigFormatException("Formatting for Players incorrect");
-					players.put(newPlayer.getName(), newPlayer);
+					players.add(newPlayer);
 					playerList.add(newPlayer);
 					
 					Card cardPerson = new Card(elements[1]); // create room card and set it's type **
@@ -144,7 +124,6 @@ public class Board {
 					cards.put(elements[1], cardPerson);
 					numPersonCards++;
 					peopleCards.add(cardPerson);
-					cardList.add(cardPerson);
 				}
 				else if (elements[0].equals("Room") && elements.length != 3) {
 					throw new BadConfigFormatException("Formatting for rooms incorrect, wrong number of elements");
@@ -164,27 +143,36 @@ public class Board {
 			}
 			reader.close();
 			in.close();
-			
-			// random number generation
-			Random rand = new Random();
-			int num = rand.nextInt(numPersonCards);
-			Card solutionPerson = peopleCards.get(num);
-			num = rand.nextInt(numWeaponCards);
-			Card solutionWeapon = weaponCards.get(num);
-			num = rand.nextInt(numRoomCards);
-			Card solutionRoom = roomCards.get(num);
-			
-			gameSolution = new Solution(solutionRoom, solutionPerson, solutionWeapon);
 		} catch (IOException e) { // throw exception
 			e.printStackTrace();
 		} 
-		
-		int num = playerList.size();
-		
+
+		// Randomly generate a solution
 		Random rand = new Random();
-		int n = rand.nextInt(playerList.size());
-		while (int i=0; i<playerList.size) {
-			players.
+		int num = rand.nextInt(numPersonCards);
+		Card solutionPerson = peopleCards.get(num);
+		num = rand.nextInt(numWeaponCards);
+		Card solutionWeapon = weaponCards.get(num);
+		num = rand.nextInt(numRoomCards);
+		Card solutionRoom = roomCards.get(num);
+		
+		gameSolution = new Solution(solutionRoom, solutionPerson, solutionWeapon);
+		
+		
+		// Copy the deck into an ArrayList
+		for (String i : cards.keySet()) {
+			cardList.add(cards.get(i));
+		}
+		// Deal cards to each player in turn
+		int playerIndex = rand.nextInt(numPersonCards);
+		while (cardList.size() > 0) {
+			if (playerIndex == numPersonCards) {
+				playerIndex = 0;
+			}
+			int cardNum = rand.nextInt(cardList.size());
+			players.get(playerIndex).deal(cardList.get(cardNum));
+			cardList.remove(cardNum);
+			playerIndex++;
 		}
 	}
 
@@ -438,7 +426,7 @@ public class Board {
 		return totalBoardRows;
 	}
 
-	public Map<String, Player> getPlayers() {
+	public ArrayList<Player> getPlayers() {
 		return players;
 	}
 	

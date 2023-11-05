@@ -6,7 +6,6 @@ public class Card {
 	
 	public Card(String cardName) {
 		this.cardName = cardName;
-		//this.type = type;
 	}
 	
 	
@@ -41,9 +40,6 @@ public class Card {
 	    return (this.cardName.equals(otherCard.cardName) && (this.type == otherCard.getType())); // fix later on
 
 	}
-	
-
-
 
 	@Override
     public int hashCode() {
