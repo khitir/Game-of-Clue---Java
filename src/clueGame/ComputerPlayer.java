@@ -11,6 +11,7 @@ public class ComputerPlayer extends Player {
 	private ArrayList<Card> playersNotSeen;
 	private ArrayList<Card> weaponsNotSeen;
 	Card lastPersonUnseen, lastWeaponUnseen;
+	int row, col;
 
 	public ComputerPlayer(String name, String color) {
 		super(name, color, true);
@@ -104,6 +105,15 @@ public class ComputerPlayer extends Player {
 		for (Card card : peopleCards) {
 			roomsNotSeen.add(card);
 		}
+	}
+
+	public void setLocation(int i, int j) {
+		this.row = i;
+		this.col = j;
+	}
+
+	public BoardCell pickTarget(Set<BoardCell> adjList) {
+		return new BoardCell(0, 0);
 	}
 
 }

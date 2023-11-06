@@ -25,10 +25,10 @@ public class Board {
 	private Set<BoardCell> visited;
 	private Map<Character, Room> rooms;
 	private ArrayList<Player> players;
-	private Map<String, Card> cards; 
+	private Map<String, Card> cards;
 	Set<Player> playerList;
 	ArrayList<Card> cardList;
-	
+
 	private int numPersonCards, numWeaponCards, numRoomCards;
 	private ArrayList<Card> peopleCards, roomCards, weaponCards;
 	private Solution gameSolution;
@@ -36,8 +36,8 @@ public class Board {
 	private static Board theInstance = new Board();
 
 	// The file names to use for the initial configuration
-	String csv_file; 
-	String txt_file; 
+	String csv_file;
+	String txt_file;
 
 	// this method returns the only Board
 	public static Board getInstance() {
@@ -51,7 +51,7 @@ public class Board {
 	/*
 	 * initialize the board (since we are using singleton pattern)
 	 */
-	public void initialize(){
+	public void initialize() {
 		try {
 			loadSetupConfig();
 			loadLayoutConfig();
@@ -82,23 +82,23 @@ public class Board {
 			String tempLine = reader.readLine();
 			while (tempLine != null) {
 				String[] elements = tempLine.split(", ");
-				// If the line is not a comment or configured in the following format, throw an exception
+				// If the line is not a comment or configured in the following format, throw an
+				// exception
 				// Room/Space, Name, Label
 				if (elements[0].equals("Room") && elements.length == 3) { // if it's a room
 					Room tempRoom = new Room(elements[2].charAt(0), elements[1]);
 					rooms.put(elements[2].charAt(0), tempRoom);
-					
+
 					Card cardRoom = new Card(elements[1]); // create room card and set it's type**
 					cardRoom.setType(CardType.ROOM);
 					cards.put(elements[1], cardRoom);
 					numRoomCards++;
 					roomCards.add(cardRoom);
-				}
-				else if (elements[0].equals("Space") && elements.length == 3){
+				} else if (elements[0].equals("Space") && elements.length == 3) {
 					Room tempRoom = new Room(elements[2].charAt(0), elements[1]);
 					rooms.put(elements[2].charAt(0), tempRoom);
 				}
-				
+
 				else if (elements[0].equals("Weapon") && elements.length == 2) { // load weapon cards
 					Card cardWeapon = new Card(elements[1]); // create room card and set it's type**
 					cardWeapon.setType(CardType.WEAPON);
@@ -106,8 +106,7 @@ public class Board {
 					numWeaponCards++;
 					weaponCards.add(cardWeapon);
 				}
-				
-				
+
 				else if (elements[0].equals("Player") && elements.length == 4) {
 					Player newPlayer;
 					if (elements[3].equals("Computer"))
@@ -118,26 +117,21 @@ public class Board {
 						throw new BadConfigFormatException("Formatting for Players incorrect");
 					players.add(newPlayer);
 					playerList.add(newPlayer);
-					
+
 					Card cardPerson = new Card(elements[1]); // create room card and set it's type **
 					cardPerson.setType(CardType.PERSON);
 					cards.put(elements[1], cardPerson);
 					numPersonCards++;
 					peopleCards.add(cardPerson);
-				}
-				else if (elements[0].equals("Room") && elements.length != 3) {
+				} else if (elements[0].equals("Room") && elements.length != 3) {
 					throw new BadConfigFormatException("Formatting for rooms incorrect, wrong number of elements");
-				}
-				else if (elements[0].equals("Space") && elements.length != 3) {
+				} else if (elements[0].equals("Space") && elements.length != 3) {
 					throw new BadConfigFormatException("Formatting for spaces incorrect, wrong number of elements");
-				}
-				else if (elements[0].equals("Player") && elements.length != 4) {
+				} else if (elements[0].equals("Player") && elements.length != 4) {
 					throw new BadConfigFormatException("Formatting for Players Incorrect, wrong number of elements");
-				}
-				else if (elements[0].equals("Weapon") && elements.length != 2) {
+				} else if (elements[0].equals("Weapon") && elements.length != 2) {
 					throw new BadConfigFormatException("Formatting for Weapons Incorrect, wrong number of elements");
-				}
-				else if (elements[0].charAt(0) != '/' && !elements[0].isEmpty()) // error case
+				} else if (elements[0].charAt(0) != '/' && !elements[0].isEmpty()) // error case
 					throw new BadConfigFormatException("Invalid Initialization File");
 				tempLine = reader.readLine();
 			}
@@ -145,7 +139,7 @@ public class Board {
 			in.close();
 		} catch (IOException e) { // throw exception
 			e.printStackTrace();
-		} 
+		}
 
 		// Randomly generate a solution
 		Random rand = new Random();
@@ -155,17 +149,16 @@ public class Board {
 		Card solutionWeapon = weaponCards.get(num);
 		num = rand.nextInt(numRoomCards);
 		Card solutionRoom = roomCards.get(num);
-		
+
 		gameSolution = new Solution(solutionRoom, solutionPerson, solutionWeapon);
-		
+
 		// Set the unseen cards for each room
 		for (Player temp : players) {
 			temp.setUnseenPlayers(peopleCards);
 			temp.setUnseenWeapons(weaponCards);
 			temp.setUnseenRooms(roomCards);
 		}
-		
-		
+
 		// Copy the deck into an ArrayList
 		for (String i : cards.keySet()) {
 			cardList.add(cards.get(i));
@@ -200,12 +193,13 @@ public class Board {
 			in.close();
 		} catch (IOException e) { // catch error
 			e.printStackTrace();
-		} 
-		// Set the number of rows and columns based on the width and height of the pseudo 2D array
+		}
+		// Set the number of rows and columns based on the width and height of the
+		// pseudo 2D array
 		String[] tempStr = fileLines.get(0).split(",");
 		int numCols = tempStr.length;
 		for (int i = 1; i < fileLines.size(); i++) {
-			tempStr= fileLines.get(i).split(","); // split lines by ","
+			tempStr = fileLines.get(i).split(","); // split lines by ","
 			// make sure to go though all the way through file
 			for (String elem : tempStr) {
 				if (elem.isEmpty())
@@ -239,9 +233,10 @@ public class Board {
 				if (grid[row][col].isRoom()) {
 					// Check if the cell matches those around it for room configuration
 					char tempName = grid[row][col].getRoomName();
-					if (col != totalBoardCols-1 && tempName != spaces[col+1].charAt(0) &&  (col != 0 && tempName != grid[row][col-1].getRoomName() &&  (row != 0 && tempName != grid[row-1][col].getRoomName()))) {
+					if (col != totalBoardCols - 1 && tempName != spaces[col + 1].charAt(0)
+							&& (col != 0 && tempName != grid[row][col - 1].getRoomName()
+									&& (row != 0 && tempName != grid[row - 1][col].getRoomName()))) {
 						throw new BadConfigFormatException("Invalid Room Configuration");
-
 
 					}
 				}
@@ -253,24 +248,25 @@ public class Board {
 
 		for (int i = 0; i < totalBoardRows; i++) { // fill in the board
 			for (int j = 0; j < totalBoardCols; j++) {
-				// for a center of room, find entrances and adjacency  
+				// for a center of room, find entrances and adjacency
 				if (grid[i][j].isRoomCenter()) { // check if room center
-					Room currRoom = rooms.get(grid[i][j].getRoomName()); // 
+					Room currRoom = rooms.get(grid[i][j].getRoomName()); //
 					Set<BoardCell> entrances = currRoom.getEntrances();
 					for (BoardCell cell : entrances) {
 						grid[i][j].addAdjacency(cell);
 					}
 				}
-				// if not a room, add adacencies by looking lef,right, up, down and checking occuapncy.
+				// if not a room, add adacencies by looking lef,right, up, down and checking
+				// occuapncy.
 				else if (!grid[i][j].isRoom()) {
-					if (i != 0 && !grid[i-1][j].isOccupied() && grid[i-1][j].getRoomName() == 'W')
-						grid[i][j].addAdjacency(grid[i-1][j]);
-					if (j != 0 && !grid[i][j-1].isOccupied() && grid[i][j-1].getRoomName() == 'W')
-						grid[i][j].addAdjacency(grid[i][j-1]);
-					if (i != totalBoardRows-1 && !grid[i+1][j].isOccupied() && grid[i+1][j].getRoomName() == 'W')
-						grid[i][j].addAdjacency(grid[i+1][j]);
-					if (j != totalBoardCols-1 && !grid[i][j+1].isOccupied() && grid[i][j+1].getRoomName() == 'W')
-						grid[i][j].addAdjacency(grid[i][j+1]);
+					if (i != 0 && !grid[i - 1][j].isOccupied() && grid[i - 1][j].getRoomName() == 'W')
+						grid[i][j].addAdjacency(grid[i - 1][j]);
+					if (j != 0 && !grid[i][j - 1].isOccupied() && grid[i][j - 1].getRoomName() == 'W')
+						grid[i][j].addAdjacency(grid[i][j - 1]);
+					if (i != totalBoardRows - 1 && !grid[i + 1][j].isOccupied() && grid[i + 1][j].getRoomName() == 'W')
+						grid[i][j].addAdjacency(grid[i + 1][j]);
+					if (j != totalBoardCols - 1 && !grid[i][j + 1].isOccupied() && grid[i][j + 1].getRoomName() == 'W')
+						grid[i][j].addAdjacency(grid[i][j + 1]);
 				}
 			}
 		}
@@ -278,14 +274,14 @@ public class Board {
 
 	// Helper function for loadLayoutConfig()
 	// Sets the room properties of all cells on the board
-	// We need to know what room each cell is for setCellPropertiesSecond, where we set the entrances to a room
+	// We need to know what room each cell is for setCellPropertiesSecond, where we
+	// set the entrances to a room
 	private void setCellProperties(BoardCell cell, String currSpace) {
 		cell.setRoomName(currSpace.charAt(0));
 		// Set space to be a room if it is not unused or a walkway
 		if (currSpace.charAt(0) != 'X' && currSpace.charAt(0) != 'W') {
 			cell.setIsRoom(true);
-		}
-		else if (currSpace == "X") {
+		} else if (currSpace == "X") {
 			cell.setOccupied(true);
 		}
 		// Cover all possible cases when a space has two characters
@@ -309,7 +305,8 @@ public class Board {
 
 	private void setRoomProperties(BoardCell cell, String currSpace) {
 		// Set secret passages
-		if (currSpace.length() == 2 &&  (currSpace.charAt(0) != 'W' && currSpace.charAt(1) != '#' && currSpace.charAt(1) != '*')){
+		if (currSpace.length() == 2
+				&& (currSpace.charAt(0) != 'W' && currSpace.charAt(1) != '#' && currSpace.charAt(1) != '*')) {
 			cell.setSecretPassage(currSpace.charAt(1));
 			Room currRoom = rooms.get(currSpace.charAt(0));
 			Room secretPassageRoom = rooms.get(currSpace.charAt(1));
@@ -375,7 +372,7 @@ public class Board {
 
 	private boolean isValidCell(int row, int col) {
 		return row >= 0 && row < totalBoardRows && col >= 0 && col < totalBoardCols;
-	}    
+	}
 
 	// Getter for each cell Object
 	public BoardCell getCell(int i, int j) { // gets a cell
@@ -389,17 +386,17 @@ public class Board {
 		visited.clear();
 	}
 
-	public void findTargets(BoardCell cell, int pathLength) { // recursively finds targets by looking at adjacent list cells and also checks if those cells are occupied or if a room
+	public void findTargets(BoardCell cell, int pathLength) { // recursively finds targets by looking at adjacent list
+																// cells and also checks if those cells are occupied or
+																// if a room
 		for (BoardCell adjCell : cell.getAdjList()) {
 			if (adjCell.isRoom() && !visited.contains(adjCell)) {
 				targets.add(adjCell);
-			}
-			else if (!visited.contains(adjCell) && !adjCell.isOccupied()) {
+			} else if (!visited.contains(adjCell) && !adjCell.isOccupied()) {
 				visited.add(adjCell);
 				if (pathLength == 1) {
 					targets.add(adjCell);
-				}
-				else {
+				} else {
 					findTargets(adjCell, pathLength - 1);
 				}
 				visited.remove(adjCell);
@@ -407,28 +404,27 @@ public class Board {
 		}
 	}
 
-
-
 	public Set<BoardCell> getTargets() { // gets target
 		return targets;
 	}
 
 	public void setConfigFiles(String csv, String file) { // sets csv and text files
 		csv_file = "data/" + csv;
-		txt_file = "data/" +  file;
+		txt_file = "data/" + file;
 	}
 
-	public Room getRoom(char roomLabel) { //  gets a room, need to update in future
+	public Room getRoom(char roomLabel) { // gets a room, need to update in future
 		return rooms.get(roomLabel);
 	}
 
-	public Room getRoom(BoardCell cell) {//  gets a room with cell input, need to update in future
+	public Room getRoom(BoardCell cell) {// gets a room with cell input, need to update in future
 		return rooms.get(cell.getRoomName());
 	}
 
 	public int getNumColumns() {
 		return totalBoardCols;
 	}
+
 	public int getNumRows() {
 		return totalBoardRows;
 	}
@@ -436,11 +432,10 @@ public class Board {
 	public ArrayList<Player> getPlayers() {
 		return players;
 	}
-	
+
 	public Map<String, Card> getCards() {
 		return cards;
 	}
-
 
 	public int getNumPersonCards() {
 		return numPersonCards;
