@@ -8,6 +8,10 @@ public class Card {
 		this.cardName = cardName;
 	}
 	
+//	public Card(BoardCell cell) {
+//		cell.
+//	}
+	
 	
 	public CardType getType() {
 		return type;

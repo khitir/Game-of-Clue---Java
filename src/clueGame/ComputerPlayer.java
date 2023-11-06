@@ -8,6 +8,7 @@ import java.util.Set;
 public class ComputerPlayer extends Player {
 	
 	private ArrayList<Card> roomsNotSeen;
+	private ArrayList<Character> roomLabelsNotSeen;
 	private ArrayList<Card> playersNotSeen;
 	private ArrayList<Card> weaponsNotSeen;
 	Card lastPersonUnseen, lastWeaponUnseen;
@@ -18,6 +19,7 @@ public class ComputerPlayer extends Player {
 		weaponsNotSeen = new ArrayList<Card>();
 		roomsNotSeen = new ArrayList<Card>();
 		playersNotSeen = new ArrayList<Card>();
+		roomLabelsNotSeen = new ArrayList<Character>();
 		lastPersonUnseen = new Card("Temp");
 		lastWeaponUnseen = new Card("Temp");
 	}
@@ -59,6 +61,7 @@ public class ComputerPlayer extends Player {
 	public void setRoomsNotSeen(ArrayList<Card> roomsNotSeen) {
 		for (Card i : roomsNotSeen){
 			this.roomsNotSeen.add(i);
+//			this.roomLabelsNotSeen.add(i.getCardName)
 		}
 	}
 
@@ -113,7 +116,28 @@ public class ComputerPlayer extends Player {
 	}
 
 	public BoardCell pickTarget(Set<BoardCell> adjList) {
-		return new BoardCell(0, 0);
+		BoardCell target;
+		Card room;
+		Board board = Board.getInstance();
+		System.out.println(adjList.size());
+		for (BoardCell cell : adjList) {
+			if (cell.isRoom()) {
+				room = new Card(board.getRoom(cell).getName());
+				room.setType(CardType.ROOM);
+				if (roomsNotSeen.contains(room))
+					return cell;
+			}
+		}
+		Random rand = new Random();
+		System.out.println(adjList.size());
+		int index = rand.nextInt(adjList.size());
+		int i = 0;
+		for (BoardCell cell : adjList) {
+			if (i == index)
+				return cell;
+			i++;
+		}
+		return null;
 	}
 
 }

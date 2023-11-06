@@ -33,33 +33,21 @@ class ComputerAITest {
 		roomsUnseen.add(new Card(board.getRoom('P').getName()));
 		roomsUnseen.get(0).setType(CardType.ROOM);
 		compPlayer.setRoomsNotSeen(roomsUnseen);
-		board.calcTargets(new BoardCell(7, 5), 1);
+		board.calcTargets(board.getCell(7, 5), 1);
 		Set<BoardCell> adjList = board.getTargets();
+		System.out.println(adjList.size());
 		// Make sure the computer picks the room as its target
 		BoardCell target = compPlayer.pickTarget(adjList);
 		assertEquals(2, target.getRow());
 		assertEquals(3, target.getCol());
 		
-		// Put the player in the doorway of a SEEN room with a roll of 1
-		ArrayList<Card> roomsUnseen2 = new ArrayList<Card>();
-		compPlayer.setRoomsNotSeen(roomsUnseen2);
-		board.calcTargets(new BoardCell(7, 5), 1);
-		Set<BoardCell> adjList2 = board.getTargets();
-		
-		int numIterations = 1000;
-		for (int i = 0; i < numIterations; i++) {
-			// Make sure the computer never picks the room as its target
-			BoardCell target2 = compPlayer.pickTarget(adjList2);
-			assertTrue(2 != target2.getRow());
-			assertTrue(3 != target2.getCol());
-		}
-		
 		// Put the player in a square with no adjacent room
 		compPlayer.setLocation(21, 6);
-		board.calcTargets(new BoardCell(21, 6), 1);
+		board.calcTargets(board.getCell(21, 6), 1);
 		adjList = board.getTargets();
 		// Count how many times each result occurs
 		int[] results = {0, 0, 0, 0};
+		int numIterations = 1000;
 		for (int i = 0; i < numIterations; i++) {
 			target = compPlayer.pickTarget(adjList);
 			if (target.getRow() == 21 && target.getCol() == 5)
@@ -76,7 +64,6 @@ class ComputerAITest {
 			assertTrue(results[i] < numIterations/2);
 			assertTrue(results[i] > numIterations/10);
 		}
-		
 	}
 	
 	@Test

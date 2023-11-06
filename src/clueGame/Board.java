@@ -232,10 +232,10 @@ public class Board {
 				setDoorProperties(grid[row][col], spaces[col], row, col);
 				if (grid[row][col].isRoom()) {
 					// Check if the cell matches those around it for room configuration
-					char tempName = grid[row][col].getRoomName();
+					char tempName = grid[row][col].getRoomLabel();
 					if (col != totalBoardCols - 1 && tempName != spaces[col + 1].charAt(0)
-							&& (col != 0 && tempName != grid[row][col - 1].getRoomName()
-									&& (row != 0 && tempName != grid[row - 1][col].getRoomName()))) {
+							&& (col != 0 && tempName != grid[row][col - 1].getRoomLabel()
+									&& (row != 0 && tempName != grid[row - 1][col].getRoomLabel()))) {
 						throw new BadConfigFormatException("Invalid Room Configuration");
 
 					}
@@ -250,7 +250,7 @@ public class Board {
 			for (int j = 0; j < totalBoardCols; j++) {
 				// for a center of room, find entrances and adjacency
 				if (grid[i][j].isRoomCenter()) { // check if room center
-					Room currRoom = rooms.get(grid[i][j].getRoomName()); //
+					Room currRoom = rooms.get(grid[i][j].getRoomLabel()); //
 					Set<BoardCell> entrances = currRoom.getEntrances();
 					for (BoardCell cell : entrances) {
 						grid[i][j].addAdjacency(cell);
@@ -259,13 +259,13 @@ public class Board {
 				// if not a room, add adacencies by looking lef,right, up, down and checking
 				// occuapncy.
 				else if (!grid[i][j].isRoom()) {
-					if (i != 0 && !grid[i - 1][j].isOccupied() && grid[i - 1][j].getRoomName() == 'W')
+					if (i != 0 && !grid[i - 1][j].isOccupied() && grid[i - 1][j].getRoomLabel() == 'W')
 						grid[i][j].addAdjacency(grid[i - 1][j]);
-					if (j != 0 && !grid[i][j - 1].isOccupied() && grid[i][j - 1].getRoomName() == 'W')
+					if (j != 0 && !grid[i][j - 1].isOccupied() && grid[i][j - 1].getRoomLabel() == 'W')
 						grid[i][j].addAdjacency(grid[i][j - 1]);
-					if (i != totalBoardRows - 1 && !grid[i + 1][j].isOccupied() && grid[i + 1][j].getRoomName() == 'W')
+					if (i != totalBoardRows - 1 && !grid[i + 1][j].isOccupied() && grid[i + 1][j].getRoomLabel() == 'W')
 						grid[i][j].addAdjacency(grid[i + 1][j]);
-					if (j != totalBoardCols - 1 && !grid[i][j + 1].isOccupied() && grid[i][j + 1].getRoomName() == 'W')
+					if (j != totalBoardCols - 1 && !grid[i][j + 1].isOccupied() && grid[i][j + 1].getRoomLabel() == 'W')
 						grid[i][j].addAdjacency(grid[i][j + 1]);
 				}
 			}
@@ -277,7 +277,7 @@ public class Board {
 	// We need to know what room each cell is for setCellPropertiesSecond, where we
 	// set the entrances to a room
 	private void setCellProperties(BoardCell cell, String currSpace) {
-		cell.setRoomName(currSpace.charAt(0));
+		cell.setRoomLabel(currSpace.charAt(0));
 		// Set space to be a room if it is not unused or a walkway
 		if (currSpace.charAt(0) != 'X' && currSpace.charAt(0) != 'W') {
 			cell.setIsRoom(true);
@@ -361,7 +361,7 @@ public class Board {
 					break;
 				}
 				if (isValidCell(adjacentRow, adjacentCol)) {
-					Room tempRoom = rooms.get(grid[adjacentRow][adjacentCol].getRoomName());
+					Room tempRoom = rooms.get(grid[adjacentRow][adjacentCol].getRoomLabel());
 					tempRoom.setEntrance(cell);
 					rooms.put(tempRoom.getLabel(), tempRoom);
 					cell.addAdjacency(tempRoom.getCenterCell());
@@ -418,7 +418,7 @@ public class Board {
 	}
 
 	public Room getRoom(BoardCell cell) {// gets a room with cell input, need to update in future
-		return rooms.get(cell.getRoomName());
+		return rooms.get(cell.getRoomLabel());
 	}
 
 	public int getNumColumns() {

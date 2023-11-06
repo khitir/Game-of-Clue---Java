@@ -15,7 +15,8 @@ public class BoardCell {
 	private Set<BoardCell> adjList;
 	private DoorDirection doorDirection;
 	private char secretPassage;
-	private char roomName;
+	private char roomLabel;
+	private String RoomName;
 
 	public BoardCell(int x, int y) { // constructor, that sets cell location on board, and intitializes room and occupied to false
 		adjList = new HashSet<BoardCell>();
@@ -30,12 +31,12 @@ public class BoardCell {
 		return adjList;
 	}
 
-	public char getRoomName() {
-		return roomName;
+	public char getRoomLabel() {
+		return roomLabel;
 	}
 
-	public void setRoomName(char roomName) {
-		this.roomName = roomName;
+	public void setRoomLabel(char roomLabel) {
+		this.roomLabel = roomLabel;
 	}
 
 
