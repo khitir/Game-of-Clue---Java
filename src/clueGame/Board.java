@@ -400,6 +400,9 @@ public class Board {
 		}
 	}
 
+	public boolean checkAccusation(Card room, Card person, Card weapon) {
+		return ((gameSolution.getRoom().equals(room)) && (gameSolution.getWeapon().equals(weapon)) && (gameSolution.getPerson().equals(person)));
+	}
 
 
 	public Set<BoardCell> getTargets() { // gets target
