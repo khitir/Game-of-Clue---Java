@@ -49,7 +49,7 @@ class GameSolutionTest {
 		
 		Solution suggestion1 = new Solution(room1, player2, weapon1);
 		Card dispute = board.handleSuggestion(suggestion1, human);
-		assertTrue(dispute.equals(room1));
+		assertTrue(dispute.equals(weapon1));
 		
 		// Test starting from a different player
 		dispute = board.handleSuggestion(suggestion1, comp1);

@@ -465,8 +465,31 @@ public class Board {
 		return gameSolution;
 	}
 
-	public Card handleSuggestion(Solution suggestion1, Player human) {
-		return new Card("Name", CardType.ROOM);
+	public Card handleSuggestion(Solution suggestion1, Player accuser) {
+		int index = 0;
+		for (int i = 0; i < players.size(); i++) {
+			if (players.get(i).equals(accuser))
+				index = i;
+		}
+		for (int numPlayers = 0; numPlayers < players.size(); numPlayers++) {
+			index++;
+			if (index == players.size())
+				index = 0;
+			Player next = players.get(index);
+			Map<String, Card> hand = next.getCards();
+			for (Card i : hand.values()) {
+				if (i.getType() == CardType.ROOM && i == suggestion1.getRoom()) {
+					return i;
+				}
+				else if (i.getType() == CardType.WEAPON && i == suggestion1.getWeapon()) {
+					return i;
+				}
+				else if (i.getType() == CardType.PERSON && i == suggestion1.getPerson()) {
+					return i;
+				}
+			}
+		}
+		return null;
 	}
 	
 	public void setPlayers(ArrayList<Player> players) {
