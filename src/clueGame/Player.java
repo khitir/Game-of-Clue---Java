@@ -11,6 +11,8 @@ public abstract class Player {
 	private boolean isComputer;
 	private boolean isHuman;
 	
+	private Room location;
+	
 	private Map<String, Card> cards;  // set of cards for each player 
 	
 	public Player(String name, String color, boolean isComputer) {
@@ -26,6 +28,10 @@ public abstract class Player {
 	}
 	
 	public abstract void updateHand(Card card);
+	
+	public void setRoomLocation(Room room) {
+		location = room;
+	}
 	
 	public String getName() {
 		return name;
