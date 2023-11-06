@@ -33,6 +33,10 @@ public class Board {
 	private ArrayList<Card> peopleCards, roomCards, weaponCards;
 	private Solution gameSolution;
 
+	public Solution getGameSolution() {
+		return gameSolution;
+	}
+
 	private static Board theInstance = new Board();
 
 	// The file names to use for the initial configuration
