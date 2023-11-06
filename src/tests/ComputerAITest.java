@@ -34,7 +34,7 @@ class ComputerAITest {
 		ComputerPlayer compPlayer = new ComputerPlayer("Name", "Color");
 		
 		// Create lists of weapons and players that haven't been seen yet
-		Set<Card> tempSet = new HashSet<Card>();
+		ArrayList<Card> tempSet = new ArrayList<Card>();
 		Card weapon = new Card("Knife");
 		weapon.setType(CardType.WEAPON);
 		tempSet.add(weapon);
@@ -52,10 +52,10 @@ class ComputerAITest {
 		
 		// Check that the suggestion matches up with the one weapon not yet seen
 		Solution suggestion = compPlayer.createSuggestion();
-		Set<Card> weaponsNotSeen = compPlayer.getWeaponsNotSeen();
+		ArrayList<Card> weaponsNotSeen = compPlayer.getWeaponsNotSeen();
 		assertTrue(weaponsNotSeen.contains(suggestion.getWeapon()));
 		assertTrue(weaponsNotSeen.contains(weapon));
-		Set<Card> playersNotSeen = compPlayer.getPlayersNotSeen();
+		ArrayList<Card> playersNotSeen = compPlayer.getPlayersNotSeen();
 		assertTrue(playersNotSeen.contains(suggestion.getPerson()));
 		assertTrue(playersNotSeen.contains(person));
 		

@@ -1,5 +1,6 @@
 package clueGame;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -11,7 +12,7 @@ public abstract class Player {
 	private boolean isComputer;
 	private boolean isHuman;
 	
-	private Room location;
+	public Room location;
 	
 	private Map<String, Card> cards;  // set of cards for each player 
 	
@@ -52,4 +53,8 @@ public abstract class Player {
 	public Map<String, Card> getCards() {
 		return cards;
 	}
+
+	public abstract void setUnseenPlayers(ArrayList<Card> peopleCards);
+	public abstract void setUnseenWeapons(ArrayList<Card> peopleCards);
+	public abstract void setUnseenRooms(ArrayList<Card> peopleCards);
 }

@@ -21,7 +21,7 @@ public class Board {
 	private int totalBoardCols = 0;
 	private int totalBoardRows = 0;
 	private BoardCell[][] grid;
-	private Set<BoardCell> targets ;
+	private Set<BoardCell> targets;
 	private Set<BoardCell> visited;
 	private Map<Character, Room> rooms;
 	private ArrayList<Player> players;
@@ -157,6 +157,13 @@ public class Board {
 		Card solutionRoom = roomCards.get(num);
 		
 		gameSolution = new Solution(solutionRoom, solutionPerson, solutionWeapon);
+		
+		// Set the unseen cards for each room
+		for (Player temp : players) {
+			temp.setUnseenPlayers(peopleCards);
+			temp.setUnseenWeapons(weaponCards);
+			temp.setUnseenRooms(roomCards);
+		}
 		
 		
 		// Copy the deck into an ArrayList
