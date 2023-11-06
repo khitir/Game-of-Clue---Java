@@ -464,4 +464,12 @@ public class Board {
 	public Solution getSolution() {
 		return gameSolution;
 	}
+
+	public Card handleSuggestion(Solution suggestion1, Player human) {
+		return new Card("Name", CardType.ROOM);
+	}
+	
+	public void setPlayers(ArrayList<Player> players) {
+		this.players = players;
+	}
 }

@@ -8,10 +8,10 @@ public class Card {
 		this.cardName = cardName;
 	}
 	
-//	public Card(BoardCell cell) {
-//		cell.
-//	}
-	
+	public Card(String cardName, CardType type) {
+		this.cardName = cardName;
+		this.type = type;
+	}	
 	
 	public CardType getType() {
 		return type;
