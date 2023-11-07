@@ -33,6 +33,10 @@ public class Board {
 	private ArrayList<Card> peopleCards, roomCards, weaponCards;
 	private Solution gameSolution;
 
+	public Solution getGameSolution() {
+		return gameSolution;
+	}
+
 	private static Board theInstance = new Board();
 
 	// The file names to use for the initial configuration
@@ -402,6 +406,10 @@ public class Board {
 				visited.remove(adjCell);
 			}
 		}
+	}
+
+	public boolean checkAccusation(Card room, Card person, Card weapon) {
+		return ((gameSolution.getRoom().equals(room)) && (gameSolution.getWeapon().equals(weapon)) && (gameSolution.getPerson().equals(person)));
 	}
 
 	public Set<BoardCell> getTargets() { // gets target
