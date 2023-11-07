@@ -35,7 +35,6 @@ class ComputerAITest {
 		compPlayer.setRoomsNotSeen(roomsUnseen);
 		board.calcTargets(board.getCell(7, 5), 1);
 		Set<BoardCell> adjList = board.getTargets();
-		System.out.println(adjList.size());
 		// Make sure the computer picks the room as its target
 		BoardCell target = compPlayer.pickTarget(adjList);
 		assertEquals(2, target.getRow());

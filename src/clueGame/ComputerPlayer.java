@@ -119,7 +119,6 @@ public class ComputerPlayer extends Player {
 		BoardCell target;
 		Card room;
 		Board board = Board.getInstance();
-		System.out.println(adjList.size());
 		for (BoardCell cell : adjList) {
 			if (cell.isRoom()) {
 				room = new Card(board.getRoom(cell).getName());
@@ -129,7 +128,6 @@ public class ComputerPlayer extends Player {
 			}
 		}
 		Random rand = new Random();
-		System.out.println(adjList.size());
 		int index = rand.nextInt(adjList.size());
 		int i = 0;
 		for (BoardCell cell : adjList) {
