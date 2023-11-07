@@ -69,6 +69,11 @@ class GameSolutionTest {
 		dispute = board.handleSuggestion(suggestion2, human);
 		assertTrue(dispute.equals(weapon1));
 		
+		// Make sure no one but one suggesting can disprove
+		Solution suggestion3 = new Solution(room1, player3, weapon2);
+		dispute = board.handleSuggestion(suggestion3, human);
+		assertNull(dispute);
+		
 		// Make sure no one can disprove
 		Solution nullSuggestion = new Solution(room3, player3, weapon2);
 		dispute = board.handleSuggestion(nullSuggestion, human);

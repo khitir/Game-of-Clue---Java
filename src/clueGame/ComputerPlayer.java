@@ -46,6 +46,29 @@ public class ComputerPlayer extends Player {
 		return suggestion;
 	}
 	
+	public BoardCell pickTarget(Set<BoardCell> adjList) {
+		BoardCell target;
+		Card room;
+		Board board = Board.getInstance();
+		for (BoardCell cell : adjList) {
+			if (cell.isRoom()) {
+				room = new Card(board.getRoom(cell).getName());
+				room.setType(CardType.ROOM);
+				if (roomsNotSeen.contains(room))
+					return cell;
+			}
+		}
+		Random rand = new Random();
+		int index = rand.nextInt(adjList.size());
+		int i = 0;
+		for (BoardCell cell : adjList) {
+			if (i == index)
+				return cell;
+			i++;
+		}
+		return null;
+	}
+	
 	@Override
 	public void updateHand(Card card) {
 	}
@@ -113,29 +136,6 @@ public class ComputerPlayer extends Player {
 	public void setLocation(int i, int j) {
 		this.row = i;
 		this.col = j;
-	}
-
-	public BoardCell pickTarget(Set<BoardCell> adjList) {
-		BoardCell target;
-		Card room;
-		Board board = Board.getInstance();
-		for (BoardCell cell : adjList) {
-			if (cell.isRoom()) {
-				room = new Card(board.getRoom(cell).getName());
-				room.setType(CardType.ROOM);
-				if (roomsNotSeen.contains(room))
-					return cell;
-			}
-		}
-		Random rand = new Random();
-		int index = rand.nextInt(adjList.size());
-		int i = 0;
-		for (BoardCell cell : adjList) {
-			if (i == index)
-				return cell;
-			i++;
-		}
-		return null;
 	}
 
 }

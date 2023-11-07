@@ -411,14 +411,32 @@ public class Board {
 	public boolean checkAccusation(Card room, Card person, Card weapon) {
 		return ((gameSolution.getRoom().equals(room)) && (gameSolution.getWeapon().equals(weapon)) && (gameSolution.getPerson().equals(person)));
 	}
-
-	public Set<BoardCell> getTargets() { // gets target
-		return targets;
+	
+	public Card handleSuggestion(Solution suggestion1, Player accuser) {
+		int index = 0;
+		for (int i = 0; i < players.size(); i++) {
+			if (players.get(i).equals(accuser))
+				index = i;
+		}
+		for (int numPlayers = 0; numPlayers < players.size() - 1; numPlayers++) {
+			index++;
+			if (index == players.size())
+				index = 0;
+			Player next = players.get(index);
+			Card result = next.disproveSuggestion(suggestion1.getRoom(), suggestion1.getPerson(), suggestion1.getWeapon());
+			if (result != null)
+				return result;
+		}
+		return null;
 	}
 
 	public void setConfigFiles(String csv, String file) { // sets csv and text files
 		csv_file = "data/" + csv;
 		txt_file = "data/" + file;
+	}
+	
+	public Set<BoardCell> getTargets() { // gets target
+		return targets;
 	}
 
 	public Room getRoom(char roomLabel) { // gets a room, need to update in future
@@ -471,24 +489,6 @@ public class Board {
 
 	public Solution getSolution() {
 		return gameSolution;
-	}
-
-	public Card handleSuggestion(Solution suggestion1, Player accuser) {
-		int index = 0;
-		for (int i = 0; i < players.size(); i++) {
-			if (players.get(i).equals(accuser))
-				index = i;
-		}
-		for (int numPlayers = 0; numPlayers < players.size(); numPlayers++) {
-			index++;
-			if (index == players.size())
-				index = 0;
-			Player next = players.get(index);
-			Card result = next.disproveSuggestion(suggestion1.getRoom(), suggestion1.getPerson(), suggestion1.getWeapon());
-			if (result != null)
-				return result;
-		}
-		return null;
 	}
 	
 	public void setPlayers(ArrayList<Player> players) {
