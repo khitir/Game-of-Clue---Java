@@ -408,7 +408,7 @@ public class Board {
 		}
 	}
 
-	public boolean checkAccusation(Card room, Card person, Card weapon) {
+	public boolean checkAccusation(Card room, Card person, Card weapon) {  // returns true if all 3 cards match to solution
 		return ((gameSolution.getRoom().equals(room)) && (gameSolution.getWeapon().equals(weapon)) && (gameSolution.getPerson().equals(person)));
 	}
 

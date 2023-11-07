@@ -17,7 +17,7 @@ public abstract class Player {
 	public Room location;
 
 	private Map<String, Card> cards;  // set of cards for each player, hand 
-	private Set <Card> seenCards;
+	private Set <Card> seenCards;  // seen cards, not yet implemented.
 	private ArrayList<Card> hand;
 	
 	public Player(String name, String color, boolean isComputer) {
@@ -52,28 +52,26 @@ public abstract class Player {
 	
 	public Card disproveSuggestion(Card room, Card person, Card weapon) {
 //		ArrayList<Card> matchingCards = new ArrayList<Card>();
-		int numMatch = 0;
-		int index_size = 0;
-		ArrayList<Card> matchingCard = new ArrayList<Card>();
+		int numMatch = 0; // number of matching cards
+		ArrayList<Card> matchingCard = new ArrayList<Card>(); // matching cards list for each player
 		
+		// fill in matching card list with respective cards
 		for (int i = 0; i < hand.size(); i++) {
 			if (hand.get(i).equals(room) || hand.get(i).equals(person) || hand.get(i).equals(weapon)) {
 				matchingCard.add(hand.get(i));
 				numMatch++;
 			}	
 		}
-		
-//		numMatch = matchingCard.size();
 	
 		
-		if (numMatch == 0) {
+		if (numMatch == 0) { // no matching cards
 			return null;
 		}
-		else if (numMatch == 1) {
+		else if (numMatch == 1) { // 1 matching card
 			return matchingCard.get(0);
 		}
 
-		else {
+		else { // multiple matching cards, return a random one 
 			Random rand = new Random();
 			int randIndex = rand.nextInt(numMatch);
 			return matchingCard.get(randIndex);

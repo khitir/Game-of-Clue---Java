@@ -114,22 +114,24 @@ class GameSolutionTest {
 		// Initialize will load config files 
 		board.initialize();
 		Player pl1 = board.getPlayers().get(0);
+		// get 3 cards player holds
 		Card card1 = pl1.getHand().get(0);
 		Card card2 = pl1.getHand().get(1);
 		Card card3 = pl1.getHand().get(2);
 		
-		Card cardToTest = card1;
+		Card cardToTest = card1; // test with this correct card
 		
 //		If player has only one matching card it should be returned
+		// create 2 wrong cards, wrong name, no type set
 		Card dummy1 = new Card("mess1");
 		Card dummy2 = new Card("mess2");
 		
-		assertTrue(pl1.disproveSuggestion(cardToTest, dummy1, dummy2).equals(card1));
+		assertTrue(pl1.disproveSuggestion(cardToTest, dummy1, dummy2).equals(card1)); // 
 		
 //		If players has >1 matching card, returned card should be chosen randomly
-		Card temp = pl1.disproveSuggestion(card1, card2, card3);
-		assertTrue(temp.equals(card1) || temp.equals(card2) || temp.equals(card3));
-		temp = pl1.disproveSuggestion(card1, card2, dummy1);
+		Card temp = pl1.disproveSuggestion(card1, card2, card3); // call disprove once for 3 matching cards
+		assertTrue(temp.equals(card1) || temp.equals(card2) || temp.equals(card3)); 
+		temp = pl1.disproveSuggestion(card1, card2, dummy1); // call disprove with 2 matching cards
 		assertTrue(temp.equals(card1) || temp.equals(card2));
 		
 //		If player has no matching cards, null is returned
