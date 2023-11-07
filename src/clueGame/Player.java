@@ -18,7 +18,7 @@ public abstract class Player {
 
 	private Map<String, Card> cards;  // set of cards for each player, hand 
 	private Set <Card> seenCards;
-	ArrayList<Card> hand = new ArrayList<>(cards.values());
+	private ArrayList<Card> hand;
 	
 	public Player(String name, String color, boolean isComputer) {
 		this.name = name;
@@ -26,6 +26,7 @@ public abstract class Player {
 		this.isComputer = isComputer;
 		this.isHuman = !isComputer;
 		cards = new HashMap<String, Card>(); 
+		hand = new ArrayList<Card>();
 	}
 	
 	public ArrayList<Card> getHand() {
@@ -34,6 +35,7 @@ public abstract class Player {
 
 	public void deal(Card card) {
 		cards.put(card.getCardName(), card);
+		hand.add(card);
 	}
 	
 	public abstract void updateHand(Card card);
@@ -49,18 +51,19 @@ public abstract class Player {
 	}
 	
 	public Card disproveSuggestion(Card room, Card person, Card weapon) {
-		int matchingCards[];
+//		ArrayList<Card> matchingCards = new ArrayList<Card>();
 		int numMatch = 0;
 		int index_size = 0;
-		ArrayList<Card> matchingCard = new ArrayList<>();
+		ArrayList<Card> matchingCard = new ArrayList<Card>();
 		
 		for (int i = 0; i < hand.size(); i++) {
 			if (hand.get(i).equals(room) || hand.get(i).equals(person) || hand.get(i).equals(weapon)) {
 				matchingCard.add(hand.get(i));
+				numMatch++;
 			}	
 		}
 		
-		numMatch = matchingCard.size();
+//		numMatch = matchingCard.size();
 	
 		
 		if (numMatch == 0) {

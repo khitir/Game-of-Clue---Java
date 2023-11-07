@@ -484,18 +484,9 @@ public class Board {
 			if (index == players.size())
 				index = 0;
 			Player next = players.get(index);
-			Map<String, Card> hand = next.getCards();
-			for (Card i : hand.values()) {
-				if (i.getType() == CardType.ROOM && i == suggestion1.getRoom()) {
-					return i;
-				}
-				else if (i.getType() == CardType.WEAPON && i == suggestion1.getWeapon()) {
-					return i;
-				}
-				else if (i.getType() == CardType.PERSON && i == suggestion1.getPerson()) {
-					return i;
-				}
-			}
+			Card result = next.disproveSuggestion(suggestion1.getRoom(), suggestion1.getPerson(), suggestion1.getWeapon());
+			if (result != null)
+				return result;
 		}
 		return null;
 	}

@@ -27,6 +27,7 @@ class GameSolutionTest {
 	void handleSuggestionTest() {
 		board = Board.getInstance();
 		
+		// Create three players
 		Player human, comp1, comp2;
 		human = new HumanPlayer("Name", "Red");
 		comp1 = new ComputerPlayer("1", "Blue");
@@ -36,6 +37,7 @@ class GameSolutionTest {
 		players.add(comp1);
 		players.add(comp2);
 		board.setPlayers(players);
+		// Create dummy cards
 		Card room1, room2, room3, weapon1, weapon2, player1, player2, player3;
 		room1 = new Card("Room1", CardType.ROOM);
 		room2 = new Card("Room2", CardType.ROOM);
@@ -45,43 +47,42 @@ class GameSolutionTest {
 		player1 = new Card("P1", CardType.PERSON);
 		player2 = new Card("P2", CardType.PERSON);
 		player3 = new Card("P3", CardType.PERSON);
+		// Deal cards to players
 		human.deal(room1);
 		human.deal(room2);
 		comp1.deal(weapon1);
 		comp1.deal(player1);
 		comp2.deal(player2);
 		
+		// Make sure player 2 disproves
 		Solution suggestion1 = new Solution(room1, player2, weapon1);
 		Card dispute = board.handleSuggestion(suggestion1, human);
 		assertTrue(dispute.equals(weapon1));
 		
 		// Test starting from a different player
+		// Make sure player 3 disproves
 		dispute = board.handleSuggestion(suggestion1, comp1);
 		assertTrue(dispute.equals(player2));
 		
+		// Make sure player 3 disproves from a player 1 suggestion
 		Solution suggestion2 = new Solution(room3, player2, weapon1);
 		dispute = board.handleSuggestion(suggestion2, human);
 		assertTrue(dispute.equals(weapon1));
 		
+		// Make sure no one can disprove
 		Solution nullSuggestion = new Solution(room3, player3, weapon2);
 		dispute = board.handleSuggestion(nullSuggestion, human);
 		assertNull(dispute);
 	}
 	
-	@BeforeEach
-	public void setUp() {
+	@Test
+	public void testCheckAccusation(){
 		// Board is singleton, get the only instance
 		board = Board.getInstance();
 		// set the file names to use my config files
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");		
 		// Initialize will load config files 
 		board.initialize();
-	}
-	
-	
-	
-	@Test
-	public void testCheckAccusation(){
 
 //		solution that is correct
 		Card roomSolution = board.getSolution().getRoom();
@@ -105,42 +106,34 @@ class GameSolutionTest {
 		assertFalse(board.checkAccusation(cardRoom, personSolution, weaponSolution));
 		
 	}	
-//	@Test
-//	public void testDisproveSuggestion(){
-//		board = Board.getInstance();
-//		// set the file names to use my config files
-//		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");		
-//		// Initialize will load config files 
-//		board.initialize();
-//		Player pl1 = board.getPlayers().get(0);
-//		Card card1 = pl1.getHand().get(0);
-//		Card card2 = pl1.getHand().get(1);
-//		Card card3 = pl1.getHand().get(2);
-//		
-//		Card cardToTest = card1;
-//		
-////		If player has only one matching card it should be returned
-//		Card dummy1 = new Card("mess1");
-//		Card dummy2 = new Card("mess2");
-//		
-//		assertTrue(pl1.disproveSuggestion(cardToTest, dummy1, dummy2).equals(card1));
-//		
-////		If players has >1 matching card, returned card should be chosen randomly
-//		assertTrue(pl1.disproveSuggestion(card1, card2, card3).equals(card1) || pl1.disproveSuggestion(card1, card2, card3).equals(card2) || pl1.disproveSuggestion(card1, card2, card3).equals(card3));
-//		assertTrue(pl1.disproveSuggestion(card1, card2, dummy1).equals(card1) || pl1.disproveSuggestion(card1, card2, dummy1).equals(card2));
-//		
-////		If player has no matching cards, null is returned
-//		assertFalse(pl1.disproveSuggestion(dummy1, dummy2, dummy1).equals(card1) || pl1.disproveSuggestion(dummy1, dummy2, dummy1).equals(card2) || pl1.disproveSuggestion(dummy1, dummy2, dummy1).equals(card3));
-//	}
-//	
-//	
-	
-//	@Test
-//	public void testHandleSuggestion(){
-////		Suggestion no one can disprove returns null
-////		Suggestion only suggesting player can disprove returns null
-////		Suggestion only human can disprove returns answer (i.e., card that disproves suggestion)
-////		Suggestion that two players can disprove, correct player (based on starting with next player in list) returns answer
-//	}
+	@Test
+	public void testDisproveSuggestion(){
+		board = Board.getInstance();
+		// set the file names to use my config files
+		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");		
+		// Initialize will load config files 
+		board.initialize();
+		Player pl1 = board.getPlayers().get(0);
+		Card card1 = pl1.getHand().get(0);
+		Card card2 = pl1.getHand().get(1);
+		Card card3 = pl1.getHand().get(2);
+		
+		Card cardToTest = card1;
+		
+//		If player has only one matching card it should be returned
+		Card dummy1 = new Card("mess1");
+		Card dummy2 = new Card("mess2");
+		
+		assertTrue(pl1.disproveSuggestion(cardToTest, dummy1, dummy2).equals(card1));
+		
+//		If players has >1 matching card, returned card should be chosen randomly
+		Card temp = pl1.disproveSuggestion(card1, card2, card3);
+		assertTrue(temp.equals(card1) || temp.equals(card2) || temp.equals(card3));
+		temp = pl1.disproveSuggestion(card1, card2, dummy1);
+		assertTrue(temp.equals(card1) || temp.equals(card2));
+		
+//		If player has no matching cards, null is returned
+		assertNull(pl1.disproveSuggestion(dummy1, dummy2, dummy1));
+	}
 
 }
