@@ -15,32 +15,18 @@ import javax.swing.border.TitledBorder;
 public class ClueGameGUI extends JPanel {
 	
 	public ClueGameGUI() {
-		setLayout(new GridLayout(2,0));
 		
-//		JTextField playerGuess = new JTextField();
-//		JPanel guessPanel = new JPanel();
-//		guessPanel.setSize(1, 0);
-//		guessPanel.add(playerGuess, BorderLayout.CENTER);
-//		
-//		JTextField guessResult = new JTextField();
-//		JPanel guessResultPanel = new JPanel();
-//		guessResultPanel.setSize(1, 0);
-//		guessResultPanel.add(guessResult, BorderLayout.CENTER);
-//		
-//		JPanel guess = new JPanel();
-//		guess.setSize(0, 2);
-//		guess.add(guessPanel, BorderLayout.WEST);
-//		guess.add(guessResultPanel, BorderLayout.EAST);
-	
+		setLayout(new GridLayout(2,0)); // create 2 row main grid
 
 		// first panel
 		JPanel topPanel = new JPanel();
-		topPanel.setLayout(new GridLayout(1,4));
+		topPanel.setLayout(new GridLayout(1,4)); // add 4 columns on first row
 		
-		
+		// buttons
 		JButton accusationButton = new JButton("Make Accusation");
 		JButton nextButton = new JButton("NEXT!");
 		
+		// label for turn
 		JLabel turnLabel = new JLabel("Whose turn?");
 		JTextField whoseTurn = new JTextField(15);
 		JPanel turnPanel = new JPanel();
@@ -49,6 +35,7 @@ public class ClueGameGUI extends JPanel {
 		turnPanel.add(whoseTurn);
 		topPanel.add(turnPanel);
 		
+		//label for roll
 		JLabel rollLabel = new JLabel("Roll: ");
 		JTextField theRoll = new JTextField(5);
 		JPanel rollPanel = new JPanel();
@@ -57,49 +44,34 @@ public class ClueGameGUI extends JPanel {
 		rollPanel.add(theRoll);
 		topPanel.add(rollPanel);
 		
-		
-//		topPanel.add(turnPanel);
-//		topPanel.add(rollPanel);
+		// after adding labels, add buttons here
 		topPanel.add(accusationButton);
 		topPanel.add(nextButton);
 		
 		//second panel
 		JPanel topPanel2 = new JPanel();
-		topPanel2.setLayout(new GridLayout(0,2));
+		topPanel2.setLayout(new GridLayout(0,2)); // add 2 columns to row 0
 		
-		JLabel guessLabel = new JLabel("Guess");
+		// label for guess
 		JTextField guess = new JTextField(15);
 		JPanel guessPanel = new JPanel();
-		guess.setEditable(false);
-		guessPanel.add(guessLabel);
+		guessPanel.setLayout(new GridLayout(1,0));
+		guessPanel.setBorder(new TitledBorder(new EtchedBorder(), "Guess"));
 		guessPanel.add(guess);
 		topPanel2.add(guessPanel);
 		
-//		JPanel topPanel3 = new JPanel();
-//		topPanel3.setLayout(new GridLayout(1,0));
-		
-//		JLabel guessResultLabel = new JLabel("Guess Result");
+        //label for guess result
 		JTextField guessResult = new JTextField(15);
 		JPanel guessResultPanel = new JPanel();
-		guessResultPanel.setLayout(new GridLayout(1,0));
+		guessResultPanel.setLayout(new GridLayout(1,0)); 
 		guessResultPanel.setBorder(new TitledBorder(new EtchedBorder(), "Guess Result"));
-//		guessResult.setEditable(false);
-//		guessResultPanel.add(guessResultLabel);
 		guessResultPanel.add(guessResult);
 		topPanel2.add(guessResultPanel);
 		
-//		JPanel controlPanel = new JPanel();
-//		controlPanel.setSize(2, 0);
-//		controlPanel.add(topPanel, BorderLayout.NORTH);
-//		controlPanel.add(guess, BorderLayout.SOUTH);
-	//	controlPanel.setVisible(true);
-		
-	//	add(controlPanel, BorderLayout.SOUTH);
+		// add both panels to main grid
 		add(topPanel);
 		add(topPanel2);
-//		add(topPanel3);
 		
-
 	}
 	
 
