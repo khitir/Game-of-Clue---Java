@@ -9,6 +9,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 public class ClueGameGUI extends JPanel {
 	
@@ -31,7 +33,7 @@ public class ClueGameGUI extends JPanel {
 //		guess.add(guessResultPanel, BorderLayout.EAST);
 	
 
-		
+		// first panel
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(new GridLayout(1,4));
 		
@@ -61,14 +63,42 @@ public class ClueGameGUI extends JPanel {
 		topPanel.add(accusationButton);
 		topPanel.add(nextButton);
 		
-		JPanel controlPanel = new JPanel();
-		controlPanel.setSize(2, 0);
+		//second panel
+		JPanel topPanel2 = new JPanel();
+		topPanel2.setLayout(new GridLayout(0,2));
+		
+		JLabel guessLabel = new JLabel("Guess");
+		JTextField guess = new JTextField(15);
+		JPanel guessPanel = new JPanel();
+		guess.setEditable(false);
+		guessPanel.add(guessLabel);
+		guessPanel.add(guess);
+		topPanel2.add(guessPanel);
+		
+//		JPanel topPanel3 = new JPanel();
+//		topPanel3.setLayout(new GridLayout(1,0));
+		
+//		JLabel guessResultLabel = new JLabel("Guess Result");
+		JTextField guessResult = new JTextField(15);
+		JPanel guessResultPanel = new JPanel();
+		guessResultPanel.setLayout(new GridLayout(1,0));
+		guessResultPanel.setBorder(new TitledBorder(new EtchedBorder(), "Guess Result"));
+//		guessResult.setEditable(false);
+//		guessResultPanel.add(guessResultLabel);
+		guessResultPanel.add(guessResult);
+		topPanel2.add(guessResultPanel);
+		
+//		JPanel controlPanel = new JPanel();
+//		controlPanel.setSize(2, 0);
 //		controlPanel.add(topPanel, BorderLayout.NORTH);
 //		controlPanel.add(guess, BorderLayout.SOUTH);
-		controlPanel.setVisible(true);
+	//	controlPanel.setVisible(true);
 		
-		add(controlPanel, BorderLayout.SOUTH);
-		add(topPanel, BorderLayout.NORTH);
+	//	add(controlPanel, BorderLayout.SOUTH);
+		add(topPanel);
+		add(topPanel2);
+//		add(topPanel3);
+		
 
 	}
 	
