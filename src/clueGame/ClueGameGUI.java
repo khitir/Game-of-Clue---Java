@@ -40,7 +40,9 @@ public class ClueGameGUI extends JFrame {
 		JPanel rollPanel = new JPanel();
 		
 		JButton accusationButton = new JButton();
+		accusationButton.setName("Make Accusation");
 		JButton nextButton = new JButton();
+		nextButton.setName("NEXT");
 		
 		JPanel topPanel = new JPanel();
 		topPanel.setSize(1, 4);
