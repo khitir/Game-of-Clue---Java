@@ -1,5 +1,6 @@
 package clueGame;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
@@ -14,7 +15,7 @@ public class ComputerPlayer extends Player {
 	Card lastPersonUnseen, lastWeaponUnseen;
 	int row, col;
 
-	public ComputerPlayer(String name, String color) {
+	public ComputerPlayer(String name, Color color) {
 		super(name, color, true);
 		weaponsNotSeen = new ArrayList<Card>();
 		roomsNotSeen = new ArrayList<Card>();

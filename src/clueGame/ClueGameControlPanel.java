@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Panel;
@@ -13,7 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-public class ClueGameGUI extends JPanel {
+public class ClueGameControlPanel extends JPanel {
 	private JTextField guess = new JTextField(15);
 	private JTextField guessResult = new JTextField(15);;
 	private JTextField theRoll = new JTextField(5);
@@ -21,7 +22,7 @@ public class ClueGameGUI extends JPanel {
 	
 	
 	
-	public ClueGameGUI() {
+	public ClueGameControlPanel() {
 		
 		setLayout(new GridLayout(2,0)); // create 2 row main grid
 
@@ -80,8 +81,9 @@ public class ClueGameGUI extends JPanel {
 	
 
     // setters
-	public void setTheTurn(String theTurn) {
-		whoseTurn.setText(theTurn);
+	public void setTheTurn(Player currentPlayer) {
+		whoseTurn.setText(currentPlayer.getName());
+		whoseTurn.setBackground(currentPlayer.getColor());
 	}
 	
 	public void setTheRoll(int roll) {
@@ -95,14 +97,9 @@ public class ClueGameGUI extends JPanel {
 	public void setGuessResult(String result) {
 		guessResult.setText(result);
 	}
-	
-
-
-
-
 
 	public static void main(String[] args) {
-		ClueGameGUI gui = new ClueGameGUI();
+		ClueGameControlPanel gui = new ClueGameControlPanel();
 		JFrame frame = new JFrame();
 		frame.setContentPane(gui);
 		frame.setSize(750,180);
@@ -111,7 +108,7 @@ public class ClueGameGUI extends JPanel {
 		// test filling in the data
 		//gui.setGuess(new ComputerPlayer( "Col. Mustard", 0, 0, "orange"), 5);
 		gui.setTheRoll(5);
-		gui.setTheTurn("Mine maybe?");
+		gui.setTheTurn(new HumanPlayer("Me", Color.lightGray));
 		gui.setGuess( "I have no guess!");
 		gui.setGuessResult( "So you have nothing?");
 

@@ -1,10 +1,11 @@
 package clueGame;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 public class HumanPlayer extends Player {
 
-	public HumanPlayer(String name, String color) {
+	public HumanPlayer(String name, Color color) {
 		super(name, color, false);
 	}
 

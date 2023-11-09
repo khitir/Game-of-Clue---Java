@@ -1,5 +1,6 @@
 package clueGame;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -9,7 +10,7 @@ import java.util.Set;
 
 public abstract class Player {
 	private String name;
-	private String color;
+	private Color color;
 	private int row, column;
 	private boolean isComputer;
 	private boolean isHuman;
@@ -20,7 +21,7 @@ public abstract class Player {
 	private Set <Card> seenCards;  // seen cards, not yet implemented.
 	private ArrayList<Card> hand;
 	
-	public Player(String name, String color, boolean isComputer) {
+	public Player(String name, Color color, boolean isComputer) {
 		this.name = name;
 		this.color = color;
 		this.isComputer = isComputer;
@@ -82,7 +83,7 @@ public abstract class Player {
 		return name;
 	}
 	
-	public String getColor() {
+	public Color getColor() {
 		return color;
 	}
 
