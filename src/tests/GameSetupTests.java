@@ -2,6 +2,7 @@ package tests;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,11 +27,11 @@ public class GameSetupTests extends TestCase {
 	@Test
 	// This function tests that players can be created correctly, and can share their information correctly
 	public void testPlayer() {
-		Player player1 = new HumanPlayer("General Mustard", "Yellow");
+		Player player1 = new HumanPlayer("General Mustard", Color.yellow);
 		assertEquals(player1.getName(), "General Mustard");
 		assertEquals(player1.getColor(), "Yellow");
 		assertEquals(false, player1.isComputer());
-		player1 = new ComputerPlayer("Doctor Gribble", "Brown");
+		player1 = new ComputerPlayer("Doctor Gribble", Color.blue);
 		assertEquals(player1.getName(), "Doctor Gribble");
 		assertEquals(player1.getColor(), "Brown");
 		assertEquals(true, player1.isComputer());

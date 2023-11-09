@@ -1,5 +1,6 @@
 package clueGame;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -114,9 +115,9 @@ public class Board {
 				else if (elements[0].equals("Player") && elements.length == 4) {
 					Player newPlayer;
 					if (elements[3].equals("Computer"))
-						newPlayer = new ComputerPlayer(elements[1], elements[2]);
+						newPlayer = new ComputerPlayer(elements[1], Color.getColor(elements[2]));
 					else if (elements[3].equals("Human"))
-						newPlayer = new HumanPlayer(elements[1], elements[2]);
+						newPlayer = new HumanPlayer(elements[1], Color.getColor(elements[2]));
 					else
 						throw new BadConfigFormatException("Formatting for Players incorrect");
 					players.add(newPlayer);

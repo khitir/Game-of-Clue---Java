@@ -2,6 +2,7 @@ package tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertTrue;
@@ -29,9 +30,9 @@ class GameSolutionTest {
 		
 		// Create three players
 		Player human, comp1, comp2;
-		human = new HumanPlayer("Name", "Red");
-		comp1 = new ComputerPlayer("1", "Blue");
-		comp2 = new ComputerPlayer("2", "green");
+		human = new HumanPlayer("Name", Color.red);
+		comp1 = new ComputerPlayer("1", Color.blue);
+		comp2 = new ComputerPlayer("2", Color.green);
 		ArrayList<Player> players = new ArrayList<Player>();
 		players.add(human);
 		players.add(comp1);

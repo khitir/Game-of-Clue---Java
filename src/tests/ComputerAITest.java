@@ -2,6 +2,7 @@ package tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,7 +28,7 @@ class ComputerAITest {
 		board.initialize();
 		
 		// Create a player that is in the doorway of an UNSEEN room with a roll of 1
-		ComputerPlayer compPlayer = new ComputerPlayer("Player1", "Color");
+		ComputerPlayer compPlayer = new ComputerPlayer("Player1", Color.red);
 		compPlayer.setLocation(7, 5);
 		ArrayList<Card> roomsUnseen = new ArrayList<Card>();
 		roomsUnseen.add(new Card(board.getRoom('P').getName()));
@@ -72,7 +73,7 @@ class ComputerAITest {
 		board.initialize();
 		
 		// Create a computer player
-		ComputerPlayer compPlayer = new ComputerPlayer("Name", "Color");
+		ComputerPlayer compPlayer = new ComputerPlayer("Name", Color.red);
 		
 		// Create lists of weapons and players that haven't been seen yet
 		ArrayList<Card> tempSet = new ArrayList<Card>();
