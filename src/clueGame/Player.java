@@ -3,6 +3,7 @@ package clueGame;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
@@ -28,6 +29,7 @@ public abstract class Player {
 		this.isHuman = !isComputer;
 		cards = new HashMap<String, Card>(); 
 		hand = new ArrayList<Card>();
+		seenCards = new HashSet<Card>();
 	}
 	
 	public ArrayList<Card> getHand() {
@@ -97,6 +99,9 @@ public abstract class Player {
 
 	public Map<String, Card> getCards() {
 		return cards;
+	}
+	public Set<Card> getSeenCards() {
+		return seenCards;
 	}
 
 	public abstract void setUnseenPlayers(ArrayList<Card> peopleCards);

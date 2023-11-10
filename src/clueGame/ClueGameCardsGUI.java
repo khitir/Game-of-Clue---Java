@@ -15,6 +15,8 @@ public class ClueGameCardsGUI extends JPanel{
 //	private JTextField people = new JTextField(15);
 //	private JTextField rooms = new JTextField(15);;
 //	private JTextField weapons = new JTextField(15);
+	JLabel inHandLabel1 = new JLabel("In Hand:"), inHandLabel2 = new JLabel("In Hand:"), inHandLabel3 = new JLabel("In Hand:");
+	JLabel seenLabel1 = new JLabel("Seen:"), seenLabel2 = new JLabel("Seen:"), seenLabel3 = new JLabel("Seen:");
 	
 	
 	public ClueGameCardsGUI() {
@@ -27,100 +29,56 @@ public class ClueGameCardsGUI extends JPanel{
 		topPanel.setLayout(new GridLayout(0,1)); // add 4 columns on first row
 		topPanel.setBorder(new TitledBorder(new EtchedBorder(), "Known Cards"));
 		
+		topPanel.add(createSubpanel("People", board, CardType.PERSON, inHandLabel1, seenLabel1));
+		topPanel.add(createSubpanel("Rooms", board, CardType.ROOM, inHandLabel2, seenLabel2));
+		topPanel.add(createSubpanel("Weapons", board, CardType.WEAPON, inHandLabel3, seenLabel3));
 		
-		// label for people
-		JPanel peoplePanel = new JPanel();
-		JLabel inHandLabel = new JLabel("In Hand:");
-		peoplePanel.setLayout(new GridLayout(0,1));
-		peoplePanel.setBorder(new TitledBorder(new EtchedBorder(), "People"));
-		peoplePanel.add(inHandLabel);
-		int x = 0;
-		for (Card card : board.getPlayers().get(0).getHand()) {
-			if (card.getType().equals(CardType.PERSON)) {
-				JTextField people = new JTextField(15);
-				people.setText(card.getCardName());
-				people.setBackground(card.getWhoShowedColor());
-				peoplePanel.add(people);
-				x++;
-			}
-		}
-
-		if(x>0) {
-			topPanel.add(peoplePanel);
-		}
-		else {
-			JTextField people = new JTextField(15);
-			people.setText("null");
-			peoplePanel.add(people);
-		}
-
-		
-		
-		//label for room
-		JPanel roomPanel = new JPanel();
-		roomPanel.setLayout(new GridLayout(0,1));
-		roomPanel.setBorder(new TitledBorder(new EtchedBorder(), "Rooms"));
-		roomPanel.add(inHandLabel);
-		//rooms.setEditable(false);
-	//	roomPanel.add(rooms);
-		topPanel.add(roomPanel);
-		int y = 0;
-		for (Card card : board.getPlayers().get(0).getHand()) {
-			if (card.getType().equals(CardType.ROOM)) {
-				JTextField room = new JTextField(15);
-				room.setText(card.getCardName());
-				room.setBackground(card.getWhoShowedColor());
-				roomPanel.add(room);
-				y++;
-			}
-		}
-
-		if(y>0) {
-			topPanel.add(roomPanel);
-		}
-		else {
-			JTextField room = new JTextField(15);
-			room.setText("null");
-			roomPanel.add(room);
-		}
-		
-		
-		
-		// label for weapon
-		JPanel weaponPanel = new JPanel();
-		weaponPanel.setLayout(new GridLayout(0,1));
-		weaponPanel.setBorder(new TitledBorder(new EtchedBorder(), "Weapons"));
-		weaponPanel.add(inHandLabel);
-	//	weaponPanel.add(weapons);
-		topPanel.add(weaponPanel);
+		// add panel to main grid
+		add(topPanel);	
+	}
+	
+	public JPanel createSubpanel(String panelName, Board board, CardType type, JLabel inHandLabel, JLabel seenLabel) {
+		JPanel temp = new JPanel();
+		temp.setLayout(new GridLayout(0,1));
+		temp.setBorder(new TitledBorder(new EtchedBorder(), panelName));
+		temp.add(inHandLabel);
 		
 		int z = 0;
 		for (Card card : board.getPlayers().get(0).getHand()) {
-			if (card.getType().equals(CardType.WEAPON)) {
-				JTextField weapon = new JTextField(15);
-				weapon.setText(card.getCardName());
-				weapon.setBackground(card.getWhoShowedColor());
-				weaponPanel.add(weapon);
+			if (card.getType().equals(type)) {
+				JTextField tempText = new JTextField(15);
+				tempText.setText(card.getCardName());
+				temp.add(tempText);
 				z++;
 			}
 		}
 
-		if(z>0) {
-			topPanel.add(weaponPanel);
-		}
-		else {
-			JTextField weapon = new JTextField(15);
-			weapon.setText("null");
-			weaponPanel.add(weapon);
+		if(z == 0) {
+			JTextField noneText = new JTextField(15);
+			noneText.setText("None");
+			temp.add(noneText);
 		}
 		
-		
-		
-		// add panel to main grid
-		add(topPanel);
-		
-		
+		temp.add(seenLabel);
+		z = 0;
+		for (Card card : board.getPlayers().get(0).getSeenCards()) {
+			if (card.getType().equals(type)) {
+				JTextField tempText = new JTextField(15);
+				tempText.setText(card.getCardName());
+				tempText.setBackground(card.getWhoShowedColor());
+				temp.add(tempText);
+				z++;
+			}
+		}
+
+		if(z == 0) {
+			JTextField noneText = new JTextField(15);
+			noneText.setText("None");
+			temp.add(noneText);
+		}
+		return temp;
 	}
+	
 	public static void main(String[] args) {
 		ClueGameCardsGUI gui = new ClueGameCardsGUI();
 		JFrame frame = new JFrame();
