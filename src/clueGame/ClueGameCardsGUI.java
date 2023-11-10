@@ -39,6 +39,7 @@ public class ClueGameCardsGUI extends JPanel{
 			if (card.getType().equals(CardType.PERSON)) {
 				JTextField people = new JTextField(15);
 				people.setText(card.getCardName());
+				people.setBackground(card.getWhoShowedColor());
 				peoplePanel.add(people);
 				x++;
 			}
@@ -68,6 +69,7 @@ public class ClueGameCardsGUI extends JPanel{
 			if (card.getType().equals(CardType.ROOM)) {
 				JTextField room = new JTextField(15);
 				room.setText(card.getCardName());
+				room.setBackground(card.getWhoShowedColor());
 				roomPanel.add(room);
 				y++;
 			}
@@ -97,6 +99,7 @@ public class ClueGameCardsGUI extends JPanel{
 			if (card.getType().equals(CardType.WEAPON)) {
 				JTextField weapon = new JTextField(15);
 				weapon.setText(card.getCardName());
+				weapon.setBackground(card.getWhoShowedColor());
 				weaponPanel.add(weapon);
 				z++;
 			}

@@ -94,8 +94,7 @@ public class Board {
 					Room tempRoom = new Room(elements[2].charAt(0), elements[1]);
 					rooms.put(elements[2].charAt(0), tempRoom);
 
-					Card cardRoom = new Card(elements[1]); // create room card and set it's type**
-					cardRoom.setType(CardType.ROOM);
+					Card cardRoom = new Card(elements[1], CardType.ROOM, Color.white); // create room card and set it's type**
 					cards.put(elements[1], cardRoom);
 					numRoomCards++;
 					roomCards.add(cardRoom);
@@ -105,8 +104,7 @@ public class Board {
 				}
 
 				else if (elements[0].equals("Weapon") && elements.length == 2) { // load weapon cards
-					Card cardWeapon = new Card(elements[1]); // create room card and set it's type**
-					cardWeapon.setType(CardType.WEAPON);
+					Card cardWeapon = new Card(elements[1], CardType.WEAPON, Color.white); // create room card and set it's type**
 					cards.put(elements[1], cardWeapon);
 					numWeaponCards++;
 					weaponCards.add(cardWeapon);
@@ -123,8 +121,7 @@ public class Board {
 					players.add(newPlayer);
 					playerList.add(newPlayer);
 
-					Card cardPerson = new Card(elements[1]); // create room card and set it's type **
-					cardPerson.setType(CardType.PERSON);
+					Card cardPerson = new Card(elements[1], CardType.PERSON, Color.white); // create room card and set it's type **
 					cards.put(elements[1], cardPerson);
 					numPersonCards++;
 					peopleCards.add(cardPerson);

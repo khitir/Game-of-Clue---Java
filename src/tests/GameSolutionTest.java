@@ -40,14 +40,14 @@ class GameSolutionTest {
 		board.setPlayers(players);
 		// Create dummy cards
 		Card room1, room2, room3, weapon1, weapon2, player1, player2, player3;
-		room1 = new Card("Room1", CardType.ROOM);
-		room2 = new Card("Room2", CardType.ROOM);
-		room3 = new Card("Room3", CardType.ROOM);
-		weapon1 = new Card("Weapon", CardType.WEAPON);
-		weapon2 = new Card("Weapon2", CardType.WEAPON);
-		player1 = new Card("P1", CardType.PERSON);
-		player2 = new Card("P2", CardType.PERSON);
-		player3 = new Card("P3", CardType.PERSON);
+		room1 = new Card("Room1", CardType.ROOM, Color.white);
+		room2 = new Card("Room2", CardType.ROOM, Color.white);
+		room3 = new Card("Room3", CardType.ROOM, Color.white);
+		weapon1 = new Card("Weapon", CardType.WEAPON, Color.white);
+		weapon2 = new Card("Weapon2", CardType.WEAPON, Color.white);
+		player1 = new Card("P1", CardType.PERSON, Color.white);
+		player2 = new Card("P2", CardType.PERSON, Color.white);
+		player3 = new Card("P3", CardType.PERSON, Color.white);
 		// Deal cards to players
 		human.deal(room1);
 		human.deal(room2);

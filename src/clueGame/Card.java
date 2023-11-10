@@ -1,16 +1,20 @@
 package clueGame;
 
+import java.awt.Color;
+
 public class Card {
 	private String cardName;
 	private CardType type;
+	private Color whoShowedCard;
 	
 	public Card(String cardName) {
 		this.cardName = cardName;
 	}
 	
-	public Card(String cardName, CardType type) {
+	public Card(String cardName, CardType type, Color whoShowedColor) {
 		this.cardName = cardName;
 		this.type = type;
+		this.whoShowedCard = whoShowedColor;
 	}	
 	
 	public CardType getType() {
@@ -49,6 +53,10 @@ public class Card {
     public int hashCode() {
         return cardName.hashCode();
     }
+
+	public Color getWhoShowedColor() {
+		return this.whoShowedCard;
+	}
 	
 	
 	
