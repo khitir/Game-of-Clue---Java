@@ -29,11 +29,11 @@ public class GameSetupTests extends TestCase {
 	public void testPlayer() {
 		Player player1 = new HumanPlayer("General Mustard", Color.yellow);
 		assertEquals(player1.getName(), "General Mustard");
-		assertEquals(player1.getColor(), "Yellow");
+		assertEquals(player1.getColor(), Color.yellow);
 		assertEquals(false, player1.isComputer());
 		player1 = new ComputerPlayer("Doctor Gribble", Color.blue);
 		assertEquals(player1.getName(), "Doctor Gribble");
-		assertEquals(player1.getColor(), "Brown");
+		assertEquals(player1.getColor(), Color.blue);
 		assertEquals(true, player1.isComputer());
 	}
 

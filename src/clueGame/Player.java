@@ -19,7 +19,7 @@ public abstract class Player {
 	public Room location;
 
 	private Map<String, Card> cards;  // set of cards for each player, hand 
-	private Set <Card> seenCards;  // seen cards, not yet implemented.
+	private Map<Card, Color> seenCards;  // seen cards, not yet implemented.
 	private ArrayList<Card> hand;
 	
 	public Player(String name, Color color, boolean isComputer) {
@@ -29,7 +29,7 @@ public abstract class Player {
 		this.isHuman = !isComputer;
 		cards = new HashMap<String, Card>(); 
 		hand = new ArrayList<Card>();
-		seenCards = new HashSet<Card>();
+		seenCards = new HashMap<Card, Color>();
 	}
 	
 	public ArrayList<Card> getHand() {
@@ -49,8 +49,8 @@ public abstract class Player {
 	}
 	
 
-	public void updateSeen(Card seenCard) {
-		
+	public void updateSeen(Card seenCard, Color seenColor) {
+		seenCards.put(seenCard, seenColor);
 	}
 	
 	public Card disproveSuggestion(Card room, Card person, Card weapon) {
@@ -100,7 +100,7 @@ public abstract class Player {
 	public Map<String, Card> getCards() {
 		return cards;
 	}
-	public Set<Card> getSeenCards() {
+	public Map<Card, Color> getSeenCards() {
 		return seenCards;
 	}
 

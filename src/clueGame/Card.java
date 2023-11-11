@@ -6,7 +6,7 @@ public class Card {
 	private String cardName;
 	private CardType type;
 	private Color whoShowedCard;
-	
+
 	public Card(String cardName) {
 		this.cardName = cardName;
 	}
@@ -58,7 +58,9 @@ public class Card {
 		return this.whoShowedCard;
 	}
 	
-	
+	public void setWhoShowedCard(Color whoShowedCard) {
+		this.whoShowedCard = whoShowedCard;
+	}
 	
 	
 }

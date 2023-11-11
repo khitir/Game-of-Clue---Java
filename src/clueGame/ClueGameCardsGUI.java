@@ -19,11 +19,13 @@ public class ClueGameCardsGUI extends JPanel{
 	JLabel seenLabel1 = new JLabel("Seen:"), seenLabel2 = new JLabel("Seen:"), seenLabel3 = new JLabel("Seen:");
 	
 	
-	public ClueGameCardsGUI() {
+	public ClueGameCardsGUI(Board board) {
+		this.updatePanels(board);	
+	}
+	
+	public void updatePanels(Board board) {
+		removeAll();
 		setLayout(new GridLayout(0,1)); // create 2 row main grid
-		Board board = Board.getInstance();
-		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
-		board.initialize();
 		// first panel
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(new GridLayout(0,1)); // add 4 columns on first row
@@ -34,7 +36,7 @@ public class ClueGameCardsGUI extends JPanel{
 		topPanel.add(createSubpanel("Weapons", board, CardType.WEAPON, inHandLabel3, seenLabel3));
 		
 		// add panel to main grid
-		add(topPanel);	
+		add(topPanel);
 	}
 	
 	public JPanel createSubpanel(String panelName, Board board, CardType type, JLabel inHandLabel, JLabel seenLabel) {
@@ -61,7 +63,7 @@ public class ClueGameCardsGUI extends JPanel{
 		
 		temp.add(seenLabel);
 		z = 0;
-		for (Card card : board.getPlayers().get(0).getSeenCards()) {
+		for (Card card : board.getPlayers().get(0).getSeenCards().keySet()) {
 			if (card.getType().equals(type)) {
 				JTextField tempText = new JTextField(15);
 				tempText.setText(card.getCardName());
@@ -80,19 +82,30 @@ public class ClueGameCardsGUI extends JPanel{
 	}
 	
 	public static void main(String[] args) {
-		ClueGameCardsGUI gui = new ClueGameCardsGUI();
+		Board board = Board.getInstance();
+		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
+		board.initialize();
+		ClueGameCardsGUI gui = new ClueGameCardsGUI(board);
 		JFrame frame = new JFrame();
 		frame.setContentPane(gui);
 		frame.setSize(400,750);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// test filling in the data
-		//gui.setGuess(new ComputerPlayer( "Col. Mustard", 0, 0, "orange"), 5);
-//		gui.setTheRoll(5);
-//		gui.setTheTurn(new HumanPlayer("Me", Color.lightGray));
-//		gui.setGuess( "I have no guess!");
-//		gui.setGuessResult( "So you have nothing?");
-
+		for (Card card : board.getCards().values()) {
+			if (!board.getPlayers().get(0).getHand().contains(card)) {
+				card.setWhoShowedCard(Color.yellow);
+				board.getPlayers().get(0).updateSeen(card, Color.yellow);
+			}
+		}
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		gui.updatePanels(board);
+		frame.revalidate();
 	}
 	
 	
