@@ -1,7 +1,11 @@
 package clueGame;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.swing.JPanel;
 
 /*
  * Authors: John Taylor and Zakaria Khitirishvili
@@ -106,6 +110,25 @@ public class BoardCell {
 
 	public int getCol() {
 		return col;
+	}
+	public void drawCell(Graphics g, int width, int height) {
+		if (isRoom == true) {
+			g.setColor(Color.GRAY);
+			g.fillRect(col*width, row*height, width, height);
+		}
+		else if (isDoorway == true) {
+			g.setColor(Color.blue);
+			g.fillRect(col*width, row*height, width, height);
+		}
+		else if (roomLabel == 'W') {
+			g.setColor(Color.YELLOW);
+			g.fillRect(col*width, row*height, width, height);
+		}
+		else if (roomLabel == 'X') {
+			g.setColor(Color.black);
+			g.fillRect(col*width, row*height, width, height);
+		}
+
 	}
 
 }

@@ -24,6 +24,7 @@ public class ClueGameControlPanel extends JPanel {
 	
 	public ClueGameControlPanel() {
 		
+		
 		setLayout(new GridLayout(2,0)); // create 2 row main grid
 
 		// first panel
