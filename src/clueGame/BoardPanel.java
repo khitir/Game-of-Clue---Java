@@ -24,16 +24,27 @@ public class BoardPanel extends JPanel{
 		int height = board.getNumRows();
 		int cellWidth = getWidth()/width; //getWidth();
 		int cellHeight = getHeight()/height;//getHeight();
-		System.out.println(getWidth());
+		//System.out.println(getWidth());
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				board.getCell(i, j).drawCell(g, cellHeight, cellWidth);
-				repaint();
+				
 			}
 			
 		}
+		repaint();
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				if (board.getCell(i, j).isLabel()) {
+					board.getCell(i, j).drawRoomName(g, cellHeight, cellWidth);
+				}
+
+			}
+
+		}
+		repaint();
 	}
-	
+
 //	public void somefunction() {
 //		// update variables
 //		//repaint();

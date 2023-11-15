@@ -291,6 +291,8 @@ public class Board {
 			// Set if the square is a room label
 			if (currSpace.charAt(1) == '#') {
 				cell.setIsLabel(true);
+				cell.setRoomName(rooms.get(currSpace.charAt(0)).getName());
+				
 				Room tempRoom = rooms.get(currSpace.charAt(0));
 				tempRoom.setLabelCell(cell);
 				rooms.put(tempRoom.getLabel(), tempRoom);

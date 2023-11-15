@@ -22,6 +22,7 @@ public class BoardCell {
 	private char roomLabel;
 	private String RoomName;
 
+
 	public BoardCell(int x, int y) { // constructor, that sets cell location on board, and intitializes room and occupied to false
 		adjList = new HashSet<BoardCell>();
 		this.row = x;
@@ -29,6 +30,7 @@ public class BoardCell {
 		this.isRoom = false;
 		this.isOccupied = false;
 		this.isDoorway = false;
+		this.isLabel = false;
 	}
 	
 	public Set<BoardCell> getAdjList() {
@@ -111,6 +113,14 @@ public class BoardCell {
 	public int getCol() {
 		return col;
 	}
+	
+
+	
+	
+	public void setRoomName(String roomName) {
+		RoomName = roomName;
+	}
+
 	public void drawCell(Graphics g, int width, int height) {
 		if (isRoom == true) {
 			g.setColor(Color.GRAY);
@@ -130,5 +140,12 @@ public class BoardCell {
 		}
 
 	}
+	
+	public void drawRoomName(Graphics g, int width, int height) {
+			g.setColor(Color.BLACK);
+			g.drawString(RoomName, col*width, row*height);
+	}
+
+	
 
 }
