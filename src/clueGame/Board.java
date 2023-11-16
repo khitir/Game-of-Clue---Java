@@ -85,7 +85,7 @@ public class Board {
 	    colorMap.put("Red", Color.RED);
 	    colorMap.put("Green", Color.GREEN);
 	    colorMap.put("Blue", Color.BLUE);
-	    colorMap.put("Yellow", Color.YELLOW);
+	    colorMap.put("Orange", Color.ORANGE);
 	    colorMap.put("Cyan", Color.CYAN);
 	    colorMap.put("Magenta", Color.MAGENTA);
 	    colorMap.put("Black", Color.BLACK);
