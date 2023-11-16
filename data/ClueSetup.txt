@@ -11,12 +11,12 @@ Room, Advanced Lab, A
 // other spaces on board
 Space, Unused, X
 Space, Walkway, W
-Player, Physics Major, White, Human, 8, 0
-Player, Dr. Callan, Red, Computer, 21, 0
-Player, Laith Haddad, Blue, Computer, 27, 6
-Player, Chuck Stone, Magenta, Computer, 27, 15
-Player, Pat Kohl, Green, Computer, 0, 14
-Player, Vince Kuo, Cyan, Computer, 10, 23
+Player, Physics Major, White, Human, 8, 1
+Player, Dr. Callan, Red, Computer, 21, 1
+Player, Laith Haddad, Blue, Computer, 27, 7
+Player, Chuck Stone, Magenta, Computer, 26, 15
+Player, Pat Kohl, Green, Computer, 1, 14
+Player, Vince Kuo, Cyan, Computer, 10, 22
 Weapon, Laser
 Weapon, Cs137
 Weapon, Chuck's bicycle

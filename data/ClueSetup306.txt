@@ -11,12 +11,12 @@ Room, Hall, H
 // other spaces on board
 Space, Unused, X
 Space, Walkway, W
-Player, Physics Major, Turquoise, Human
-Player, Dr. Callan, Red, Computer
-Player, Laith Haddad, Blue, Computer
-Player, Chuck Stone, Magenta, Computer
-Player, Pat Kohl, Green, Computer
-Player, Vince Kuo, Purple, Computer
+Player, Physics Major, Turquoise, Human, 0, 0
+Player, Dr. Callan, Red, Computer, 1, 1
+Player, Laith Haddad, Blue, Computer, 2, 2
+Player, Chuck Stone, Magenta, Computer, 3, 3
+Player, Pat Kohl, Green, Computer, 4, 4
+Player, Vince Kuo, Purple, Computer, 5, 5
 Weapon, Laser
 Weapon, Cs137
 Weapon, Chuck's bicycle

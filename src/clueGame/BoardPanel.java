@@ -11,11 +11,8 @@ public class BoardPanel extends JPanel{
 
 	public BoardPanel(Board b){
 		this.board = b;
-//		b.getInstance();
-//		b.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
-//		b.initialize();
-		
 	}
+	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);

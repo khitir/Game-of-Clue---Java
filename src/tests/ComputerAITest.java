@@ -38,8 +38,8 @@ class ComputerAITest {
 		Set<BoardCell> adjList = board.getTargets();
 		// Make sure the computer picks the room as its target
 		BoardCell target = compPlayer.pickTarget(adjList);
-		assertEquals(2, target.getRow());
-		assertEquals(3, target.getCol());
+		assertEquals(1, target.getRow());
+		assertEquals(1, target.getCol());
 		
 		// Put the player in a square with no adjacent room
 		compPlayer.setLocation(21, 6);

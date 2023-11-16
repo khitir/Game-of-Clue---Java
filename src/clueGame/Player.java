@@ -84,6 +84,8 @@ public abstract class Player {
 	public void drawPlayer(Graphics g, int width, int height) {
 			g.setColor(this.color);
 			g.fillOval(column*width, row*height, width, height);
+			g.setColor(Color.black);
+			g.drawOval(column*width, row*height, width, height);
 	}
 
 	public String getName() {
