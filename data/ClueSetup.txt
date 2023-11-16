@@ -11,8 +11,8 @@ Room, Advanced Lab, A
 // other spaces on board
 Space, Unused, X
 Space, Walkway, W
-Player, Physics Major, White, Human, 8, 1
-Player, Dr. Callan, Red, Computer, 21, 1
+Player, Physics Major, Red, Human, 8, 1
+Player, Dr. Callan, White, Computer, 21, 1
 Player, Laith Haddad, Blue, Computer, 27, 7
 Player, Chuck Stone, Magenta, Computer, 26, 15
 Player, Pat Kohl, Green, Computer, 1, 14
