@@ -129,8 +129,25 @@ public class BoardCell {
 			g.fillRect(col*width, row*height, width, height);
 		}
 		else if (isDoorway == true) {
-			g.setColor(Color.blue);
+			g.setColor(Color.YELLOW);
 			g.fillRect(col*width, row*height, width, height);
+			g.setColor(Color.BLACK);
+			g.drawRect(col*width, row*height, width, height);
+			g.setColor(Color.blue);
+			switch (doorDirection) {
+				case UP:
+					g.fillRect(col*width, row*height, width, height/4);
+					break;
+				case DOWN:
+					g.fillRect(col*width, (row+1)*height - height/4, width, height/4);
+					break;
+				case LEFT:
+					g.fillRect(col*width, row*height, width/4, height);
+					break;
+				case RIGHT:
+					g.fillRect((col+1)*width - width/4, row*height, width/4, height);
+					break;
+			}
 		}
 		else if (roomLabel == 'W') {
 			g.setColor(Color.YELLOW);
