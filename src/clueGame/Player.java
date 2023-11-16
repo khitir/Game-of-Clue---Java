@@ -3,6 +3,7 @@ package clueGame;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -22,6 +23,10 @@ public abstract class Player {
 	private Map<String, Card> cards;  // set of cards for each player, hand 
 	private Map<Card, Color> seenCards;  
 	private ArrayList<Card> hand;
+	
+	public abstract void setUnseenPlayers(ArrayList<Card> peopleCards);
+	public abstract void setUnseenWeapons(ArrayList<Card> peopleCards);
+	public abstract void setUnseenRooms(ArrayList<Card> peopleCards);
 	
 	public Player(String name, Color color, boolean isComputer) {
 		this.name = name;
@@ -52,30 +57,22 @@ public abstract class Player {
 	}
 	
 	public Card disproveSuggestion(Card room, Card person, Card weapon) {
-//		ArrayList<Card> matchingCards = new ArrayList<Card>();
-		int numMatch = 0; // number of matching cards
 		ArrayList<Card> matchingCard = new ArrayList<Card>(); // matching cards list for each player
 		
 		// fill in matching card list with respective cards
 		for (int i = 0; i < hand.size(); i++) {
 			if (hand.get(i).equals(room) || hand.get(i).equals(person) || hand.get(i).equals(weapon)) {
 				matchingCard.add(hand.get(i));
-				numMatch++;
 			}	
 		}
 	
 		
-		if (numMatch == 0) { // no matching cards
+		if (matchingCard.size() == 0) { // no matching cards
 			return null;
 		}
-		else if (numMatch == 1) { // 1 matching card
-			return matchingCard.get(0);
-		}
-
 		else { // multiple matching cards, return a random one 
-			Random rand = new Random();
-			int randIndex = rand.nextInt(numMatch);
-			return matchingCard.get(randIndex);
+			Collections.shuffle(matchingCard);
+			return matchingCard.get(0);
 		}
 	}
 	
@@ -83,9 +80,9 @@ public abstract class Player {
 	// function to draw the player as oval with color
 	public void drawPlayer(Graphics g, int width, int height) {
 			g.setColor(this.color);
-			g.fillOval(column*width, row*height, width, height);
+			g.fillOval(column*width+1, row*height+1, width-2, height-2);
 			g.setColor(Color.black);
-			g.drawOval(column*width, row*height, width, height);
+			g.drawOval(column*width+1, row*height+1, width-2, height-2);
 	}
 
 	public String getName() {
@@ -129,10 +126,4 @@ public abstract class Player {
 	public ArrayList<Card> getHand() {
 		return hand;
 	}
-	
-	
-
-	public abstract void setUnseenPlayers(ArrayList<Card> peopleCards);
-	public abstract void setUnseenWeapons(ArrayList<Card> peopleCards);
-	public abstract void setUnseenRooms(ArrayList<Card> peopleCards);
 }
