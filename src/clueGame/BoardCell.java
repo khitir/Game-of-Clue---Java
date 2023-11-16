@@ -122,7 +122,7 @@ public class BoardCell {
 	}
 
 	
-	
+	// draw a cell, pass in location where draw and what color to set, get's called in BoardPanel
 	public void drawCell(Graphics g, int width, int height) {
 		if (isRoom == true) {
 			g.setColor(Color.GRAY);
@@ -134,7 +134,7 @@ public class BoardCell {
 			g.setColor(Color.BLACK);
 			g.drawRect(col*width, row*height, width, height);
 			g.setColor(Color.blue);
-			switch (doorDirection) {
+			switch (doorDirection) { // if it's a door, adjust the size of rectangle
 				case UP:
 					g.fillRect(col*width, row*height, width, height/4);
 					break;
@@ -149,19 +149,20 @@ public class BoardCell {
 					break;
 			}
 		}
-		else if (roomLabel == 'W') {
+		else if (roomLabel == 'W') { // check if walkway
 			g.setColor(Color.YELLOW);
 			g.fillRect(col*width, row*height, width, height);
 			g.setColor(Color.BLACK);
 			g.drawRect(col*width, row*height, width, height);
 		}
-		else if (roomLabel == 'X') {
+		else if (roomLabel == 'X') { // check if empty space
 			g.setColor(Color.black);
 			g.fillRect(col*width, row*height, width, height);
 		}
 
 	}
 	
+	// draws the door name
 	public void drawRoomName(Graphics g, int width, int height) {
 			g.setColor(Color.BLACK);
 			g.drawString(RoomName, col*width, row*height);

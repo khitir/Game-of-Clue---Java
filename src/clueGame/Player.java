@@ -80,7 +80,7 @@ public abstract class Player {
 	}
 	
 	
-	
+	// function to draw the player as oval with color
 	public void drawPlayer(Graphics g, int width, int height) {
 			g.setColor(this.color);
 			g.fillOval(column*width, row*height, width, height);

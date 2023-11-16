@@ -18,7 +18,7 @@ import java.util.Set;
  */
 
 public class Board {
-	Map<String, Color> colorMap;
+	Map<String, Color> colorMap; // color map used to set player colors
 	private int totalBoardCols = 0;
 	private int totalBoardRows = 0;
 	private BoardCell[][] grid;
