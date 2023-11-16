@@ -191,7 +191,7 @@ public class GameSetupTests extends TestCase {
 			assertTrue(tempPlayer.getCards().size() >= (board.getCards().size()/board.getNumPersonCards()));
 			assertTrue(tempPlayer.getCards().size() <= (board.getCards().size()/board.getNumPersonCards() + 1));
 		}
-		assertEquals(numCards, numDealt);
+		assertEquals(numCards-3, numDealt);
 		
 		// Check that each card doesn't match a card in any other player's hand
 		for (Player tempPlayer : players) {

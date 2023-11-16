@@ -162,15 +162,23 @@ public class Board {
 		} catch (IOException e) { // throw exception
 			e.printStackTrace();
 		}
+		
+		// Copy the deck into an ArrayList
+		for (String i : cards.keySet()) {
+			cardList.add(cards.get(i));
+		}
 
 		// Randomly generate a solution
 		Random rand = new Random();
 		int num = rand.nextInt(numPersonCards);
 		Card solutionPerson = peopleCards.get(num);
+		cardList.remove(cardList.indexOf(solutionPerson));
 		num = rand.nextInt(numWeaponCards);
 		Card solutionWeapon = weaponCards.get(num);
+		cardList.remove(cardList.indexOf(solutionWeapon));
 		num = rand.nextInt(numRoomCards);
 		Card solutionRoom = roomCards.get(num);
+		cardList.remove(cardList.indexOf(solutionRoom));
 
 		gameSolution = new Solution(solutionRoom, solutionPerson, solutionWeapon);
 
@@ -181,10 +189,6 @@ public class Board {
 			temp.setUnseenRooms(roomCards);
 		}
 
-		// Copy the deck into an ArrayList
-		for (String i : cards.keySet()) {
-			cardList.add(cards.get(i));
-		}
 		// Deal cards to each player in turn
 		int playerIndex = rand.nextInt(numPersonCards);
 		while (cardList.size() > 0) {
