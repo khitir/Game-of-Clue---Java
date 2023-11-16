@@ -43,7 +43,6 @@ public class BoardPanel extends JPanel{
 
 		}
 		
-		
 //		for (Player player: board.getPlayers()) {
 //			System.out.println(player.getName());
 //			player.drawPlayer(g, cellWidth, cellHeight);

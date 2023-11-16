@@ -88,10 +88,9 @@ public class Board {
 	    colorMap.put("Yellow", Color.YELLOW);
 	    colorMap.put("Cyan", Color.CYAN);
 	    colorMap.put("Magenta", Color.MAGENTA);
-	    colorMap.put("Orange", Color.ORANGE);
-	    colorMap.put("Pink", Color.PINK);
 	    colorMap.put("Black", Color.BLACK);
 	    colorMap.put("White", Color.WHITE);
+	   
 	    
 
 		try {
@@ -123,13 +122,20 @@ public class Board {
 					weaponCards.add(cardWeapon);
 				}
 
-				else if (elements[0].equals("Player") && elements.length == 4) {
+				else if (elements[0].equals("Player") && elements.length == 6) {
 					Player newPlayer;
-					if (elements[3].equals("Computer"))
+					if (elements[3].equals("Computer")) {
 						newPlayer = new ComputerPlayer(elements[1], colorMap.get(elements[2]));
+						newPlayer.setRow(Integer.parseInt(elements[4]));
+						newPlayer.setColumn(Integer.parseInt(elements[5]));
+						}
 					    
-					else if (elements[3].equals("Human"))
+					else if (elements[3].equals("Human")) {
 						newPlayer = new HumanPlayer(elements[1], colorMap.get(elements[2]));
+						newPlayer.setRow(Integer.parseInt(elements[4]));
+						newPlayer.setColumn(Integer.parseInt(elements[5]));
+						}
+					
 					else
 						throw new BadConfigFormatException("Formatting for Players incorrect");
 					players.add(newPlayer);

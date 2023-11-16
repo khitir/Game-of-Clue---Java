@@ -33,9 +33,6 @@ public abstract class Player {
 		seenCards = new HashMap<Card, Color>();
 	}
 	
-	public ArrayList<Card> getHand() {
-		return hand;
-	}
 
 	public void deal(Card card) {
 		cards.put(card.getCardName(), card);
@@ -110,6 +107,25 @@ public abstract class Player {
 	}
 	public Map<Card, Color> getSeenCards() {
 		return seenCards;
+	}
+	public int getRow() {
+		return row;
+	}
+
+	public void setRow(int row) {
+		this.row = row;
+	}
+
+	public int getColumn() {
+		return column;
+	}
+
+	public void setColumn(int column) {
+		this.column = column;
+	}
+
+	public ArrayList<Card> getHand() {
+		return hand;
 	}
 	
 	
