@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -169,15 +170,14 @@ public class Board {
 		}
 
 		// Randomly generate a solution
-		Random rand = new Random();
-		int num = rand.nextInt(numPersonCards);
-		Card solutionPerson = peopleCards.get(num);
+		Collections.shuffle(peopleCards);
+		Card solutionPerson = peopleCards.get(0);
 		cardList.remove(cardList.indexOf(solutionPerson));
-		num = rand.nextInt(numWeaponCards);
-		Card solutionWeapon = weaponCards.get(num);
+		Collections.shuffle(weaponCards);
+		Card solutionWeapon = weaponCards.get(0);
 		cardList.remove(cardList.indexOf(solutionWeapon));
-		num = rand.nextInt(numRoomCards);
-		Card solutionRoom = roomCards.get(num);
+		Collections.shuffle(roomCards);
+		Card solutionRoom = roomCards.get(0);
 		cardList.remove(cardList.indexOf(solutionRoom));
 
 		gameSolution = new Solution(solutionRoom, solutionPerson, solutionWeapon);
@@ -188,7 +188,8 @@ public class Board {
 			temp.setUnseenWeapons(weaponCards);
 			temp.setUnseenRooms(roomCards);
 		}
-
+		
+		Random rand = new Random();
 		// Deal cards to each player in turn
 		int playerIndex = rand.nextInt(numPersonCards);
 		while (cardList.size() > 0) {
