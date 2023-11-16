@@ -99,20 +99,20 @@ public class ClueGameControlPanel extends JPanel {
 		guessResult.setText(result);
 	}
 
-	public static void main(String[] args) {
-		ClueGameControlPanel gui = new ClueGameControlPanel();
-		JFrame frame = new JFrame();
-		frame.setContentPane(gui);
-		frame.setSize(750,180);
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// test filling in the data
-		//gui.setGuess(new ComputerPlayer( "Col. Mustard", 0, 0, "orange"), 5);
-		gui.setTheRoll(5);
-		gui.setTheTurn(new HumanPlayer("Me", Color.lightGray));
-		gui.setGuess( "I have no guess!");
-		gui.setGuessResult( "So you have nothing?");
-
-	}
+//	public static void main(String[] args) {
+//		ClueGameControlPanel gui = new ClueGameControlPanel();
+//		JFrame frame = new JFrame();
+//		frame.setContentPane(gui);
+//		frame.setSize(750,180);
+//		frame.setVisible(true);
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		// test filling in the data
+//		//gui.setGuess(new ComputerPlayer( "Col. Mustard", 0, 0, "orange"), 5);
+//		gui.setTheRoll(5);
+//		gui.setTheTurn(new HumanPlayer("Me", Color.lightGray));
+//		gui.setGuess( "I have no guess!");
+//		gui.setGuessResult( "So you have nothing?");
+//
+//	}
 
 }

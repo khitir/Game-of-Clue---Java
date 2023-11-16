@@ -50,6 +50,7 @@ public class ClueGameCardsGUI extends JPanel{
 			if (card.getType().equals(type)) {
 				JTextField tempText = new JTextField(15);
 				tempText.setText(card.getCardName());
+				tempText.setBackground(board.getPlayers().get(0).getColor());
 				temp.add(tempText);
 				z++;
 			}
@@ -81,32 +82,32 @@ public class ClueGameCardsGUI extends JPanel{
 		return temp;
 	}
 	
-	public static void main(String[] args) {
-		Board board = Board.getInstance();
-		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
-		board.initialize();
-		ClueGameCardsGUI gui = new ClueGameCardsGUI(board);
-		JFrame frame = new JFrame();
-		frame.setContentPane(gui);
-		frame.setSize(400,750);
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// test filling in the data
-		for (Card card : board.getCards().values()) {
-			if (!board.getPlayers().get(0).getHand().contains(card)) {
-				card.setWhoShowedCard(Color.yellow);
-				board.getPlayers().get(0).updateSeen(card, Color.yellow);
-			}
-		}
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		gui.updatePanels(board);
-		frame.revalidate();
-	}
+//	public static void main(String[] args) {
+//		Board board = Board.getInstance();
+//		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
+//		board.initialize();
+//		ClueGameCardsGUI gui = new ClueGameCardsGUI(board);
+//		JFrame frame = new JFrame();
+//		frame.setContentPane(gui);
+//		frame.setSize(400,750);
+//		frame.setVisible(true);
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		// test filling in the data
+//		for (Card card : board.getCards().values()) {
+//			if (!board.getPlayers().get(0).getHand().contains(card)) {
+//				card.setWhoShowedCard(Color.yellow);
+//				board.getPlayers().get(0).updateSeen(card, Color.yellow);
+//			}
+//		}
+//		try {
+//			Thread.sleep(2000);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		gui.updatePanels(board);
+//		frame.revalidate();
+//	}
 	
 	
 }

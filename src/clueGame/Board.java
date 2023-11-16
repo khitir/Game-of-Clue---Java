@@ -19,9 +19,6 @@ import java.util.Set;
 
 public class Board {
 	Map<String, Color> colorMap;
-
-	
-
 	private int totalBoardCols = 0;
 	private int totalBoardRows = 0;
 	private BoardCell[][] grid;
