@@ -3,7 +3,6 @@ package clueGame;
 import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 /*
  * Draws control and card panels and board together  

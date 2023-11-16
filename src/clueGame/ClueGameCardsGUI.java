@@ -1,6 +1,5 @@
 package clueGame;
 
-import java.awt.Color;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
@@ -12,9 +11,6 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 public class ClueGameCardsGUI extends JPanel{
-//	private JTextField people = new JTextField(15);
-//	private JTextField rooms = new JTextField(15);;
-//	private JTextField weapons = new JTextField(15);
 	JLabel inHandLabel1 = new JLabel("In Hand:"), inHandLabel2 = new JLabel("In Hand:"), inHandLabel3 = new JLabel("In Hand:");
 	JLabel seenLabel1 = new JLabel("Seen:"), seenLabel2 = new JLabel("Seen:"), seenLabel3 = new JLabel("Seen:");
 	

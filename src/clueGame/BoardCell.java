@@ -5,8 +5,6 @@ import java.awt.Graphics;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.swing.JPanel;
-
 /*
  * Authors: John Taylor and Zakaria Khitirishvili
  * BoardCell Class
