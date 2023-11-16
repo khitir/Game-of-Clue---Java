@@ -27,22 +27,27 @@ public class BoardPanel extends JPanel{
 		//System.out.println(getWidth());
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
-				board.getCell(i, j).drawCell(g, cellHeight, cellWidth);
+				board.getCell(i, j).drawCell(g, cellWidth ,cellHeight);
 				
 			}
 			
 		}
-		repaint();
+		
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				if (board.getCell(i, j).isLabel()) {
-					board.getCell(i, j).drawRoomName(g, cellHeight, cellWidth);
+					board.getCell(i, j).drawRoomName(g, cellWidth ,cellHeight);
 				}
 
 			}
 
 		}
-		repaint();
+		
+		
+		for (Player player: board.getPlayers()) {
+			System.out.println(player.getName());
+			player.drawPlayer(g, cellWidth, cellHeight);
+		}
 	}
 
 //	public void somefunction() {

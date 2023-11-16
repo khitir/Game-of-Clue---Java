@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,7 +20,7 @@ public abstract class Player {
 	public Room location;
 
 	private Map<String, Card> cards;  // set of cards for each player, hand 
-	private Map<Card, Color> seenCards;  // seen cards, not yet implemented.
+	private Map<Card, Color> seenCards;  
 	private ArrayList<Card> hand;
 	
 	public Player(String name, Color color, boolean isComputer) {
@@ -80,6 +81,16 @@ public abstract class Player {
 			return matchingCard.get(randIndex);
 		}
 	}
+	
+	
+	
+	public void drawPlayer(Graphics g, int width, int height) {
+			g.setColor(this.color);
+			g.fillOval(column*width, row*height, width, height);
+		
+
+
+	}
 
 	public String getName() {
 		return name;
@@ -103,6 +114,8 @@ public abstract class Player {
 	public Map<Card, Color> getSeenCards() {
 		return seenCards;
 	}
+	
+	
 
 	public abstract void setUnseenPlayers(ArrayList<Card> peopleCards);
 	public abstract void setUnseenWeapons(ArrayList<Card> peopleCards);

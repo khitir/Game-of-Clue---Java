@@ -16,7 +16,7 @@ Player, Dr. Callan, Red, Computer
 Player, Laith Haddad, Blue, Computer
 Player, Chuck Stone, Magenta, Computer
 Player, Pat Kohl, Green, Computer
-Player, Vince Kuo, Purple, Computer
+Player, Vince Kuo, Cyan, Computer
 Weapon, Laser
 Weapon, Cs137
 Weapon, Chuck's bicycle

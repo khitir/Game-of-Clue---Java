@@ -18,6 +18,9 @@ import java.util.Set;
  */
 
 public class Board {
+	Map<String, Color> colorMap;
+
+	
 
 	private int totalBoardCols = 0;
 	private int totalBoardRows = 0;
@@ -80,6 +83,19 @@ public class Board {
 		numPersonCards = 0;
 		numRoomCards = 0;
 		numWeaponCards = 0;
+		colorMap = new HashMap<>();
+	    // Adding color names and their Color objects to the map
+	    colorMap.put("Red", Color.RED);
+	    colorMap.put("Green", Color.GREEN);
+	    colorMap.put("Blue", Color.BLUE);
+	    colorMap.put("Yellow", Color.YELLOW);
+	    colorMap.put("Cyan", Color.CYAN);
+	    colorMap.put("Magenta", Color.MAGENTA);
+	    colorMap.put("Orange", Color.ORANGE);
+	    colorMap.put("Pink", Color.PINK);
+	    colorMap.put("Black", Color.BLACK);
+	    colorMap.put("White", Color.WHITE);
+	    
 
 		try {
 			in = new FileReader(txt_file);
@@ -113,9 +129,10 @@ public class Board {
 				else if (elements[0].equals("Player") && elements.length == 4) {
 					Player newPlayer;
 					if (elements[3].equals("Computer"))
-						newPlayer = new ComputerPlayer(elements[1], Color.getColor(elements[2]));
+						newPlayer = new ComputerPlayer(elements[1], colorMap.get(elements[2]));
+					    
 					else if (elements[3].equals("Human"))
-						newPlayer = new HumanPlayer(elements[1], Color.getColor(elements[2]));
+						newPlayer = new HumanPlayer(elements[1], colorMap.get(elements[2]));
 					else
 						throw new BadConfigFormatException("Formatting for Players incorrect");
 					players.add(newPlayer);

@@ -121,6 +121,8 @@ public class BoardCell {
 		RoomName = roomName;
 	}
 
+	
+	
 	public void drawCell(Graphics g, int width, int height) {
 		if (isRoom == true) {
 			g.setColor(Color.GRAY);
