@@ -135,6 +135,8 @@ public class BoardCell {
 		else if (roomLabel == 'W') {
 			g.setColor(Color.YELLOW);
 			g.fillRect(col*width, row*height, width, height);
+			g.setColor(Color.BLACK);
+			g.drawRect(col*width, row*height, width, height);
 		}
 		else if (roomLabel == 'X') {
 			g.setColor(Color.black);
