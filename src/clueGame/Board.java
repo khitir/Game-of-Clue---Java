@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 /*
@@ -175,8 +176,8 @@ public class Board {
 		}
 		
 		Collections.shuffle(cardDeck);
-		Collections.shuffle(players);
-		int playerIndex = 0;
+		Random rand = new Random();
+		int playerIndex = rand.nextInt(players.size());
 		// Deal cards to each player in turn
 		while (cardDeck.size() > 0) {
 			if (playerIndex == players.size()) {

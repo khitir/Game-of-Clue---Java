@@ -41,8 +41,15 @@ public class ClueGameCardsGUI extends JPanel{
 		temp.setBorder(new TitledBorder(new EtchedBorder(), panelName));
 		temp.add(inHandLabel);
 		
+		Player humanPlayer = board.getPlayers().get(0);
+		for (Player player : board.getPlayers()) {
+			if (player.isHuman()) {
+				humanPlayer = player;
+			}
+		}
+		
 		int z = 0;
-		for (Card card : board.getPlayers().get(0).getHand()) {
+		for (Card card : humanPlayer.getHand()) {
 			if (card.getType().equals(type)) {
 				JTextField tempText = new JTextField(15);
 				tempText.setText(card.getCardName());
@@ -60,7 +67,7 @@ public class ClueGameCardsGUI extends JPanel{
 		
 		temp.add(seenLabel);
 		z = 0;
-		for (Card card : board.getPlayers().get(0).getSeenCards().keySet()) {
+		for (Card card : humanPlayer.getSeenCards().keySet()) {
 			if (card.getType().equals(type)) {
 				JTextField tempText = new JTextField(15);
 				tempText.setText(card.getCardName());
