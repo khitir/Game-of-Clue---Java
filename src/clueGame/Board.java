@@ -9,7 +9,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 
 /*
@@ -19,7 +18,7 @@ import java.util.Set;
  */
 
 public class Board {
-	Map<String, Color> colorMap; // color map used to set player colors
+	private Map<String, Color> colorMap; // color map used to set player colors
 	private int totalBoardCols = 0;
 	private int totalBoardRows = 0;
 	private BoardCell[][] grid;
@@ -27,23 +26,20 @@ public class Board {
 	private Set<BoardCell> visited;
 	private Map<Character, Room> rooms;
 	private ArrayList<Player> players;
-	private Map<String, Card> cards;
-	Set<Player> playerList;
-	ArrayList<Card> cardList;
+	private ArrayList<Card> cardDeck;
+	private ArrayList<Card> allCards;
 
-	private int numPersonCards, numWeaponCards, numRoomCards;
 	private ArrayList<Card> peopleCards, roomCards, weaponCards;
 	private Solution gameSolution;
+	// The file names to use for the initial configuration
+	String csv_file;
+	String txt_file;
 
 	public Solution getGameSolution() {
 		return gameSolution;
 	}
-
+	
 	private static Board theInstance = new Board();
-
-	// The file names to use for the initial configuration
-	String csv_file;
-	String txt_file;
 
 	// this method returns the only Board
 	public static Board getInstance() {
@@ -70,18 +66,15 @@ public class Board {
 	public void loadSetupConfig() throws BadConfigFormatException {
 		FileReader in;
 		BufferedReader reader;
+		
 		rooms = new HashMap<Character, Room>();
 		players = new ArrayList<Player>();
-		cards = new HashMap<String, Card>();
 		peopleCards = new ArrayList<Card>();
 		roomCards = new ArrayList<Card>();
 		weaponCards = new ArrayList<Card>();
-		playerList = new HashSet<Player>();
-		cardList = new ArrayList<Card>();
-		numPersonCards = 0;
-		numRoomCards = 0;
-		numWeaponCards = 0;
-		colorMap = new HashMap<>();
+		cardDeck = new ArrayList<Card>();
+		allCards = new ArrayList<Card>();
+		colorMap = new HashMap<String, Color>();
 	    // Adding color names and their Color objects to the map
 	    colorMap.put("Red", Color.RED);
 	    colorMap.put("Green", Color.GREEN);
@@ -91,9 +84,7 @@ public class Board {
 	    colorMap.put("Magenta", Color.MAGENTA);
 	    colorMap.put("Black", Color.BLACK);
 	    colorMap.put("White", Color.WHITE);
-	   
 	    
-
 		try {
 			in = new FileReader(txt_file);
 			reader = new BufferedReader(in);
@@ -108,8 +99,7 @@ public class Board {
 					rooms.put(elements[2].charAt(0), tempRoom);
 
 					Card cardRoom = new Card(elements[1], CardType.ROOM, Color.white); // create room card and set it's type**
-					cards.put(elements[1], cardRoom);
-					numRoomCards++;
+					allCards.add(cardRoom);
 					roomCards.add(cardRoom);
 				} else if (elements[0].equals("Space") && elements.length == 3) {
 					Room tempRoom = new Room(elements[2].charAt(0), elements[1]);
@@ -118,8 +108,7 @@ public class Board {
 
 				else if (elements[0].equals("Weapon") && elements.length == 2) { // load weapon cards
 					Card cardWeapon = new Card(elements[1], CardType.WEAPON, Color.white); // create room card and set it's type**
-					cards.put(elements[1], cardWeapon);
-					numWeaponCards++;
+					allCards.add(cardWeapon);
 					weaponCards.add(cardWeapon);
 				}
 
@@ -127,24 +116,18 @@ public class Board {
 					Player newPlayer;
 					if (elements[3].equals("Computer")) {
 						newPlayer = new ComputerPlayer(elements[1], colorMap.get(elements[2]));
-						newPlayer.setRow(Integer.parseInt(elements[4]));
-						newPlayer.setColumn(Integer.parseInt(elements[5]));
-						}
-					    
+					}
 					else if (elements[3].equals("Human")) {
 						newPlayer = new HumanPlayer(elements[1], colorMap.get(elements[2]));
-						newPlayer.setRow(Integer.parseInt(elements[4]));
-						newPlayer.setColumn(Integer.parseInt(elements[5]));
-						}
-					
+					}
 					else
 						throw new BadConfigFormatException("Formatting for Players incorrect");
+					newPlayer.setRow(Integer.parseInt(elements[4]));
+					newPlayer.setColumn(Integer.parseInt(elements[5]));
 					players.add(newPlayer);
-					playerList.add(newPlayer);
 
 					Card cardPerson = new Card(elements[1], CardType.PERSON, Color.white); // create room card and set it's type **
-					cards.put(elements[1], cardPerson);
-					numPersonCards++;
+					allCards.add(cardPerson);
 					peopleCards.add(cardPerson);
 				} else if (elements[0].equals("Room") && elements.length != 3) {
 					throw new BadConfigFormatException("Formatting for rooms incorrect, wrong number of elements");
@@ -165,40 +148,42 @@ public class Board {
 		}
 		
 		// Copy the deck into an ArrayList
-		for (String i : cards.keySet()) {
-			cardList.add(cards.get(i));
+		for (Card card : allCards) {
+			cardDeck.add(card);
 		}
 
 		// Randomly generate a solution
 		Collections.shuffle(peopleCards);
 		Card solutionPerson = peopleCards.get(0);
-		cardList.remove(cardList.indexOf(solutionPerson));
+		cardDeck.remove(cardDeck.indexOf(solutionPerson));
+		
 		Collections.shuffle(weaponCards);
 		Card solutionWeapon = weaponCards.get(0);
-		cardList.remove(cardList.indexOf(solutionWeapon));
+		cardDeck.remove(cardDeck.indexOf(solutionWeapon));
+		
 		Collections.shuffle(roomCards);
 		Card solutionRoom = roomCards.get(0);
-		cardList.remove(cardList.indexOf(solutionRoom));
+		cardDeck.remove(cardDeck.indexOf(solutionRoom));
 
 		gameSolution = new Solution(solutionRoom, solutionPerson, solutionWeapon);
 
 		// Set the unseen cards for each room
-		for (Player temp : players) {
-			temp.setUnseenPlayers(peopleCards);
-			temp.setUnseenWeapons(weaponCards);
-			temp.setUnseenRooms(roomCards);
+		for (Player player : players) {
+			player.setUnseenPlayers(peopleCards);
+			player.setUnseenWeapons(weaponCards);
+			player.setUnseenRooms(roomCards);
 		}
 		
-		Random rand = new Random();
+		Collections.shuffle(cardDeck);
+		Collections.shuffle(players);
+		int playerIndex = 0;
 		// Deal cards to each player in turn
-		int playerIndex = rand.nextInt(numPersonCards);
-		while (cardList.size() > 0) {
-			if (playerIndex == numPersonCards) {
+		while (cardDeck.size() > 0) {
+			if (playerIndex == players.size()) {
 				playerIndex = 0;
 			}
-			int cardNum = rand.nextInt(cardList.size());
-			players.get(playerIndex).deal(cardList.get(cardNum));
-			cardList.remove(cardNum);
+			players.get(playerIndex).deal(cardDeck.get(0));
+			cardDeck.remove(0);
 			playerIndex++;
 		}
 	}
@@ -283,8 +268,8 @@ public class Board {
 						grid[i][j].addAdjacency(cell);
 					}
 				}
-				// if not a room, add adacencies by looking lef,right, up, down and checking
-				// occuapncy.
+				// if not a room, add adjacencies by looking left, right, up, down and checking
+				// occupancy.
 				else if (!grid[i][j].isRoom()) {
 					if (i != 0 && !grid[i - 1][j].isOccupied() && grid[i - 1][j].getRoomLabel() == 'W')
 						grid[i][j].addAdjacency(grid[i - 1][j]);
@@ -388,6 +373,8 @@ public class Board {
 				case DOWN:
 					adjacentRow++;
 					break;
+				case NONE:
+					break;
 				}
 				if (isValidCell(adjacentRow, adjacentCol)) {
 					Room tempRoom = rooms.get(grid[adjacentRow][adjacentCol].getRoomLabel());
@@ -484,20 +471,24 @@ public class Board {
 		return players;
 	}
 
-	public Map<String, Card> getCards() {
-		return cards;
+	public ArrayList<Card> getAllCards() {
+		return allCards;
+	}
+	
+	public ArrayList<Card> getCardDeck() {
+		return cardDeck;
 	}
 
 	public int getNumPersonCards() {
-		return numPersonCards;
+		return players.size();
 	}
 
 	public int getNumWeaponCards() {
-		return numWeaponCards;
+		return weaponCards.size();
 	}
 
 	public int getNumRoomCards() {
-		return numRoomCards;
+		return roomCards.size();
 	}
 
 	public ArrayList<Card> getPeopleCards() {

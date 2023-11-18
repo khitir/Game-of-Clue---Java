@@ -93,16 +93,16 @@ public class GameSetupTests extends TestCase {
 		board.initialize();
 		
 		// Make sure the number of cards created matches up with what it should be
-		Map<String, Card> deck = board.getCards();
+		ArrayList<Card> deck = board.getAllCards();
 		int numPersonCards = 0, numRoomCards = 0, numWeaponCards = 0;
-		for (String i : deck.keySet()) {
-			if (deck.get(i).getType().equals(CardType.PERSON)) {
+		for (Card card : deck) {
+			if (card.getType().equals(CardType.PERSON)) {
 				numPersonCards++;
 			}
-			else if (deck.get(i).getType().equals(CardType.WEAPON)) {
+			else if (card.getType().equals(CardType.WEAPON)) {
 				numWeaponCards++;
 			}
-			else if (deck.get(i).getType().equals(CardType.ROOM)) {
+			else if (card.getType().equals(CardType.ROOM)) {
 				numRoomCards++;
 			}
 		}
@@ -111,8 +111,8 @@ public class GameSetupTests extends TestCase {
 		assertEquals(board.getNumWeaponCards(), numWeaponCards);
 		
 		// Checks that any card in our deck is one that is reflected in board
-		for (String i : deck.keySet()) {
-			assertTrue(board.getPeopleCards().contains(deck.get(i)) || board.getWeaponCards().contains(deck.get(i)) || board.getRoomCards().contains(deck.get(i)));
+		for (Card card : deck) {
+			assertTrue(board.getPeopleCards().contains(card) || board.getWeaponCards().contains(card) || board.getRoomCards().contains(card));
 		}
 
 	}
@@ -182,14 +182,14 @@ public class GameSetupTests extends TestCase {
 		board.initialize();
 		
 		// Check that the correct number of cards were dealt among all the players
-		int numCards = board.getCards().size();
+		int numCards = board.getAllCards().size();
 		System.out.println(numCards);
 		int numDealt = 0;
 		ArrayList<Player> players = board.getPlayers();
 		for (Player tempPlayer : players) {
 			numDealt += tempPlayer.getCards().size();
-			assertTrue(tempPlayer.getCards().size() >= (board.getCards().size()/board.getNumPersonCards()));
-			assertTrue(tempPlayer.getCards().size() <= (board.getCards().size()/board.getNumPersonCards() + 1));
+			assertTrue(tempPlayer.getCards().size() >= (board.getAllCards().size()/board.getNumPersonCards()));
+			assertTrue(tempPlayer.getCards().size() <= (board.getAllCards().size()/board.getNumPersonCards() + 1));
 		}
 		assertEquals(numCards-3, numDealt);
 		
