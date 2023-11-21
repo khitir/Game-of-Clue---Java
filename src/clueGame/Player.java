@@ -66,7 +66,7 @@ public abstract class Player {
 		}
 	
 		
-		if (matchingCard.size() == 0) { // no matching cards
+		if (matchingCard.isEmpty()) { // no matching cards
 			return null;
 		}
 		else { // multiple matching cards, return a random one 
