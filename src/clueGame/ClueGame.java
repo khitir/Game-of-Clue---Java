@@ -3,6 +3,7 @@ package clueGame;
 import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /* Authors: John Taylor and Zakaria Khitirishvili
  * Draws control and card panels and board together  
@@ -36,6 +37,8 @@ public class ClueGame extends JFrame{
 		board.initialize();
 		ClueGame game = new ClueGame(board);
 		game.setVisible(true);
+		JOptionPane.showMessageDialog(null, "You are a Physics Major. Can you find the solution before your professors?");
+
 		game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }
