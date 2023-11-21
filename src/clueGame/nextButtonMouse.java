@@ -6,24 +6,27 @@ import java.awt.event.MouseListener;
 import javax.swing.JOptionPane;
 
 public class nextButtonMouse implements MouseListener {
-	Board board;
+	Board board = Board.getInstance();
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		int whoseTurn = board.getWhoseTurn();
-		board = Board.getInstance();
-		if (whoseTurn == 0 && board.getPlayerFinished() == false) {
+		if (whoseTurn == 0 && board.isPlayerTurnFinished() == false) {
 			JOptionPane.showMessageDialog(null, "Your turn is not over.");
+//			return;
 		}
 		board.nextTurn();
+		whoseTurn = board.getWhoseTurn();
 		if (whoseTurn != 0) {
 			Player currPlayer = board.getPlayers().get(whoseTurn);
 			int row = currPlayer.getRow(), col = currPlayer.getColumn();
 			BoardCell newLocation = currPlayer.doMove(board.getAdjList(row, col));
-			Card proof = currPlayer.doSuggestion(whoseTurn);
+			Solution suggestion = currPlayer.createSuggestion();
+			board.handleSuggestion(suggestion, currPlayer);
 		}
 		else {
 			// Redraw board with targets lit up
+			board.setPlayerTurnFinished(false);
 		}
 	}
 

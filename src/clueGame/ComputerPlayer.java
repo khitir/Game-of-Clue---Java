@@ -2,6 +2,7 @@ package clueGame;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
@@ -11,7 +12,8 @@ public class ComputerPlayer extends Player {
 	private ArrayList<Character> roomLabelsNotSeen;
 	private ArrayList<Card> playersNotSeen;
 	private ArrayList<Card> weaponsNotSeen;
-	Card lastPersonUnseen, lastWeaponUnseen;
+	private Card lastPersonUnseen, lastWeaponUnseen;
+	private Room location;
 
 	public ComputerPlayer(String name, Color color) {
 		super(name, color, true);
@@ -19,25 +21,6 @@ public class ComputerPlayer extends Player {
 		roomsNotSeen = new ArrayList<Card>();
 		playersNotSeen = new ArrayList<Card>();
 		roomLabelsNotSeen = new ArrayList<Character>();
-//		lastPersonUnseen = new Card("Temp");
-//		lastWeaponUnseen = new Card("Temp");
-	}
-	
-	public Card doSuggestion(int whoseTurn) {
-		Solution suggestion = createSuggestion();
-		Board board = Board.getInstance();
-		int i = whoseTurn+1, u = 0, numPlayers = board.getPlayers().size();
-		Card proof = null;
-		while (u < numPlayers-1) {
-			proof = board.getPlayers().get(i).disproveSuggestion(suggestion);
-			if (proof != null)
-				break;
-			i++;
-			u++;
-			if (i == numPlayers)
-				i = 0;
-		}
-		return proof;		
 	}
 	
 	@Override
@@ -60,7 +43,9 @@ public class ComputerPlayer extends Player {
 		}
 		else
 			weaponCard = lastWeaponUnseen;
-		roomCard = new Card(this.location.getName());
+		Map<Character, Room> rooms = board.getRooms();
+		Room currRoom = rooms.get(board.getCell(row,  column).getRoomLabel());
+		roomCard = new Card(currRoom.getName(), CardType.ROOM, Color.WHITE);
 		Solution suggestion = new Solution(roomCard, playerCard, weaponCard);
 		return suggestion;
 	}
@@ -70,7 +55,8 @@ public class ComputerPlayer extends Player {
 		BoardCell target = pickTarget(adjList);
 		row = target.getRow();
 		column = target.getCol();
-		return null;
+		Board board = Board.getInstance();
+		return board.getCell(row, column);
 	}
 	
 	public BoardCell pickTarget(Set<BoardCell> adjList) {

@@ -39,6 +39,15 @@ public class Board {
 	
 	private int whoseTurn;
 	private int currRoll;
+	private boolean playerTurnFinished;
+
+	public boolean isPlayerTurnFinished() {
+		return playerTurnFinished;
+	}
+
+	public void setPlayerTurnFinished(boolean playerTurnFinished) {
+		this.playerTurnFinished = playerTurnFinished;
+	}
 
 	public int getWhoseTurn() {
 		return whoseTurn;
@@ -444,6 +453,7 @@ public class Board {
 			if (index == players.size())
 				index = 0;
 			Player next = players.get(index);
+			Card result = next.disproveSuggestion(suggestion1);
 			if (result != null)
 				return result;
 		}
@@ -519,10 +529,6 @@ public class Board {
 		this.players = players;
 	}
 
-	public boolean getPlayerFinished() {
-		return false;
-	}
-
 	public void nextTurn() {
 		whoseTurn++;
 		if (whoseTurn == players.size())
@@ -564,5 +570,9 @@ public class Board {
 		for (Player player: players) {
 			player.drawPlayer(g, cellWidth, cellHeight);
 		}
+	}
+
+	public Map<Character, Room> getRooms() {
+		return rooms;
 	}
 }

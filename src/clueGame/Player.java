@@ -18,6 +18,7 @@ public abstract class Player {
 	protected int column;
 	private boolean isComputer;
 	private boolean isHuman;
+	Board board = Board.getInstance();
 	
 	public Room location;
 
@@ -133,5 +134,5 @@ public abstract class Player {
 	}
 	public abstract BoardCell doMove(Set<BoardCell> adjList);
 	public abstract Solution createSuggestion();
-	public abstract Card doSuggestion(int whoseTurn);
+//	public abstract Card doSuggestion(int whoseTurn);
 }
