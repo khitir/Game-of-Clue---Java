@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.util.HashSet;
 import java.util.Set;
@@ -163,6 +164,8 @@ public class BoardCell {
 	// draws the door name
 	public void drawRoomName(Graphics g, int width, int height) {
 			g.setColor(Color.BLACK);
+			Font myFont = new Font("Arial", Font.PLAIN, (width+height)/3);
+	        g.setFont(myFont);
 			g.drawString(RoomName, col*width, row*height);
 	}
 
