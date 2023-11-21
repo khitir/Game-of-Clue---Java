@@ -1,5 +1,8 @@
 package clueGame;
-
+/*
+ * Authors: John Taylor and Zakaria Khitirishvili
+ * Class used to track players and their cards. Also used to draw a player
+ */
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;

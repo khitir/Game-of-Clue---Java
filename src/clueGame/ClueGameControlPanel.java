@@ -1,5 +1,8 @@
 package clueGame;
-
+/*
+ * Authors: John Taylor and Zakaria Khitirishvili
+ * Class showing control panel of game at the bottom of display, displays the buttons to play game
+ */
 
 import java.awt.GridLayout;
 import javax.swing.JButton;

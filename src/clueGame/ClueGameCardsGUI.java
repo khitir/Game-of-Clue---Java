@@ -1,9 +1,11 @@
 package clueGame;
-
+/*
+ * Authors: John Taylor and Zakaria Khitirishvili
+ * Cards panel class, used to display east side of game panel to show cards held and seen
+ */
 import java.awt.GridLayout;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
+//import javax.swing.JButton;
+//import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;

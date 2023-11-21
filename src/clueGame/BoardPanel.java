@@ -1,5 +1,8 @@
 package clueGame;
-
+/*
+ * Authors: John Taylor and Zakaria Khitirishvili
+ * Class used to draw board with all cells and rooms, alongside names and players
+ */
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
@@ -46,7 +49,7 @@ public class BoardPanel extends JPanel{
 		for (Player player: board.getPlayers()) {
 			player.drawPlayer(g, cellWidth, cellHeight);
 		}
-		repaint(); // double check if not needed
+		repaint(); // double check if  needed
 	}
 
 }

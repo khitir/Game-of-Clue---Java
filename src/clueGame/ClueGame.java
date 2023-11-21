@@ -4,7 +4,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 
-/*
+/* Authors: John Taylor and Zakaria Khitirishvili
  * Draws control and card panels and board together  
  */
 
