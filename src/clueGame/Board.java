@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -35,6 +36,13 @@ public class Board {
 	// The file names to use for the initial configuration
 	String csv_file;
 	String txt_file;
+	
+	private int whoseTurn;
+	private int currRoll;
+
+	public int getWhoseTurn() {
+		return whoseTurn;
+	}
 
 	public Solution getGameSolution() {
 		return gameSolution;
@@ -436,7 +444,6 @@ public class Board {
 			if (index == players.size())
 				index = 0;
 			Player next = players.get(index);
-			Card result = next.disproveSuggestion(suggestion1.getRoom(), suggestion1.getPerson(), suggestion1.getWeapon());
 			if (result != null)
 				return result;
 		}
@@ -510,5 +517,52 @@ public class Board {
 	
 	public void setPlayers(ArrayList<Player> players) {
 		this.players = players;
+	}
+
+	public boolean getPlayerFinished() {
+		return false;
+	}
+
+	public void nextTurn() {
+		whoseTurn++;
+		if (whoseTurn == players.size())
+			whoseTurn = 0;
+		Random rand = new Random();
+		currRoll = rand.nextInt(6);
+		calcTargets(players.get(whoseTurn).getCell(), currRoll);
+	}
+
+	public int getCurrRoll() {
+		return currRoll;
+	}
+	
+	// draw a cell, pass in location where draw and what color to set, get's called in BoardPanel
+	public void drawBoard(Graphics g, int boardWidth, int boardHeight) {
+		// define cell size
+		int width = totalBoardCols; // gets board dimensions
+		int height = totalBoardRows;
+		int cellWidth = boardWidth/width; // makes sure resizing will work
+		int cellHeight = boardHeight/height;//// makes sure resizing will work
+
+		// draws cells from boardcell
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				grid[i][j].drawCell(g, cellWidth ,cellHeight, targets);
+			}
+		}
+
+		// draws room names, function in boardcell
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				if (grid[i][j].isLabel()) {
+					grid[i][j].drawRoomName(g, cellWidth ,cellHeight);
+				}
+			}
+		}
+
+		// draws players as ovals, function in player, but color map in main
+		for (Player player: players) {
+			player.drawPlayer(g, cellWidth, cellHeight);
+		}
 	}
 }

@@ -5,6 +5,10 @@ package clueGame;
  */
 
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -12,17 +16,16 @@ import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-public class ClueGameControlPanel extends JPanel {
+public class ClueGameControlPanel extends JPanel{
 	private JTextField guess = new JTextField(15);
 	private JTextField guessResult = new JTextField(15);;
 	private JTextField theRoll = new JTextField(5);
 	private JTextField whoseTurn = new JTextField(15);
+	private nextButtonMouse mouse = new nextButtonMouse();
 	
 	
 	
 	public ClueGameControlPanel() {
-		
-		
 		setLayout(new GridLayout(2,0)); // create 2 row main grid
 
 		// first panel
@@ -32,6 +35,7 @@ public class ClueGameControlPanel extends JPanel {
 		// buttons
 		JButton accusationButton = new JButton("Make Accusation");
 		JButton nextButton = new JButton("NEXT!");
+		nextButton.addMouseListener(mouse);
 		
 		// label for turn
 		JLabel turnLabel = new JLabel("Whose turn?");

@@ -132,16 +132,16 @@ class GameSolutionTest {
 		Card dummy1 = new Card("mess1");
 		Card dummy2 = new Card("mess2");
 		
-		assertTrue(pl1.disproveSuggestion(cardToTest, dummy1, dummy2).equals(card1)); // 
+		assertTrue(pl1.disproveSuggestion(new Solution(cardToTest, dummy1, dummy2)).equals(card1)); // 
 		
 //		If players has >1 matching card, returned card should be chosen randomly
-		Card temp = pl1.disproveSuggestion(card1, card2, card3); // call disprove once for 3 matching cards
+		Card temp = pl1.disproveSuggestion(new Solution(card1, card2, card3)); // call disprove once for 3 matching cards
 		assertTrue(temp.equals(card1) || temp.equals(card2) || temp.equals(card3)); 
-		temp = pl1.disproveSuggestion(card1, card2, dummy1); // call disprove with 2 matching cards
+		temp = pl1.disproveSuggestion(new Solution(card1, card2, dummy1)); // call disprove with 2 matching cards
 		assertTrue(temp.equals(card1) || temp.equals(card2));
 		
 //		If player has no matching cards, null is returned
-		assertNull(pl1.disproveSuggestion(dummy1, dummy2, dummy1));
+		assertNull(pl1.disproveSuggestion(new Solution(dummy1, dummy2, dummy1)));
 	}
 
 }

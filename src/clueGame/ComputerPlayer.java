@@ -12,7 +12,6 @@ public class ComputerPlayer extends Player {
 	private ArrayList<Card> playersNotSeen;
 	private ArrayList<Card> weaponsNotSeen;
 	Card lastPersonUnseen, lastWeaponUnseen;
-	int row, col;
 
 	public ComputerPlayer(String name, Color color) {
 		super(name, color, true);
@@ -24,6 +23,24 @@ public class ComputerPlayer extends Player {
 //		lastWeaponUnseen = new Card("Temp");
 	}
 	
+	public Card doSuggestion(int whoseTurn) {
+		Solution suggestion = createSuggestion();
+		Board board = Board.getInstance();
+		int i = whoseTurn+1, u = 0, numPlayers = board.getPlayers().size();
+		Card proof = null;
+		while (u < numPlayers-1) {
+			proof = board.getPlayers().get(i).disproveSuggestion(suggestion);
+			if (proof != null)
+				break;
+			i++;
+			u++;
+			if (i == numPlayers)
+				i = 0;
+		}
+		return proof;		
+	}
+	
+	@Override
 	public Solution createSuggestion() {
 		Card playerCard, weaponCard, roomCard;
 		Random rand = new Random();
@@ -46,6 +63,14 @@ public class ComputerPlayer extends Player {
 		roomCard = new Card(this.location.getName());
 		Solution suggestion = new Solution(roomCard, playerCard, weaponCard);
 		return suggestion;
+	}
+	
+	@Override
+	public BoardCell doMove(Set<BoardCell> adjList) {
+		BoardCell target = pickTarget(adjList);
+		row = target.getRow();
+		column = target.getCol();
+		return null;
 	}
 	
 	public BoardCell pickTarget(Set<BoardCell> adjList) {
@@ -137,7 +162,7 @@ public class ComputerPlayer extends Player {
 
 	public void setLocation(int i, int j) {
 		this.row = i;
-		this.col = j;
+		this.column = j;
 	}
 
 }

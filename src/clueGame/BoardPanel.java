@@ -4,12 +4,14 @@ package clueGame;
  * Class used to draw board with all cells and rooms, alongside names and players
  */
 import java.awt.Graphics;
+import java.util.Set;
 
 import javax.swing.JPanel;
 
 
 public class BoardPanel extends JPanel{
-	Board board;
+	private Board board;
+	private Set<BoardCell> currTargets;
 
 	public BoardPanel(Board b){
 		this.board = b;
@@ -18,6 +20,8 @@ public class BoardPanel extends JPanel{
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		
+		currTargets = board.getTargets();
 
 		// define cell size
 		int width = board.getNumColumns(); // gets board dimensions
@@ -25,10 +29,10 @@ public class BoardPanel extends JPanel{
 		int cellWidth = getWidth()/width; // makes sure resizing will work
 		int cellHeight = getHeight()/height;//// makes sure resizing will work
 
-		// draws cells from boadcell
+		// draws cells from boardcell
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
-				board.getCell(i, j).drawCell(g, cellWidth ,cellHeight);
+				board.getCell(i, j).drawCell(g, cellWidth ,cellHeight, currTargets);
 
 			}
 
