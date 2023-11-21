@@ -20,8 +20,8 @@ public class ComputerPlayer extends Player {
 		roomsNotSeen = new ArrayList<Card>();
 		playersNotSeen = new ArrayList<Card>();
 		roomLabelsNotSeen = new ArrayList<Character>();
-		lastPersonUnseen = new Card("Temp");
-		lastWeaponUnseen = new Card("Temp");
+//		lastPersonUnseen = new Card("Temp");
+//		lastWeaponUnseen = new Card("Temp");
 	}
 	
 	public Solution createSuggestion() {
@@ -31,6 +31,7 @@ public class ComputerPlayer extends Player {
 		if (playersNotSeen.size() != 0) {
 			person = rand.nextInt(playersNotSeen.size());
 			playerCard = playersNotSeen.get(person);
+			lastPersonUnseen = playerCard;
 		}
 		else {
 			playerCard = lastPersonUnseen;
@@ -38,6 +39,7 @@ public class ComputerPlayer extends Player {
 		if (weaponsNotSeen.size() != 0) {
 			weapon = rand.nextInt(weaponsNotSeen.size());
 			weaponCard = weaponsNotSeen.get(weapon);
+			lastWeaponUnseen = weaponCard;
 		}
 		else
 			weaponCard = lastWeaponUnseen;
