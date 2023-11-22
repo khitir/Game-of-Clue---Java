@@ -82,9 +82,38 @@ public class BoardPanel extends JPanel{
 					currPlayer.setColumn(room.getCenterCell().getCol());
 					board.setPlayerTurnFinished(true);
 					if(board.getCell(y, x).isRoom()) {
+						roomName = new JComboBox<String>();
+						weaponName = new JComboBox<String>();
+						personName = new JComboBox<String>();
+						
+						roomName.addItem(board.getCell(y, x).getRoomName());
+						add(roomName);
+						
+						weaponName.addItem("Laser");
+						weaponName.addItem("Cs137");
+						weaponName.addItem("Chuck's bicycle");
+						weaponName.addItem("Dilution Refrigerator");
+						weaponName.addItem("Oscilloscope");
+						weaponName.addItem("Lead Block");
+						
+						add(weaponName);
+						
+						personName.addItem("Physics Major");
+						personName.addItem("Dr. Callan");
+						personName.addItem("Laith Haddad");
+						personName.addItem("Chuck Ston");
+						personName.addItem("Pat Kohl");
+						personName.addItem("Vince Kuo");
+						
+						add(personName);
+						
 						//handle suggestion
 						// update results
 						repaint();
+						roomName.setVisible(false);
+						weaponName.setVisible(false);
+						personName.setVisible(false);
+						
 						return;
 					}
 				}
