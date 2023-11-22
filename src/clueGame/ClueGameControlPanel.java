@@ -4,13 +4,16 @@ package clueGame;
  * Class showing control panel of game at the bottom of display, displays the buttons to play game
  */
 
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
@@ -22,10 +25,13 @@ public class ClueGameControlPanel extends JPanel{
 	private JTextField theRoll = new JTextField(5);
 	private JTextField whoseTurn = new JTextField(15);
 	private nextButtonMouse mouse = new nextButtonMouse();
+	private JPanel boardPanel;
 	
 	
 	
-	public ClueGameControlPanel() {
+	public ClueGameControlPanel(JPanel boardPanel) {
+		this.boardPanel = boardPanel;
+		
 		setLayout(new GridLayout(2,0)); // create 2 row main grid
 
 		// first panel
@@ -99,6 +105,61 @@ public class ClueGameControlPanel extends JPanel{
 	
 	public void setGuessResult(String result) {
 		guessResult.setText(result);
+	}
+	
+	public class nextButtonMouse implements MouseListener {
+		Board board = Board.getInstance();
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			int whoseTurn = board.getWhoseTurn();
+			if (whoseTurn == 0 && board.isPlayerTurnFinished() == false) {
+				JOptionPane.showMessageDialog(null, "Your turn is not over.");
+//				return;
+			}
+			board.nextTurn();
+			whoseTurn = board.getWhoseTurn();
+			setTheTurn(board.getPlayers().get(whoseTurn));
+			setTheRoll(board.getCurrRoll());
+			if (whoseTurn != 0) {
+				Player currPlayer = board.getPlayers().get(whoseTurn);
+//				int row = currPlayer.getRow(), col = currPlayer.getColumn();
+				BoardCell newLocation = currPlayer.doMove(board.getTargets());
+				System.out.println(newLocation.getRow());
+				System.out.println(newLocation.getCol());
+				System.out.println();
+//				currPlayer.drawPlayer(null, whoseTurn, whoseTurn);
+				Solution suggestion = currPlayer.createSuggestion();
+				board.handleSuggestion(suggestion, currPlayer);
+				setGuess(suggestion.getPerson().getCardName() + ", " + suggestion.getRoom().getCardName() + ", " + suggestion.getWeapon().getCardName());
+				setGuessResult("None");
+			}
+			else {
+				// Redraw board with targets lit up
+				setGuess("");
+				setGuessResult("");
+				board.setPlayerTurnFinished(false);
+			}
+			repaint();
+			boardPanel.repaint();
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+		}
+
 	}
 
 //	public static void main(String[] args) {

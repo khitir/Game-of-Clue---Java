@@ -51,11 +51,6 @@ public class ComputerPlayer extends Player {
 	
 	@Override
 	public BoardCell doMove(Set<BoardCell> targets) {
-		System.out.println(targets.size());
-		for (BoardCell i : targets) {
-			System.out.print(i.getRow());
-			System.out.println(i.getCol());
-		}
 		BoardCell target = pickTarget(targets);
 		row = target.getRow();
 		column = target.getCol();
@@ -64,7 +59,6 @@ public class ComputerPlayer extends Player {
 	}
 	
 	public BoardCell pickTarget(Set<BoardCell> targets) {
-		BoardCell target;
 		Card room;
 		Board board = Board.getInstance();
 		for (BoardCell cell : targets) {
