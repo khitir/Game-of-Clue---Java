@@ -16,6 +16,7 @@ public abstract class Player {
 	private Color color;
 	protected int row;
 	protected int column;
+	protected float displayRow, displayCol;
 	private boolean isComputer;
 	private boolean isHuman;
 	Board board = Board.getInstance();
@@ -82,9 +83,9 @@ public abstract class Player {
 	// function to draw the player as oval with color
 	public void drawPlayer(Graphics g, int width, int height) {
 			g.setColor(this.color);
-			g.fillOval(column*width+1, row*height+1, width-2, height-2);
+			g.fillOval((int) displayCol*width+1, (int) displayRow*height+1, width-2, height-2);
 			g.setColor(Color.black);
-			g.drawOval(column*width+1, row*height+1, width-2, height-2);
+			g.drawOval((int) displayCol*width+1, (int) displayRow*height+1, width-2, height-2);
 	}
 
 	public String getName() {

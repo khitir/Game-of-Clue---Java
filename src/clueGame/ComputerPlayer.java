@@ -55,8 +55,13 @@ public class ComputerPlayer extends Player {
 	public BoardCell doMove(Set<BoardCell> targets) {
 //		BoardCell target = pickTarget(targets);
 		BoardCell target = findClosestRoom(targets);
+		int prevRow = row, prevCol = column;
 		row = target.getRow();
 		column = target.getCol();
+		float slope = (column - prevCol)/(row - prevRow);
+		for (int i = 0; i <100; i++) {
+			
+		}
 		Board board = Board.getInstance();
 		return board.getCell(row, column);
 	}
