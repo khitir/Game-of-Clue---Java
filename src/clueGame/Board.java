@@ -334,6 +334,7 @@ public class Board {
 			// Set if the square is a room center
 			else if (currSpace.charAt(1) == '*') {
 				cell.setIsRoomCenter(true);
+				cell.setRoomName(rooms.get(currSpace.charAt(0)).getName());
 				Room tempRoom = rooms.get(currSpace.charAt(0));
 				tempRoom.setCenterCell(cell);
 				rooms.put(tempRoom.getLabel(), tempRoom);

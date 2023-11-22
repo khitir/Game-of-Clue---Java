@@ -2,6 +2,8 @@ package clueGame;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -51,13 +53,16 @@ public class ComputerPlayer extends Player {
 	
 	@Override
 	public BoardCell doMove(Set<BoardCell> targets) {
-		BoardCell target = pickTarget(targets);
+//		BoardCell target = pickTarget(targets);
+		BoardCell target = findClosestRoom(targets);
 		row = target.getRow();
 		column = target.getCol();
 		Board board = Board.getInstance();
 		return board.getCell(row, column);
 	}
 	
+	// Simple AI for computer
+	// Computer picks a room if available, otherwise picks randomly
 	public BoardCell pickTarget(Set<BoardCell> targets) {
 		Card room;
 		Board board = Board.getInstance();
@@ -78,6 +83,57 @@ public class ComputerPlayer extends Player {
 			i++;
 		}
 		return null;
+	}
+	
+	// More complicated AI for Computer
+	// Computer selects the closest unseen room, and then picks the cell that will get it the closest to that room
+	public BoardCell findClosestRoom(Set<BoardCell> targets) {
+		Map<BoardCell, Integer> pathLengths = new HashMap<BoardCell, Integer>();
+		for (BoardCell target : targets) {
+			Set<BoardCell> seen = new HashSet<BoardCell>();
+			Set<BoardCell> current = new HashSet<BoardCell>();
+			current.add(target);
+			Set<BoardCell> adjacent = new HashSet<BoardCell>();
+			boolean flag = false;
+			int pathLen = 0;
+			while (true) {
+				pathLen++;
+				for (BoardCell cell : current) {
+					seen.add(cell);
+					for (BoardCell adj : board.getAdjList(cell.getRow(), cell.getCol())) {
+						BoardCell adjCell = board.getCell(adj.getRow(), adj.getCol());
+						adjacent.add(adjCell);
+						if (adjCell.getRoomLabel() != 'W' && adjCell.getRoomLabel() != 'X') {
+							System.out.println(adjCell.getRoomName());
+							System.out.println(adjCell.getRow());
+							System.out.println(adjCell.getCol());
+							Card tempCard = new Card(adjCell.getRoomName());
+							tempCard.setType(CardType.ROOM);
+							if (roomsNotSeen.contains(tempCard)) {
+								flag = true;
+								break;
+							}
+						}
+					}
+					if (flag)
+						break;
+				}
+				current = adjacent;
+				adjacent = new HashSet<BoardCell>();
+				if (flag)
+					break;
+			}
+			pathLengths.put(target, pathLen);
+		}
+		int minPathLength = 100;
+		BoardCell selectedTarget = new BoardCell(0,0);
+		for (BoardCell target : pathLengths.keySet()) {
+			if (pathLengths.get(target) < minPathLength) {
+				minPathLength = pathLengths.get(target);
+				selectedTarget = target;				
+			}
+		}
+		return selectedTarget;
 	}
 	
 	@Override
