@@ -5,10 +5,13 @@ package clueGame;
  */
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Set;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -20,7 +23,15 @@ public class BoardPanel extends JPanel{
 	int cellWidth; // makes sure resizing will work
 	int cellHeight;//// makes sure resizing will work
 	Point point;
+	
+	// Create a dropdown menu for accusation options
+    private JComboBox<String> roomName, weaponName, personName;
 
+
+    
+    
+    
+    
 	public BoardPanel(Board b){
 		this.board = b;
 		addMouseListener(new movementMouseEvent());
@@ -60,6 +71,9 @@ public class BoardPanel extends JPanel{
 		}
 		//repaint(); // double check if  needed
 	}
+	
+	
+	
 	
 //	public void repaint(Graphics g) {
 //		super.paintComponent(g);
@@ -114,11 +128,13 @@ public class BoardPanel extends JPanel{
 			repaint();
 			
 			if(board.getWhoseTurn() == 0) {
-				if(board.getTargets().contains(board.getCell(x, y) ) ) {
+				if(board.getTargets().contains(board.getCell(y, x) ) ) {
 					Player currPlayer = board.getPlayers().get(0);
 					currPlayer.setRow(y);
 					currPlayer.setColumn(x);
-					if(board.getCell(x, y).isRoom()) {
+					if(board.getCell(y, x).isRoom()) {
+						roomName = new JComboBox<String>();
+						roomName.addItem(board.getCell(y, x).getRoomName());
 						//handle suggestion
 						// update results
 						repaint();

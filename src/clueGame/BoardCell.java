@@ -13,6 +13,10 @@ import java.util.Set;
  */
 
 public class BoardCell {
+	public String getRoomName() {
+		return RoomName;
+	}
+
 	private int row, col;
 	private boolean isRoom, isOccupied, isRoomCenter, isLabel, isDoorway; // bools for checking status
 	private Set<BoardCell> adjList;
