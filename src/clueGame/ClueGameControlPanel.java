@@ -27,6 +27,7 @@ public class ClueGameControlPanel extends JPanel{
 	private nextButtonMouse mouse = new nextButtonMouse();
 	private JPanel boardPanel;
 	private ClueGameCardsGUI cardsGUI;	
+	private Board board = Board.getInstance();
 	
 	
 	public ClueGameControlPanel(JPanel boardPanel, ClueGameCardsGUI cardsGUI) {
@@ -48,6 +49,7 @@ public class ClueGameControlPanel extends JPanel{
 		JLabel turnLabel = new JLabel("Whose turn?");
 		JPanel turnPanel = new JPanel();
 		whoseTurn.setEditable(false);
+//		setTheTurn(board.getPlayers().get(board.getWhoseTurn()));
 		turnPanel.add(turnLabel);
 		turnPanel.add(whoseTurn);
 		topPanel.add(turnPanel);
@@ -56,6 +58,7 @@ public class ClueGameControlPanel extends JPanel{
 		JLabel rollLabel = new JLabel("Roll: ");
 		JPanel rollPanel = new JPanel();
 		theRoll.setEditable(false);
+//		setTheRoll(board.getCurrRoll());
 		rollPanel.add(rollLabel);
 		rollPanel.add(theRoll);
 		topPanel.add(rollPanel);
@@ -87,6 +90,7 @@ public class ClueGameControlPanel extends JPanel{
 		add(topPanel);
 		add(topPanel2);
 		
+		processNextTurn();
 	}
 	
 
@@ -108,52 +112,56 @@ public class ClueGameControlPanel extends JPanel{
 		guessResult.setText(result);
 	}
 	
+	public void processNextTurn() {
+		int whoseTurn = board.getWhoseTurn();
+		if (whoseTurn == 0 && board.isPlayerTurnFinished() == false) {
+			JOptionPane.showMessageDialog(null, "Your turn is not over.");
+			return;
+		}
+		board.nextTurn();
+		whoseTurn = board.getWhoseTurn();
+		setTheTurn(board.getPlayers().get(whoseTurn));
+		setTheRoll(board.getCurrRoll());
+		if (whoseTurn != 0) {
+			Player currPlayer = board.getPlayers().get(whoseTurn);
+			BoardCell newLocation = currPlayer.doMove(board.getTargets());
+			if (newLocation.isRoom()) {
+				Solution suggestion = currPlayer.createSuggestion();
+				Card result = board.handleSuggestion(suggestion, currPlayer);
+				setGuess(suggestion.getPerson().getCardName() + ", " + suggestion.getRoom().getCardName() + ", " + suggestion.getWeapon().getCardName());
+				if (result != null) {
+					setGuessResult(result.getCardName());
+					result.setWhoShowedCard(currPlayer.getColor());
+					for (Player player : board.getPlayers()) {
+						player.updateSeen(result, currPlayer.getColor());
+					}
+				}
+				else {
+					setGuessResult("None");
+				}
+			}
+		}
+		else {
+			setGuess("");
+			setGuessResult("");
+			board.setPlayerTurnFinished(false);
+			if (board.getTargets().size() == 0) {
+				JOptionPane.showMessageDialog(null, "You cannot move this turn");
+				board.setPlayerTurnFinished(true);
+			}
+		}
+		repaint();
+		boardPanel.repaint();
+		cardsGUI.revalidate();
+		cardsGUI.updatePanels(board);
+	}
+	
 	public class nextButtonMouse implements MouseListener {
 		Board board = Board.getInstance();
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			int whoseTurn = board.getWhoseTurn();
-			if (whoseTurn == 0 && board.isPlayerTurnFinished() == false) {
-				JOptionPane.showMessageDialog(null, "Your turn is not over.");
-//				return;
-			}
-			board.nextTurn();
-			whoseTurn = board.getWhoseTurn();
-			setTheTurn(board.getPlayers().get(whoseTurn));
-			setTheRoll(board.getCurrRoll());
-			if (whoseTurn != 0) {
-				Player currPlayer = board.getPlayers().get(whoseTurn);
-				BoardCell newLocation = currPlayer.doMove(board.getTargets());
-				if (newLocation.isRoom()) {
-					Solution suggestion = currPlayer.createSuggestion();
-					Card result = board.handleSuggestion(suggestion, currPlayer);
-					setGuess(suggestion.getPerson().getCardName() + ", " + suggestion.getRoom().getCardName() + ", " + suggestion.getWeapon().getCardName());
-					if (result != null) {
-						setGuessResult(result.getCardName());
-						result.setWhoShowedCard(currPlayer.getColor());
-						for (Player player : board.getPlayers()) {
-							player.updateSeen(result, currPlayer.getColor());
-						}
-					}
-					else {
-						setGuessResult("None");
-					}
-				}
-			}
-			else {
-				setGuess("");
-				setGuessResult("");
-				board.setPlayerTurnFinished(false);
-				if (board.getTargets().size() == 0) {
-					JOptionPane.showMessageDialog(null, "You cannot move this turn");
-					board.setPlayerTurnFinished(true);
-				}
-			}
-			repaint();
-			boardPanel.repaint();
-			cardsGUI.revalidate();
-			cardsGUI.updatePanels(board);
+			processNextTurn();
 		}
 
 		@Override

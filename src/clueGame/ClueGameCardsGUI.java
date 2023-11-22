@@ -46,11 +46,6 @@ public class ClueGameCardsGUI extends JPanel{
 		temp.add(inHandLabel);
 		
 		Player humanPlayer = board.getPlayers().get(0);
-//		for (Player player : board.getPlayers()) {
-//			if (player.isHuman()) {
-//				humanPlayer = player;
-//			}
-//		}
 		
 		int z = 0;
 		for (Card card : humanPlayer.getHand()) {
@@ -78,7 +73,6 @@ public class ClueGameCardsGUI extends JPanel{
 				tempText.setBackground(humanPlayer.getSeenCards().get(card));
 				temp.add(tempText);
 				z++;
-				System.out.println(card.getCardName());
 			}
 		}
 
