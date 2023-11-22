@@ -12,6 +12,9 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 /*
  * Authors: John Taylor and Zakaria Khitirishvili
  * Board Class
@@ -29,6 +32,7 @@ public class Board {
 	private ArrayList<Player> players;
 	private ArrayList<Card> cardDeck;
 	private ArrayList<Card> allCards;
+	private boolean ishuman = false;
 
 	private ArrayList<Card> peopleCards, roomCards, weaponCards;
 	private Solution gameSolution;
@@ -511,4 +515,15 @@ public class Board {
 	public void setPlayers(ArrayList<Player> players) {
 		this.players = players;
 	}
+	
+//	public static void main(String[] args) {
+//		Board board = Board.getInstance();
+//		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
+//		board.initialize();
+//		ClueGame game = new ClueGame(board);
+//		game.setVisible(true);
+//		JOptionPane.showMessageDialog(null, "You are a Physics Major. Can you find the solution before your professors?");
+//
+//		game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//	}
 }

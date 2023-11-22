@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 public class HumanPlayer extends Player {
+	// human player turn (true/false)
 
 	public HumanPlayer(String name, Color color) {
 		super(name, color, false);

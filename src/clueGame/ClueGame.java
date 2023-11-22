@@ -13,7 +13,6 @@ public class ClueGame extends JFrame{
 	BoardPanel boardPanel;
 	ClueGameCardsGUI cardsGUI;
 	ClueGameControlPanel controlPanel;
-
 	
 	public ClueGame(Board b) {
 		// set-up the window
@@ -28,6 +27,8 @@ public class ClueGame extends JFrame{
 		add(boardPanel,BorderLayout.CENTER);
 		add(controlPanel,BorderLayout.SOUTH);
 		add(cardsGUI, BorderLayout.EAST);
+		
+		//this.setVisible(rootPaneCheckingEnabled);
 	}
 	
 	// main function to initialize board and start the game

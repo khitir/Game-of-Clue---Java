@@ -4,12 +4,20 @@ package clueGame;
  * Class used to draw board with all cells and rooms, alongside names and players
  */
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
 
 public class BoardPanel extends JPanel{
 	Board board;
+	int width; // gets board dimensions
+	int height;
+	int cellWidth; // makes sure resizing will work
+	int cellHeight;//// makes sure resizing will work
+	Point point;
 
 	public BoardPanel(Board b){
 		this.board = b;
@@ -18,12 +26,10 @@ public class BoardPanel extends JPanel{
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
-		// define cell size
-		int width = board.getNumColumns(); // gets board dimensions
-		int height = board.getNumRows();
-		int cellWidth = getWidth()/width; // makes sure resizing will work
-		int cellHeight = getHeight()/height;//// makes sure resizing will work
+		width = board.getNumColumns(); // gets board dimensions
+		height = board.getNumRows();
+		cellWidth = getWidth()/width; // makes sure resizing will work
+		cellHeight = getHeight()/height;//// makes sure resizing will work
 
 		// draws cells from boadcell
 		for (int i = 0; i < height; i++) {
@@ -48,8 +54,47 @@ public class BoardPanel extends JPanel{
 		// draws players as ovals, function in player, but color map in main
 		for (Player player: board.getPlayers()) {
 			player.drawPlayer(g, cellWidth, cellHeight);
+			if (player.isHuman()) {
+				point = new Point(cellWidth, cellHeight);
+			}
 		}
-		repaint(); // double check if  needed
+		//repaint(); // double check if  needed
+		
+
+			
+		
 	}
+	
+
+	private class movementMouseEvent implements MouseListener{
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+		}
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			int x = e.getX()/cellWidth;
+			int y = e.getY()/cellHeight;
+			
+			if(x == point.x && y == point.y) {
+				
+			}
+		}
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+		}
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+		}
+	}
+
+	
 
 }

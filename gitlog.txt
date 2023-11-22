@@ -1,0 +1,1010 @@
+commit ed7624946557790ad67f529d587f563a61d19ecd
+Merge: 6fd5abe 45a1b40
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Wed Nov 15 19:27:18 2023 -0700
+
+    Merge branch 'master' of https://github.com/johntaylor1309/ClueGame
+
+commit 6fd5abe21fccc91e427cdcc04bead58348cc91cc
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Wed Nov 15 19:27:11 2023 -0700
+
+    Fixed more failing tests
+
+commit 45a1b400321be33a03ed1990f6848cad7a807c49
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Wed Nov 15 19:24:05 2023 -0700
+
+    swapped red and white colors
+
+commit bcefea5496dca4852e3b3276fcce56bb665448c2
+Merge: a03ac9b c8026ea
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Wed Nov 15 19:21:10 2023 -0700
+
+    Merged
+
+commit c8026ea1c96da40f3f9f3e05fa087b8ada70e1ce
+Merge: 6a16190 71fea0e
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Wed Nov 15 19:20:25 2023 -0700
+
+    Merge branch 'master' of github.com:johntaylor1309/ClueGame
+
+commit 6a161903ce678d175c24d3901c065f17e602e43f
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Wed Nov 15 19:19:55 2023 -0700
+
+    added comments
+
+commit a03ac9bc0cfadf28526fbaf2e469cb54a3bdcf39
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Wed Nov 15 19:19:48 2023 -0700
+
+    John: Fixed tests so that they are now passing
+
+commit 71fea0e293bdceb7b679e80290f8fe9d3f24fc86
+Merge: 4f29e50 4efde21
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Wed Nov 15 19:03:49 2023 -0700
+
+    Merged
+
+commit 4f29e501a8872865659e08724be7a52762c3a96c
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Wed Nov 15 19:03:14 2023 -0700
+
+    John: Adjusted starting cells
+
+commit 4efde21306cec6e9f7e2b5350e703615983525c5
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Wed Nov 15 19:02:02 2023 -0700
+
+    added title
+
+commit f2445abbee161c2b995ede01f1f8d33b6ff5754a
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Wed Nov 15 18:58:59 2023 -0700
+
+    changed cyan location
+
+commit b3ee9bdbac36f1b9eb26aec7a6357f30568c3acb
+Merge: 1b207b1 44b9919
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Wed Nov 15 18:50:18 2023 -0700
+
+    Merged
+
+commit 44b9919c2e67e43cfbe7998ac178d69275e8019d
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Wed Nov 15 18:49:32 2023 -0700
+
+    added player starter positions to text file
+
+commit 1b207b1ad19d3c841ff766826faac8c85feea84e
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Wed Nov 15 18:49:25 2023 -0700
+
+    John: Added player's color onto cards in hand
+
+commit 6423b91328094265493ffdd8add7a3c26e4a88d8
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Wed Nov 15 18:35:55 2023 -0700
+
+    John: Added doorway indicators
+
+commit 89abaeea3dc21f57a49b95c41fcbd749689db15c
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Wed Nov 15 18:22:49 2023 -0700
+
+    John: Added in borders for walkway panels
+
+commit 419c82f451cb730b23ac7fba02bffb7f655f4491
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Wed Nov 15 17:19:10 2023 -0700
+
+    fixed reversed resizing, added colors for players
+
+commit 4c16a33e2e3c673a230886be6b5ff6ccb390e684
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Wed Nov 15 16:35:41 2023 -0700
+
+    added roomnames function in boardcell
+
+commit 243f155d629154f805f0a376f4d4ec4e15a690fe
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Wed Nov 15 15:21:54 2023 -0700
+
+    adde Board and panels display
+
+commit 452413e96a287258e1c782b4cd6f6063fcb99a8e
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Wed Nov 15 15:07:42 2023 -0700
+
+    adde ClueGame and BoardPanel classes, drawing cell almost works
+
+commit 538a7f784fbade9c3fe78d43294db816d3731a72
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Fri Nov 10 22:23:57 2023 -0700
+
+    John: Added rebuilding functionality
+
+commit be99aa4c5a0b5d5155c01825be7f87f07f339a72
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Fri Nov 10 16:45:42 2023 -0700
+
+    Added function, fixed label visibility
+
+commit 9a156bb5c3cc12b76ef7d8aefb1cebe13efef7fe
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Fri Nov 10 14:32:07 2023 -0700
+
+    Added functionality to show color of player who you saw card from
+
+commit 1ea3fa92436a860dcbf36b1d77b6af7fbd6079ca
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Thu Nov 9 18:53:15 2023 -0700
+
+    cardsGui file and is partly working, needs seen cards
+
+commit 61060e21352c64075e9e1e4f2beb5e5f2cfe5a36
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Thu Nov 9 11:45:31 2023 -0700
+
+    John: Fixed error with implementing Java Color Class
+
+commit 7c566ed7f25d9837fc9b71931c88c4a409bbce42
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Thu Nov 9 11:39:13 2023 -0700
+
+    John: Refactored, added Player and Color functionality for turn field
+
+commit 1544f4810c56e2936ba87691c33f75184b5636b1
+Merge: b2d47e4 bdc03cc
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Tue Nov 7 20:41:53 2023 -0700
+
+    Merged
+
+commit b2d47e4a25b938883746fdc8383ee8326dcc5266
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Tue Nov 7 20:40:52 2023 -0700
+
+    Set button name
+
+commit bdc03ccdea5ec6046a98b5f80ba0a4d178c45268
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Tue Nov 7 20:34:40 2023 -0700
+
+    added code to updates setters, setGuess needs more work
+
+commit ce09338a233af10c6e0c8b2162a950f50a70c02d
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Tue Nov 7 18:55:06 2023 -0700
+
+    added borders, missing setters/getters
+
+commit ead9f4bb7c473fb5792834f390c73c0aa94ad956
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Tue Nov 7 18:29:35 2023 -0700
+
+    control panel GUI partly working 2.0
+
+commit c83892ad6b424d66c16f7d0d3c3087f29b48d975
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Tue Nov 7 17:29:16 2023 -0700
+
+    control panel GUI partly working
+
+commit dd2bb6b6dc5837e5ce434edb6f8cc37d9bd132dc
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Tue Nov 7 11:54:02 2023 -0700
+
+    Added basic layout of panels
+
+commit a5bd371939b3d8519e6ef86d3b359cd0a501a1c9
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Tue Nov 7 11:25:24 2023 -0700
+
+    Created GUI Class
+
+commit 24b0d2dd8b0035521b2737e92b815f8c3d3c6db1
+Merge: 77158cb 15b2d06
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Mon Nov 6 17:48:03 2023 -0700
+
+    Merge branch 'master' of https://github.com/johntaylor1309/ClueGame
+
+commit 77158cb17d5e132fb563f0bd667b04a5d6359c55
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Mon Nov 6 17:47:55 2023 -0700
+
+    John: Reordered code for readability
+
+commit 15b2d067392e03af2056e9bcd7b1320656473ad1
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Mon Nov 6 17:46:36 2023 -0700
+
+    added comments
+
+commit 4cf561dff89f77d980f7eb309648867e6a9cefc6
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Mon Nov 6 17:34:17 2023 -0700
+
+    All tests now passing
+
+commit e1cd9bb75e2f6f98b9e0018492118c395aeff311
+Merge: 4258489 6161324
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Mon Nov 6 17:06:03 2023 -0700
+
+    Merged
+
+commit 616132412cbd68c95dc8d9cd2f787804486d071b
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Mon Nov 6 17:03:19 2023 -0700
+
+    implemented disprove accusation, but errors
+
+commit 42584897027d3bd9792a3badb322b38da299f110
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Mon Nov 6 17:03:11 2023 -0700
+
+    Removed print statements
+
+commit e17ad8f979ffa467526d93221685fd5f368750ff
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Mon Nov 6 16:56:22 2023 -0700
+
+    John: Suggestion handling tests now passing
+
+commit 211ea9ddd6596414552c344395f7fdbe863e4d58
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Mon Nov 6 16:43:52 2023 -0700
+
+    John: Wrote failing tests for handling suggestions
+
+commit f8fafb5c8184c4f8f402d781bc297d80c1268ef1
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Mon Nov 6 16:17:41 2023 -0700
+
+    John: AI Target decision making now implemented, tests now passing
+
+commit 5add574266b42d03ecb341df7e8562be7a443485
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Mon Nov 6 15:20:52 2023 -0700
+
+    John: Added failing tests for AI selection of movement target
+
+commit 2e06e711dc8fe7ec3b0651d9b66beed33c6737f5
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Mon Nov 6 14:54:31 2023 -0700
+
+    John: AI suggestion tests now passing
+
+commit cd0e07bbbc8cbe2319043f59853b49f2e8c40122
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Mon Nov 6 14:13:14 2023 -0700
+
+    John: Created failing tests for AI suggestions
+
+commit f80e3e9d9c566691fce7985fabbdd8d4cf2d1b86
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Mon Nov 6 12:56:04 2023 -0700
+
+    Accusations test made, was failing but now passes, method implemented as well
+
+commit acda4740164f9faeb3805a963499de35d012892f
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Mon Nov 6 12:32:31 2023 -0700
+
+    added checkAccusation function to board class
+
+commit c8ca0616055516a614524393dd8670d9f94d717d
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Mon Nov 6 12:14:36 2023 -0700
+
+    added GameSolutionTest.java file
+
+commit 6a6c77f8be0146f3aa23aacfaf9c27196465b0d1
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Sat Nov 4 18:48:17 2023 -0600
+
+    John and Zakaria: Added dealing functionality, added comments
+
+commit e71a8b76bdd8d488f8a5e423e8cd087ec55c1c0f
+Merge: 6bc2a82 2b8cb44
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Sat Nov 4 18:18:49 2023 -0600
+
+    Merge branch 'master' of https://github.com/johntaylor1309/ClueGame
+
+commit 6bc2a827139a5fa2e008d34471be7a2c00d7e210
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Sat Nov 4 18:18:33 2023 -0600
+
+    John: Created failing tests for testing if cards are dealt
+
+commit 2b8cb4472307bd8c75b3657612bfbc5b96e7f3e9
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Sat Nov 4 18:18:32 2023 -0600
+
+    added arraylists for cards and players
+
+commit 3bdba850f0bdf4c278f1534be078ae24862cfcf2
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Sat Nov 4 17:56:29 2023 -0600
+
+    John: Fixed .equals() function for Card class
+
+commit 8de4b97783aef1d01d99ae685fb7b2fcb60857f4
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Sat Nov 4 17:43:14 2023 -0600
+
+    John: Added players and weapons to ClueSetup306.txt
+
+commit eb06633343545b825df6e8fcb04a4d89619ea0c0
+Merge: 24f6917 b985158
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Sat Nov 4 17:39:14 2023 -0600
+
+    fixed merge issues
+
+commit 24f6917e7442a294ab2e403f2e245e81fbbf1523
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Sat Nov 4 17:36:14 2023 -0600
+
+    updated test Deck
+
+commit b985158b933222915f4155ea3abfe9bb6c785155
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Sat Nov 4 17:33:25 2023 -0600
+
+    John: Added in creation of solution in board class, when file is initialized
+
+commit 26781c5ed217cdcbf6f3e342779b566bd865ad63
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Sat Nov 4 17:21:04 2023 -0600
+
+    John: Created failing tests to see if solution is created correctly
+
+commit d0234f5240975217d8da3baa789f5915ce3789dd
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Sat Nov 4 16:58:22 2023 -0600
+
+    Added tests to ensure proper card deck creation
+
+commit 2776d50536b8a24d6f35a38d08b312db100c4581
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Sat Nov 4 16:32:32 2023 -0600
+
+    added CardType enum class
+
+commit b278a0d781cb32dfebd94b04435f73fbdd492a53
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Sat Nov 4 14:53:02 2023 -0600
+
+    added map of cards in Board
+
+commit 9203217ba382acd5077fc7936d1abe632643ff9c
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Sat Nov 4 14:05:09 2023 -0600
+
+    added .equals override for cards to compare by strings
+
+commit a8e2d3ea4989e72c91160723b31661b8223d7406
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Sat Nov 4 12:38:59 2023 -0600
+
+    added CarType enum
+
+commit 956442cc3db9a18b4a0c2a9bbf74337bac6e0d65
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Sat Nov 4 12:01:01 2023 -0600
+
+    John: Added fiels to github
+
+commit 5e39133f7c690fdddb898c2c8886d17c45d4ec50
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Thu Nov 2 16:23:13 2023 -0600
+
+    John: Added in more complete set of tests for Player class
+
+commit a47ca1401f3beab5c3f9c7eb222ec1cd86c26ae4
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Thu Nov 2 15:56:31 2023 -0600
+
+    John: Player initialization tests now passing
+
+commit 4160bfa601e5749dc0444971861fd7f3dc8d2112
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Thu Nov 2 14:34:03 2023 -0600
+
+    John: Added some Player code into Board
+
+commit 6fd7a9d7980de6bd0def973891f7411a4dc65ae7
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Thu Nov 2 11:55:20 2023 -0600
+
+    John: Added skeleton Player class and subclasses, as well as failing tests
+
+commit 6202fdc976e665c0ce38673910ffc0e1bf4e36eb
+Merge: bf484f3 d2fe156
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Mon Oct 30 22:38:44 2023 -0600
+
+    Merge branch 'master' of https://github.com/johntaylor1309/ClueGame
+
+commit d2fe15644a1db839bdd7460080f15537b7e5ea57
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Mon Oct 30 17:51:39 2023 -0600
+
+    refactored setcellproperties first,second, third names with door and room
+
+commit 002d03425cb7c43a5d19f06673a9c60d738ef3bb
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Mon Oct 30 17:49:17 2023 -0600
+
+    added comments
+
+commit 9c3b73e469abe296d0d00eaad14e2d4e3b32e258
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Mon Oct 30 17:22:00 2023 -0600
+
+    removed unused imports
+
+commit bf484f3d76601064273c2c5da971ab461b7bf6e1
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Mon Oct 30 17:21:48 2023 -0600
+
+    Removed unused import statements from tests
+
+commit 00f8dfac8bedf628348f9a085dca536e97603fa2
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Mon Oct 30 17:19:49 2023 -0600
+
+    merged if statements and catch IO exceptions in board initialize and load text and csv files
+
+commit e7802d4e35001323a074f81d4704b7a2bda19d64
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Mon Oct 30 17:19:44 2023 -0600
+
+    John: Added more descriptive variable names in Room class
+
+commit e1c5d508abb196423088449b4d4de76e6d0f08cc
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Mon Oct 30 17:08:45 2023 -0600
+
+    changed ROWS,COLS names in Board.java with totals added in front
+
+commit 6713846e6c35fa1365492262d022a5a8fa4d2cb5
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Mon Oct 30 17:05:12 2023 -0600
+
+    John: Reordered functions to let the code flow better
+
+commit c578c4e6f6b38204a2517052d15b4ccafeb05ce1
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Sun Oct 29 15:30:42 2023 -0600
+
+    John: Deleted unused Room constructor
+
+commit 2099cb46787a29603b6ef3d93bf6933237b67131
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Sun Oct 29 15:29:43 2023 -0600
+
+    John: Fixed scope of variables in BoardCell
+
+commit ceede81c3595b3d81b8acc52c59806f1cdd87098
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Sun Oct 29 15:25:36 2023 -0600
+
+    John: Replaced rooms Set with Map for improved performance
+
+commit 31320cd1275598ee4da5ff8b3024dc80867c4d7a
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Sun Oct 29 15:15:08 2023 -0600
+
+    John: Fixed FileInitTest to test all 4 door directions
+
+commit 44b5d3b8bcee9df24ac5a7815de267a30bc2ca27
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Sun Oct 29 15:14:05 2023 -0600
+
+    Revert "Bad commit"
+    
+    This reverts commit 43ebce29ad361fff645d03086dde41f2ddddc3bb.
+
+commit 43ebce29ad361fff645d03086dde41f2ddddc3bb
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Sun Oct 29 15:13:40 2023 -0600
+
+    Bad commit
+
+commit 5ff5032191550536a5c205988829d8f9b8917d8d
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Sun Oct 29 15:08:48 2023 -0600
+
+    Revert "John: Fixed FileInitTest so that it tests all 4 door directions"
+    
+    This reverts commit d6611c0fb639a3320d183f8feded4a300093560c.
+
+commit d6611c0fb639a3320d183f8feded4a300093560c
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Sun Oct 29 14:43:29 2023 -0600
+
+    John: Fixed FileInitTest so that it tests all 4 door directions
+
+commit 6adf699f929279b34f9f817bff1fad42c3e97cb6
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Sun Oct 29 14:41:33 2023 -0600
+
+    John: Minor formatting refactoring
+
+commit 66d9a058ce4222ee687bcff5a79c768ff7ed13db
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Sun Oct 22 18:46:51 2023 -0600
+
+    John: Final refactoring and comments
+
+commit 3ea0c778214ea4b52a11df029e8ca3a03c7ad52b
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Sun Oct 22 17:54:16 2023 -0600
+
+    refactored Board.java
+
+commit 49ce86cd5c904cb280cb78aab1caa28b50dcd848
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Sun Oct 22 11:35:05 2023 -0600
+
+    John: Fixed issues with targets list not resetting, secret passages not loading properly. All tests now passing
+
+commit f60da897a1b5ae7f2c2698a05456e9aa3fb3b6ac
+Merge: b83bfb2 a764d3f
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Thu Oct 19 11:47:03 2023 -0600
+
+    John: Merged
+
+commit a764d3fdd1917623f37bffa4d76832acb26938bf
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Thu Oct 19 11:44:38 2023 -0600
+
+    commented out tests
+
+commit b83bfb29438b5579c4826164ad0f1cbd746347d7
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Thu Oct 19 11:44:31 2023 -0600
+
+    John: Fixed adjacency implementation
+
+commit 5343a9f25b6182c2e1e93ee154cbc6eee680b5b1
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Thu Oct 19 11:01:31 2023 -0600
+
+    John: Fixed null ptr error in tests
+
+commit 2f3b648268820955e99942cee8bdf499f1f5a81c
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Thu Oct 19 10:56:40 2023 -0600
+
+    John: Small changes
+
+commit d095c22e65513dd200e5e3b4e7135eb13a9f96a8
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Thu Oct 19 10:46:16 2023 -0600
+
+    John: Added adjacency functionality for rooms
+
+commit 914a99e25ac0dee3ca2b7e370581363aa1a51dc6
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Mon Oct 16 18:11:07 2023 -0600
+
+    added testtargetsOccupied()
+
+commit ae5746f4cea57e4225d6457dbc9170215af57b51
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Mon Oct 16 17:28:37 2023 -0600
+
+    added testTargetsInWalkway2
+
+commit 7356e3ce6ba85bfc63254e5000b8507b28743a05
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Mon Oct 16 16:17:53 2023 -0600
+
+    added testTargetsInWalkway1
+
+commit 86d67c0c621809bca584381800b3cf4e81c08176
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Mon Oct 16 16:09:20 2023 -0600
+
+    added stTargetsInCK130() and testTargetsAtDoor()
+
+commit 0fe220660eada179301b610d33ff03903ff4e379
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Mon Oct 16 15:42:16 2023 -0600
+
+    added testTargetsInCK130() and testTargetsInSPSRoom()
+
+commit bca30745fd08340d7096bfc8a6a48704e709a8ef
+Merge: 138a685 740ae24
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Sun Oct 15 13:01:46 2023 -0600
+
+    fixed merge issue in BadConficFile
+
+commit 138a68579931306ca33dea7999bb679fc3317a20
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Sun Oct 15 13:00:19 2023 -0600
+
+    test
+
+commit 740ae24f42f47309bc4306a55b3220038a96fbfb
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Sun Oct 15 11:21:35 2023 -0600
+
+    John: Added initial tests for BoardAdjTargetTest
+
+commit f7e6c10eaf249275e910b7d0e38f7f74a758da45
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Sun Oct 15 10:20:51 2023 -0600
+
+    John: Refactored code
+
+commit 5d996ca39281c768b0a68ac8fcabba7c4b1afd21
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Thu Oct 12 16:57:52 2023 -0600
+
+    John: Fixed final errors and added comments
+
+commit 900dee47c6d4b64ef84b0f34ea21025399c00358
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Thu Oct 12 13:57:42 2023 -0600
+
+    got FourDoorDirections to pass, changed right to left on line 69
+
+commit e204cbee2e9d2af0d6db5ed3aeaab1b2f36b4668
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Thu Oct 12 13:51:12 2023 -0600
+
+    got testNumberOfDoorways to pass
+
+commit 620d36f2fccf79506f4a519880971b1aa8fe5daa
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Thu Oct 12 13:04:24 2023 -0600
+
+    John: Fixed an error
+
+commit 9e12e953913851e64bbe2ffbe39c80b8f7fe769f
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Thu Oct 12 12:57:51 2023 -0600
+
+    John: Made some tests from FileInitTests pass
+
+commit bf8eb906f4ee04299a7ccfe3db8bca7ebace6bdf
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Thu Oct 12 12:36:15 2023 -0600
+
+    merge conflict
+
+commit 70e73296b368c6eea0ba4198d9ec56dfbf74ed47
+Merge: 7321f9c 134ab1d
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Thu Oct 12 12:34:36 2023 -0600
+
+    John: merged
+
+commit 7321f9cc1dbf82a7905d7a04f1d9bba04cc425c0
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Thu Oct 12 12:33:58 2023 -0600
+
+    John: Local changes
+
+commit 134ab1db83a701d6c9274f295b51f5bc473ac885
+Merge: f2c1b1f d39d93e
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Thu Oct 12 12:33:00 2023 -0600
+
+    fixed merge issue
+
+commit f2c1b1fc1b587b4151d70aa105a020e546c8f55f
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Thu Oct 12 12:31:39 2023 -0600
+
+    test
+
+commit d39d93e7d4d2b6ca82ef5e48ae2572f6b7f1804c
+Merge: 46546ad 70b5deb
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Thu Oct 12 12:30:08 2023 -0600
+
+    John: merged
+
+commit 70b5debd06fb41e016f975449ab19f3e680acb7a
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Thu Oct 12 12:27:07 2023 -0600
+
+    added for loop to getroomname
+
+commit 46546ad495d9d1e7834e460b48485ed123cba9b2
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Thu Oct 12 12:17:47 2023 -0600
+
+    John: worked on file init tests
+
+commit 7136a886eaabe80b7de2e76253902fe18ba4de2d
+Merge: 1d30912 319829b
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Thu Oct 12 12:01:03 2023 -0600
+
+    John: merged in johnsBranch
+
+commit 1d309127edd9e52ef2c2526aebdcda68334c1568
+Merge: ae52ef5 81cc407
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Thu Oct 12 11:59:30 2023 -0600
+
+    John: Merged changes
+
+commit 81cc407516dcc30d366aa2efde42f5de661dad47
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Thu Oct 12 11:58:30 2023 -0600
+
+    started on FIleinit test and fixed file read issues
+
+commit 319829b2bd945444dce0ff1e92bb7467669922d1
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Thu Oct 12 11:56:13 2023 -0600
+
+    John: Modified Board to handle BadConfigFormatExceptions Properly
+
+commit ae52ef55cb83b35c8532d0074e27fc0b5b2744c0
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Thu Oct 12 11:09:58 2023 -0600
+
+    John: local changes
+
+commit b37426671c3b98a62642b9804dde101ace5927b6
+Merge: 8314c50 e04c1a9
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Tue Oct 10 12:09:09 2023 -0600
+
+    Merge branch 'johnsBranch7'
+
+commit 8314c501d8412d2c05466f2486834ea28ac91d9c
+Merge: 94c9308 0fd6492
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Tue Oct 10 12:08:59 2023 -0600
+
+    Merge branch 'master' of https://github.com/johntaylor1309/ClueGame
+
+commit 0fd6492130e1c80c3bddfc876c5e8f20dd0cd2d1
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Tue Oct 10 12:08:43 2023 -0600
+
+    updated BadConfigExcption
+
+commit e04c1a95547d15cff170f4343838fcb0ae227de5
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Tue Oct 10 12:08:25 2023 -0600
+
+    John: Added intiailization to board class
+
+commit 94c9308b53330ad0a469b40a9b79e718fcc984d3
+Merge: 9869c08 0e6c33a
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Mon Oct 9 20:36:21 2023 -0600
+
+    Merge branch 'master' of https://github.com/johntaylor1309/ClueGame
+
+commit 9869c085a226b556a85a6a499cd6aab313636f11
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Mon Oct 9 20:35:27 2023 -0600
+
+    John: Added comments and Test.txt to explain test procedure
+
+commit 0e6c33a04f8c7f6f0a4df03296aff3c62e1d8fd2
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Mon Oct 9 20:34:50 2023 -0600
+
+    added comments
+
+commit 1883e4ac95630e2c2530aee8449d2760bf86d820
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Mon Oct 9 20:25:08 2023 -0600
+
+    John: Fixed minor bug in test cases
+
+commit 97eb7b25707877568e31d8d5ecd8c8fd59e9660c
+Merge: 52ed7ca 0eac6c8
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Mon Oct 9 20:22:06 2023 -0600
+
+    Merge branch 'johnsBranch4'
+
+commit 52ed7ca27b61d830f7d7d38ae46b06a8c36479a3
+Merge: 9ce3983 74662be
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Mon Oct 9 20:21:58 2023 -0600
+
+    John: Merged branch 3
+
+commit 9ce3983dac86ccb9a6de747f48a52e06de6156ca
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Mon Oct 9 20:19:22 2023 -0600
+
+    final fix for fileinit test file
+
+commit 0eac6c8e22e352677ecf086dee4be6a3e171b1ef
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Mon Oct 9 19:58:17 2023 -0600
+
+    John : Added FileInitTest class
+
+commit 4b686d3b1e91612afdc57dc821fe6c71c10142a7
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Mon Oct 9 19:45:33 2023 -0600
+
+    added some of fileinit test fixes
+
+commit 74662bece8249a8884b41b91f34d8616a033843f
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Mon Oct 9 19:38:03 2023 -0600
+
+    John: Fixed errors in ExceptionTests306 and added ExceptionTests class
+
+commit cda4a144ef79508491b332d229e4880b6ff6cb0c
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Mon Oct 9 19:15:00 2023 -0600
+
+    actually added all test files and 5 classes in clueGame project
+
+commit ea1fcb3fd77ad18999d16bed76607823844908a2
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Mon Oct 9 19:13:00 2023 -0600
+
+    added all test files and 5 classes in clueGame project
+
+commit 381cc9b3afbaa1af44c4709dea6402ecb774c6fe
+Merge: 255b25f 3d0c668
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Mon Oct 9 16:39:07 2023 -0600
+
+    Merge branch 'master' of github.com:johntaylor1309/ClueGame
+
+commit 3d0c668a946f9c1415abb1aea7a570c83d0a301a
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Mon Oct 9 16:30:50 2023 -0600
+
+    Finished CluePath assignments, all tests are passing
+
+commit 255b25f830d3a91630a2b07f8934655565a75232
+Merge: 989d5d8 859e15f
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Mon Oct 9 16:10:44 2023 -0600
+
+    fixed merge error
+
+commit 989d5d87d589083c26a741c76215d70e1b2a8f23
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Mon Oct 9 16:09:18 2023 -0600
+
+    update
+
+commit 859e15ff5418ac75b7acc4fcdf829a620cef5bae
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Mon Oct 9 16:07:42 2023 -0600
+
+    John: Fixed small bug with targets set not being cleared in tests
+
+commit 3fd94b9ae68e1bffac389bc1ef48e8a1f9946797
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Mon Oct 9 15:33:51 2023 -0600
+
+    John: Added functionality to TestBoard and TestBoardCell to attempt to pass tests
+
+commit 26f98579551919e2387a106726249e054bdc1915
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Mon Oct 9 15:07:40 2023 -0600
+
+    John: Fixed merge issue
+
+commit 09827301d0b214ed60764609fdf29ef80af109de
+Merge: f5f328a 7506cbc
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Mon Oct 9 15:07:21 2023 -0600
+
+    John: Fixed merge issue
+
+commit 7506cbcb696748743e05b01b83e223bed0ea0194
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Mon Oct 9 15:05:54 2023 -0600
+
+    added Testboard rows, cols, and grid
+
+commit 52661a7551971cedf977b015e243a46b3b8bbb0d
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Mon Oct 9 14:34:06 2023 -0600
+
+    no changes made
+
+commit f5f328af064e3977a21f5fecb8b7885e75dc8c87
+Merge: 44f70ab 3713d19
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Wed Oct 4 21:26:49 2023 -0600
+
+    Merge branch 'master' of https://github.com/johntaylor1309/ClueGame
+
+commit 3713d1976e0f9178a35e7f475756b9d9c17d1eea
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Wed Oct 4 21:26:36 2023 -0600
+
+    added comments fixed board reset
+
+commit 44f70ab1eb507072371fc0604aee423d4c986cf9
+Merge: 4a10e9b 8d5070c
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Wed Oct 4 21:15:14 2023 -0600
+
+    Merge branch 'master' of https://github.com/johntaylor1309/ClueGame
+
+commit 4a10e9b077a9f49e311169acdf7c28cdbf9d8437
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Wed Oct 4 21:13:40 2023 -0600
+
+    John: Added comments
+
+commit 8d5070c6aa67829a30de24e8efa448674859f722
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Wed Oct 4 21:12:42 2023 -0600
+
+    added case 3 to testTargetOccupied
+
+commit c306e2abfb38155557ca2028e5289051c6f12d9c
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Wed Oct 4 21:08:24 2023 -0600
+
+    John: Added comments throughout
+
+commit 210e7a26e286124a2ba0ae77ec217d983e2ed09d
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Wed Oct 4 21:01:04 2023 -0600
+
+    John: Cleaned up tests, made sure all tests fail instead of error
+
+commit a44d7125fe019f36f791adcfd39d17d125e3f6f2
+Merge: 0d8a58d c626ca4
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Wed Oct 4 20:57:17 2023 -0600
+
+    Merge branch 'master' of https://github.com/johntaylor1309/ClueGame
+
+commit 0d8a58d8bf3c44563fbbf0a0b0740243d2ed189c
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Wed Oct 4 20:55:47 2023 -0600
+
+    John: Implemented testMovementTargetsMixed, added barebones code to TestBoardCell and TestBoard
+
+commit c626ca49809d23e9c2b6f822e29d6ae6a5d74bce
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Wed Oct 4 20:55:23 2023 -0600
+
+    added testTargetsOccupied
+
+commit cabcdf7a2234cfdea0d2152d92b0261dd3a0781d
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Wed Oct 4 20:37:19 2023 -0600
+
+    added testtargetsRoom
+
+commit fa5c13948858651ad425d1ac2b44148acfd9de16
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Wed Oct 4 19:52:03 2023 -0600
+
+    John and Zakaria: Created initial tests
+
+commit ee94bb63e404a39eeda1181685ba78e632b8fbd3
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Wed Oct 4 19:14:06 2023 -0600
+
+    John and Zakaria: Initial Commit
