@@ -89,7 +89,7 @@ class ComputerAITest {
 		tempSet.remove(person);
 		
 		// Set the Player location in a room
-		Room room = new Room('c', "Current");
+		Room room = new Room('P', "Physics Lounge");
 		compPlayer.setRoomLocation(room);
 		
 		// Check that the suggestion matches up with the one weapon not yet seen
@@ -102,6 +102,8 @@ class ComputerAITest {
 		assertTrue(playersNotSeen.contains(person));
 		
 		// Check that room in suggestion is room that player is currently in
+		System.out.println(suggestion.getRoom().getCardName());
+		System.out.println(room.getName());
 		assertTrue(suggestion.getRoom().getCardName().equals(room.getName()));
 		
 		// Check that each weapon is generated at least once

@@ -2,6 +2,7 @@ package clueGame;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Set;
 
 public class HumanPlayer extends Player {
 	// human player turn (true/false)
@@ -29,5 +30,23 @@ public class HumanPlayer extends Player {
 	public void setUnseenRooms(ArrayList<Card> peopleCards) {
 		return;
 	}
+
+	@Override
+	public BoardCell doMove(Set<BoardCell> adjList) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Solution createSuggestion() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+//	@Override
+//	public Card doSuggestion(int whoseTurn) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 }

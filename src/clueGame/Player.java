@@ -9,13 +9,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public abstract class Player {
 	private String name;
 	private Color color;
-	private int row, column;
+	protected int row;
+	protected int column;
 	private boolean isComputer;
 	private boolean isHuman;
+	Board board = Board.getInstance();
 	
 	public Room location;
 
@@ -55,7 +58,8 @@ public abstract class Player {
 		seenCards.put(seenCard, seenColor);
 	}
 	
-	public Card disproveSuggestion(Card room, Card person, Card weapon) {
+	public Card disproveSuggestion(Solution suggestion) {
+		Card room = suggestion.getRoom(), person = suggestion.getPerson(), weapon = suggestion.getWeapon();
 		ArrayList<Card> matchingCard = new ArrayList<Card>(); // matching cards list for each player
 		
 		// fill in matching card list with respective cards
@@ -125,4 +129,10 @@ public abstract class Player {
 	public ArrayList<Card> getHand() {
 		return hand;
 	}
+	public BoardCell getCell() {
+		return new BoardCell(row, column);
+	}
+	public abstract BoardCell doMove(Set<BoardCell> adjList);
+	public abstract Solution createSuggestion();
+//	public abstract Card doSuggestion(int whoseTurn);
 }

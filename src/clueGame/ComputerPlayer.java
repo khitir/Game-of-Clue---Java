@@ -2,6 +2,7 @@ package clueGame;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
@@ -11,8 +12,7 @@ public class ComputerPlayer extends Player {
 	private ArrayList<Character> roomLabelsNotSeen;
 	private ArrayList<Card> playersNotSeen;
 	private ArrayList<Card> weaponsNotSeen;
-	Card lastPersonUnseen, lastWeaponUnseen;
-	int row, col;
+	private Card lastPersonUnseen, lastWeaponUnseen;
 
 	public ComputerPlayer(String name, Color color) {
 		super(name, color, true);
@@ -20,10 +20,9 @@ public class ComputerPlayer extends Player {
 		roomsNotSeen = new ArrayList<Card>();
 		playersNotSeen = new ArrayList<Card>();
 		roomLabelsNotSeen = new ArrayList<Character>();
-		lastPersonUnseen = new Card("Temp");
-		lastWeaponUnseen = new Card("Temp");
 	}
 	
+	@Override
 	public Solution createSuggestion() {
 		Card playerCard, weaponCard, roomCard;
 		Random rand = new Random();
@@ -31,6 +30,7 @@ public class ComputerPlayer extends Player {
 		if (playersNotSeen.size() != 0) {
 			person = rand.nextInt(playersNotSeen.size());
 			playerCard = playersNotSeen.get(person);
+			lastPersonUnseen = playerCard;
 		}
 		else {
 			playerCard = lastPersonUnseen;
@@ -38,19 +38,36 @@ public class ComputerPlayer extends Player {
 		if (weaponsNotSeen.size() != 0) {
 			weapon = rand.nextInt(weaponsNotSeen.size());
 			weaponCard = weaponsNotSeen.get(weapon);
+			lastWeaponUnseen = weaponCard;
 		}
 		else
 			weaponCard = lastWeaponUnseen;
-		roomCard = new Card(this.location.getName());
+		Map<Character, Room> rooms = board.getRooms();
+		Room currRoom = rooms.get(board.getCell(row,  column).getRoomLabel());
+		roomCard = new Card(currRoom.getName(), CardType.ROOM, Color.WHITE);
 		Solution suggestion = new Solution(roomCard, playerCard, weaponCard);
 		return suggestion;
 	}
 	
-	public BoardCell pickTarget(Set<BoardCell> adjList) {
+	@Override
+	public BoardCell doMove(Set<BoardCell> targets) {
+		System.out.println(targets.size());
+		for (BoardCell i : targets) {
+			System.out.print(i.getRow());
+			System.out.println(i.getCol());
+		}
+		BoardCell target = pickTarget(targets);
+		row = target.getRow();
+		column = target.getCol();
+		Board board = Board.getInstance();
+		return board.getCell(row, column);
+	}
+	
+	public BoardCell pickTarget(Set<BoardCell> targets) {
 		BoardCell target;
 		Card room;
 		Board board = Board.getInstance();
-		for (BoardCell cell : adjList) {
+		for (BoardCell cell : targets) {
 			if (cell.isRoom()) {
 				room = new Card(board.getRoom(cell).getName());
 				room.setType(CardType.ROOM);
@@ -59,9 +76,9 @@ public class ComputerPlayer extends Player {
 			}
 		}
 		Random rand = new Random();
-		int index = rand.nextInt(adjList.size());
+		int index = rand.nextInt(targets.size());
 		int i = 0;
-		for (BoardCell cell : adjList) {
+		for (BoardCell cell : targets) {
 			if (i == index)
 				return cell;
 			i++;
@@ -135,7 +152,7 @@ public class ComputerPlayer extends Player {
 
 	public void setLocation(int i, int j) {
 		this.row = i;
-		this.col = j;
+		this.column = j;
 	}
 
 }

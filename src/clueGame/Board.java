@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -39,6 +40,22 @@ public class Board {
 	// The file names to use for the initial configuration
 	String csv_file;
 	String txt_file;
+	
+	private int whoseTurn = 2;
+	private int currRoll;
+	private boolean playerTurnFinished;
+
+	public boolean isPlayerTurnFinished() {
+		return playerTurnFinished;
+	}
+
+	public void setPlayerTurnFinished(boolean playerTurnFinished) {
+		this.playerTurnFinished = playerTurnFinished;
+	}
+
+	public int getWhoseTurn() {
+		return whoseTurn;
+	}
 
 	public Solution getGameSolution() {
 		return gameSolution;
@@ -440,7 +457,7 @@ public class Board {
 			if (index == players.size())
 				index = 0;
 			Player next = players.get(index);
-			Card result = next.disproveSuggestion(suggestion1.getRoom(), suggestion1.getPerson(), suggestion1.getWeapon());
+			Card result = next.disproveSuggestion(suggestion1);
 			if (result != null)
 				return result;
 		}
@@ -515,15 +532,53 @@ public class Board {
 	public void setPlayers(ArrayList<Player> players) {
 		this.players = players;
 	}
+
+	public void nextTurn() {
+		whoseTurn++;
+		if (whoseTurn == players.size())
+			whoseTurn = 0;
+		Random rand = new Random();
+		currRoll = rand.nextInt(5);
+		currRoll++;
+		calcTargets(players.get(whoseTurn).getCell(), currRoll);
+	}
+
+	public int getCurrRoll() {
+		return currRoll;
+	}
 	
-//	public static void main(String[] args) {
-//		Board board = Board.getInstance();
-//		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
-//		board.initialize();
-//		ClueGame game = new ClueGame(board);
-//		game.setVisible(true);
-//		JOptionPane.showMessageDialog(null, "You are a Physics Major. Can you find the solution before your professors?");
-//
-//		game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//	}
+	// draw a cell, pass in location where draw and what color to set, get's called in BoardPanel
+	public void drawBoard(Graphics g, int boardWidth, int boardHeight) {
+		// define cell size
+		int width = totalBoardCols; // gets board dimensions
+		int height = totalBoardRows;
+		int cellWidth = boardWidth/width; // makes sure resizing will work
+		int cellHeight = boardHeight/height;//// makes sure resizing will work
+
+		// draws cells from boardcell
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				grid[i][j].drawCell(g, cellWidth ,cellHeight, targets, whoseTurn);
+			}
+		}
+
+		// draws room names, function in boardcell
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				if (grid[i][j].isLabel()) {
+					grid[i][j].drawRoomName(g, cellWidth ,cellHeight);
+				}
+			}
+		}
+
+		// draws players as ovals, function in player, but color map in main
+		for (Player player: players) {
+			player.drawPlayer(g, cellWidth, cellHeight);
+		}
+	}
+
+	public Map<Character, Room> getRooms() {
+		return rooms;
+	}
+
 }

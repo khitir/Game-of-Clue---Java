@@ -7,11 +7,14 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Set;
+
 
 import javax.swing.JPanel;
 
 
 public class BoardPanel extends JPanel{
+
 	Board board;
 	int width; // gets board dimensions
 	int height;
@@ -26,6 +29,7 @@ public class BoardPanel extends JPanel{
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+
 		width = board.getNumColumns(); // gets board dimensions
 		height = board.getNumRows();
 		cellWidth = getWidth()/width; // makes sure resizing will work
@@ -34,7 +38,7 @@ public class BoardPanel extends JPanel{
 		// draws cells from boadcell
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
-				board.getCell(i, j).drawCell(g, cellWidth ,cellHeight);
+				board.getCell(i, j).drawCell(g, cellWidth ,cellHeight, board.getTargets(), board.getWhoseTurn());
 
 			}
 
@@ -93,6 +97,11 @@ public class BoardPanel extends JPanel{
 		public void mouseExited(MouseEvent e) {
 			// TODO Auto-generated method stub
 		}
+
+
+//		board.drawBoard(g, getWidth(), getHeight());
+//		repaint(); // double check if  needed
+
 	}
 
 	
