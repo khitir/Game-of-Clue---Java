@@ -106,6 +106,7 @@ public class Board {
 	    colorMap.put("Magenta", Color.MAGENTA);
 	    colorMap.put("Black", Color.BLACK);
 	    colorMap.put("White", Color.WHITE);
+	    colorMap.put("Gray", Color.GRAY);
 	    
 		try {
 			in = new FileReader(txt_file);
@@ -448,19 +449,25 @@ public class Board {
 	}
 	
 	public Card handleSuggestion(Solution suggestion1, Player accuser) {
-		int index = 0;
+		int index = 0, indexAccusee = 0;
 		for (int i = 0; i < players.size(); i++) {
 			if (players.get(i).equals(accuser))
 				index = i;
+			if (players.get(i).getName().equals(suggestion1.getPerson().getCardName()))
+				indexAccusee = i;
 		}
+		players.get(indexAccusee).setRow(players.get(index).getRow());
+		players.get(indexAccusee).setColumn(players.get(index).getColumn());
 		for (int numPlayers = 0; numPlayers < players.size() - 1; numPlayers++) {
 			index++;
 			if (index == players.size())
 				index = 0;
 			Player next = players.get(index);
 			Card result = next.disproveSuggestion(suggestion1);
-			if (result != null)
+			if (result != null) {
+				result.setWhoShowedCard(next.getColor());
 				return result;
+			}
 		}
 		return null;
 	}
@@ -539,7 +546,7 @@ public class Board {
 		if (whoseTurn == players.size())
 			whoseTurn = 0;
 		Random rand = new Random();
-		currRoll = rand.nextInt(5);
+		currRoll = rand.nextInt(6);
 		currRoll++;
 		calcTargets(players.get(whoseTurn).getCell(), currRoll);
 	}

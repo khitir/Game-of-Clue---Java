@@ -13,7 +13,7 @@ Space, Unused, X
 Space, Walkway, W
 Player, Physics Major, Green, Human, 8, 1
 Player, Dr. Callan, White, Computer, 21, 1
-Player, Laith Haddad, Blue, Computer, 27, 7
+Player, Laith Haddad, Gray, Computer, 27, 7
 Player, Chuck Stone, Magenta, Computer, 26, 15
 Player, Pat Kohl, Red, Computer, 1, 14
 Player, Vince Kuo, Cyan, Computer, 10, 22

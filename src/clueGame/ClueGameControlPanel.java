@@ -49,7 +49,6 @@ public class ClueGameControlPanel extends JPanel{
 		JLabel turnLabel = new JLabel("Whose turn?");
 		JPanel turnPanel = new JPanel();
 		whoseTurn.setEditable(false);
-//		setTheTurn(board.getPlayers().get(board.getWhoseTurn()));
 		turnPanel.add(turnLabel);
 		turnPanel.add(whoseTurn);
 		topPanel.add(turnPanel);
@@ -58,7 +57,6 @@ public class ClueGameControlPanel extends JPanel{
 		JLabel rollLabel = new JLabel("Roll: ");
 		JPanel rollPanel = new JPanel();
 		theRoll.setEditable(false);
-//		setTheRoll(board.getCurrRoll());
 		rollPanel.add(rollLabel);
 		rollPanel.add(theRoll);
 		topPanel.add(rollPanel);
@@ -114,10 +112,6 @@ public class ClueGameControlPanel extends JPanel{
 	
 	public void processNextTurn() {
 		int whoseTurn = board.getWhoseTurn();
-		if (whoseTurn == 0 && board.isPlayerTurnFinished() == false) {
-			JOptionPane.showMessageDialog(null, "Your turn is not over.");
-			return;
-		}
 		board.nextTurn();
 		whoseTurn = board.getWhoseTurn();
 		setTheTurn(board.getPlayers().get(whoseTurn));
@@ -131,9 +125,8 @@ public class ClueGameControlPanel extends JPanel{
 				setGuess(suggestion.getPerson().getCardName() + ", " + suggestion.getRoom().getCardName() + ", " + suggestion.getWeapon().getCardName());
 				if (result != null) {
 					setGuessResult(result.getCardName());
-					result.setWhoShowedCard(currPlayer.getColor());
 					for (Player player : board.getPlayers()) {
-						player.updateSeen(result, currPlayer.getColor());
+						player.updateSeen(result, result.getWhoShowedColor());
 					}
 				}
 				else {
@@ -161,6 +154,11 @@ public class ClueGameControlPanel extends JPanel{
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
+			int whoseTurn = board.getWhoseTurn();
+			if (whoseTurn == 0 && board.isPlayerTurnFinished() == false) {
+				JOptionPane.showMessageDialog(null, "Your turn is not over.");
+				return;
+			}
 			processNextTurn();
 		}
 
