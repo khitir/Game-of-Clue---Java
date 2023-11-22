@@ -1,3 +1,176 @@
+commit a737a42931c96c97ac48bb2708e92cc81dbe1d22
+Merge: 3ca69f8 5aefd4b
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Tue Nov 21 21:06:32 2023 -0700
+
+    Merge branch 'master' of https://github.com/johntaylor1309/ClueGame
+
+commit 3ca69f8bd509099561d1d0f67ecf8a3bb1cae5a2
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Tue Nov 21 21:06:23 2023 -0700
+
+    John: Added function where players are pulled into room when they are accused
+
+commit 5aefd4bc9bad471acf22bb4c3cca5d77dec31a53
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Tue Nov 21 21:06:23 2023 -0700
+
+    added dropdown for suggestion, but not visible for now
+
+commit ea1a1d3ef67a5791c4005bd46533ca7c2aa60b0c
+Merge: 194cee9 a39e2f2
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Tue Nov 21 20:37:22 2023 -0700
+
+    merge
+
+commit 194cee936b6c9257ca76aab6c7ff7acb7e17a700
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Tue Nov 21 20:33:35 2023 -0700
+
+    added room suggestion option
+
+commit a39e2f2b30a80411956ee8c3ae8e2afe08e32fc6
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Tue Nov 21 20:33:12 2023 -0700
+
+    John: Added moving into rooms based on clicking anywhere in the room
+
+commit 4169fee94105e8016808740eef6f7c58a58d4372
+Merge: 7dd7ccf fd8074a
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Tue Nov 21 19:57:59 2023 -0700
+
+    Merge branch 'master' of github.com:johntaylor1309/ClueGame
+
+commit 7dd7ccf105ec64e651678b797ea1092faaeb44b3
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Tue Nov 21 19:57:54 2023 -0700
+
+    added player move on board
+
+commit fd8074a0dce0adf68b7c5f9b2af45b7abf2cddef
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Tue Nov 21 19:57:44 2023 -0700
+
+    John: Finished next button implementation
+
+commit 32240f1ab455f6a83d9ea3d7d3374574cb325d10
+Merge: 832857b cef61ca
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Tue Nov 21 19:13:07 2023 -0700
+
+    Merge branch 'master' of github.com:johntaylor1309/ClueGame
+
+commit 832857b81065030336b77379fa5a3f4dede77669
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Tue Nov 21 19:13:00 2023 -0700
+
+    try to pu
+
+commit cef61ca0ced3b09950d7d98d906f79169358431b
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Tue Nov 21 19:12:22 2023 -0700
+
+    John: Added code to draw updated player location
+
+commit 3b98f863402375403a55197ced036496862a0a4a
+Merge: adf11c7 97674b7
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Tue Nov 21 18:32:37 2023 -0700
+
+    Merged
+
+commit adf11c7b64413db11d9b6a5ed846931175406852
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Tue Nov 21 18:28:45 2023 -0700
+
+    added board click listener
+
+commit 97674b749b130d3c9b200d8872086cabd000267b
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Tue Nov 21 18:27:57 2023 -0700
+
+    John: Fixed failing test
+
+commit 611ff9075eb9499c11d16eb7777879deb0a31b88
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Tue Nov 21 14:30:15 2023 -0700
+
+    John: More code for next button
+
+commit be5361f5723a7e1e76197b8135254693e780d1a1
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Tue Nov 21 12:17:12 2023 -0700
+
+    John: Initial code for Next Button Mouse Listener
+
+commit 61d967d22f45684ea101246e5e023d9019d2ce3f
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Tue Nov 21 11:19:55 2023 -0700
+
+    added splash screen
+
+commit dda980033a778fb76a0c1bb61de931d720105a6d
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Tue Nov 21 11:00:11 2023 -0700
+
+    John: Fixed issue with creating suggestions when all cards have been seen
+
+commit 048cdf030af5397047140cd1e7ee985683c659cb
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Mon Nov 20 22:16:33 2023 -0700
+
+    in player class on 69, changed to .isEmpty() instead of size=0
+
+commit f7e2bae2d0a04fa8861d8c5964fc7352c90ba690
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Mon Nov 20 22:14:45 2023 -0700
+
+    added comments to few class files in the begining
+
+commit 90629e585222878796207496976a70b50a0cf463
+Author: Zakaria Khitirishvili <Khitirishvili@mines.edu>
+Date:   Mon Nov 20 22:03:03 2023 -0700
+
+    added resizable room names
+
+commit e677307a52596e91de29bc9a3b2070426e919f45
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Fri Nov 17 18:34:29 2023 -0700
+
+    John: Optimized part of gui display
+
+commit 224f7af9b81ab7a5ea772c1bbcca14e1b59f1b00
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Fri Nov 17 18:14:20 2023 -0700
+
+    John: Refactored shuffling and member variables in Board
+
+commit ccb506cdb02b967248926f42de8c5f7aa0a79df1
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Thu Nov 16 16:44:16 2023 -0700
+
+    John: Removed unused import statements
+
+commit 1c6ae9dc5876909190651d76b3d6083ed6006e16
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Thu Nov 16 16:34:50 2023 -0700
+
+    John: Refactored player class to draw players slightly smaller, be more optimized
+
+commit caef8f40b18df1668cdb36cd481d6e6b3535b1b7
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Thu Nov 16 16:28:55 2023 -0700
+
+    John: Changed shuffling mechanism to be more compact
+
+commit 96c720c66cf0a572ba2349a9b5a822d7a9893f8d
+Author: John Taylor <johntaylor1309@gmail.com>
+Date:   Thu Nov 16 16:25:38 2023 -0700
+
+    John: Made sure that we remove the solution cards from the deck so that they are not dealt
+
 commit ed7624946557790ad67f529d587f563a61d19ecd
 Merge: 6fd5abe 45a1b40
 Author: John Taylor <johntaylor1309@gmail.com>
