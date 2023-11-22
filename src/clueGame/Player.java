@@ -53,7 +53,6 @@ public abstract class Player {
 		location = room;
 	}
 	
-
 	public void updateSeen(Card seenCard, Color seenColor) {
 		seenCards.put(seenCard, seenColor);
 	}

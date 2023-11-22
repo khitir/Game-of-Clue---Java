@@ -26,11 +26,12 @@ public class ClueGameControlPanel extends JPanel{
 	private JTextField whoseTurn = new JTextField(15);
 	private nextButtonMouse mouse = new nextButtonMouse();
 	private JPanel boardPanel;
+	private ClueGameCardsGUI cardsGUI;	
 	
 	
-	
-	public ClueGameControlPanel(JPanel boardPanel) {
+	public ClueGameControlPanel(JPanel boardPanel, ClueGameCardsGUI cardsGUI) {
 		this.boardPanel = boardPanel;
+		this.cardsGUI = cardsGUI;
 		
 		setLayout(new GridLayout(2,0)); // create 2 row main grid
 
@@ -123,25 +124,36 @@ public class ClueGameControlPanel extends JPanel{
 			setTheRoll(board.getCurrRoll());
 			if (whoseTurn != 0) {
 				Player currPlayer = board.getPlayers().get(whoseTurn);
-//				int row = currPlayer.getRow(), col = currPlayer.getColumn();
 				BoardCell newLocation = currPlayer.doMove(board.getTargets());
-				System.out.println(newLocation.getRow());
-				System.out.println(newLocation.getCol());
-				System.out.println();
-//				currPlayer.drawPlayer(null, whoseTurn, whoseTurn);
-				Solution suggestion = currPlayer.createSuggestion();
-				board.handleSuggestion(suggestion, currPlayer);
-				setGuess(suggestion.getPerson().getCardName() + ", " + suggestion.getRoom().getCardName() + ", " + suggestion.getWeapon().getCardName());
-				setGuessResult("None");
+				if (newLocation.isRoom()) {
+					Solution suggestion = currPlayer.createSuggestion();
+					Card result = board.handleSuggestion(suggestion, currPlayer);
+					setGuess(suggestion.getPerson().getCardName() + ", " + suggestion.getRoom().getCardName() + ", " + suggestion.getWeapon().getCardName());
+					if (result != null) {
+						setGuessResult(result.getCardName());
+						result.setWhoShowedCard(currPlayer.getColor());
+						for (Player player : board.getPlayers()) {
+							player.updateSeen(result, currPlayer.getColor());
+						}
+					}
+					else {
+						setGuessResult("None");
+					}
+				}
 			}
 			else {
-				// Redraw board with targets lit up
 				setGuess("");
 				setGuessResult("");
 				board.setPlayerTurnFinished(false);
+				if (board.getTargets().size() == 0) {
+					JOptionPane.showMessageDialog(null, "You cannot move this turn");
+					board.setPlayerTurnFinished(true);
+				}
 			}
 			repaint();
 			boardPanel.repaint();
+			cardsGUI.revalidate();
+			cardsGUI.updatePanels(board);
 		}
 
 		@Override

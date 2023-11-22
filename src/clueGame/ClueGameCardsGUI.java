@@ -1,4 +1,5 @@
 package clueGame;
+import java.awt.Graphics;
 /*
  * Authors: John Taylor and Zakaria Khitirishvili
  * Cards panel class, used to display east side of game panel to show cards held and seen
@@ -35,6 +36,7 @@ public class ClueGameCardsGUI extends JPanel{
 		
 		// add panel to main grid
 		add(topPanel);
+		repaint();
 	}
 	
 	public JPanel createSubpanel(String panelName, Board board, CardType type, JLabel inHandLabel, JLabel seenLabel) {
@@ -44,11 +46,11 @@ public class ClueGameCardsGUI extends JPanel{
 		temp.add(inHandLabel);
 		
 		Player humanPlayer = board.getPlayers().get(0);
-		for (Player player : board.getPlayers()) {
-			if (player.isHuman()) {
-				humanPlayer = player;
-			}
-		}
+//		for (Player player : board.getPlayers()) {
+//			if (player.isHuman()) {
+//				humanPlayer = player;
+//			}
+//		}
 		
 		int z = 0;
 		for (Card card : humanPlayer.getHand()) {
@@ -73,9 +75,10 @@ public class ClueGameCardsGUI extends JPanel{
 			if (card.getType().equals(type)) {
 				JTextField tempText = new JTextField(15);
 				tempText.setText(card.getCardName());
-				tempText.setBackground(card.getWhoShowedColor());
+				tempText.setBackground(humanPlayer.getSeenCards().get(card));
 				temp.add(tempText);
 				z++;
+				System.out.println(card.getCardName());
 			}
 		}
 
