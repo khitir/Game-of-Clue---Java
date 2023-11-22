@@ -4,6 +4,7 @@ package clueGame;
  * Class showing control panel of game at the bottom of display, displays the buttons to play game
  */
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -110,6 +111,10 @@ public class ClueGameControlPanel extends JPanel{
 		guessResult.setText(result);
 	}
 	
+	public void setGuessResultColor(Color color) {
+		guessResult.setBackground(color);
+	}
+	
 	public void processNextTurn() {
 		int whoseTurn = board.getWhoseTurn();
 		board.nextTurn();
@@ -124,19 +129,24 @@ public class ClueGameControlPanel extends JPanel{
 				Card result = board.handleSuggestion(suggestion, currPlayer);
 				setGuess(suggestion.getPerson().getCardName() + ", " + suggestion.getRoom().getCardName() + ", " + suggestion.getWeapon().getCardName());
 				if (result != null) {
-					setGuessResult(result.getCardName());
-					for (Player player : board.getPlayers()) {
-						player.updateSeen(result, result.getWhoShowedColor());
+					if (whoseTurn == 0) {
+						setGuessResult(result.getCardName());
 					}
+					else {
+						setGuessResult("Suggestion Disproven");
+					}
+					setGuessResultColor(result.getWhoShowedColor());
+					board.getPlayers().get(whoseTurn).updateSeen(result, result.getWhoShowedColor());
 				}
 				else {
-					setGuessResult("None");
+					setGuessResult("No new clue");
 				}
 			}
 		}
 		else {
 			setGuess("");
 			setGuessResult("");
+			setGuessResultColor(Color.white);
 			board.setPlayerTurnFinished(false);
 			if (board.getTargets().size() == 0) {
 				JOptionPane.showMessageDialog(null, "You cannot move this turn");
