@@ -37,7 +37,7 @@ public class Board {
 	String csv_file;
 	String txt_file;
 	
-	private int whoseTurn;
+	private int whoseTurn = 2;
 	private int currRoll;
 	private boolean playerTurnFinished;
 
@@ -534,7 +534,8 @@ public class Board {
 		if (whoseTurn == players.size())
 			whoseTurn = 0;
 		Random rand = new Random();
-		currRoll = rand.nextInt(6);
+		currRoll = rand.nextInt(5);
+		currRoll++;
 		calcTargets(players.get(whoseTurn).getCell(), currRoll);
 	}
 
@@ -553,7 +554,7 @@ public class Board {
 		// draws cells from boardcell
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
-				grid[i][j].drawCell(g, cellWidth ,cellHeight, targets);
+				grid[i][j].drawCell(g, cellWidth ,cellHeight, targets, whoseTurn);
 			}
 		}
 

@@ -122,7 +122,7 @@ public class BoardCell {
 
 	
 	// draw a cell, pass in location where draw and what color to set, get's called in BoardPanel
-	public void drawCell(Graphics g, int width, int height, Set<BoardCell> targets) {
+	public void drawCell(Graphics g, int width, int height, Set<BoardCell> targets, int whoseTurn) {
 		if (isRoom == true) {
 			g.setColor(Color.GRAY);
 			g.fillRect(col*width, row*height, width, height);
@@ -149,7 +149,7 @@ public class BoardCell {
 			}
 		}
 		else if (roomLabel == 'W') { // check if walkway
-			if (targets.contains(new BoardCell(row, col)))
+			if (targets.contains(new BoardCell(row, col)) && whoseTurn == 0)
 				g.setColor(Color.CYAN);
 			else
 				g.setColor(Color.YELLOW);

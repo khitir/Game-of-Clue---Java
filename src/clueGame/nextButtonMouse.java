@@ -19,8 +19,8 @@ public class nextButtonMouse implements MouseListener {
 		whoseTurn = board.getWhoseTurn();
 		if (whoseTurn != 0) {
 			Player currPlayer = board.getPlayers().get(whoseTurn);
-			int row = currPlayer.getRow(), col = currPlayer.getColumn();
-			BoardCell newLocation = currPlayer.doMove(board.getAdjList(row, col));
+//			int row = currPlayer.getRow(), col = currPlayer.getColumn();
+			BoardCell newLocation = currPlayer.doMove(board.getTargets());
 			Solution suggestion = currPlayer.createSuggestion();
 			board.handleSuggestion(suggestion, currPlayer);
 		}

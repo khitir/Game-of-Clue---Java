@@ -13,7 +13,6 @@ public class ComputerPlayer extends Player {
 	private ArrayList<Card> playersNotSeen;
 	private ArrayList<Card> weaponsNotSeen;
 	private Card lastPersonUnseen, lastWeaponUnseen;
-	private Room location;
 
 	public ComputerPlayer(String name, Color color) {
 		super(name, color, true);
@@ -51,19 +50,24 @@ public class ComputerPlayer extends Player {
 	}
 	
 	@Override
-	public BoardCell doMove(Set<BoardCell> adjList) {
-		BoardCell target = pickTarget(adjList);
+	public BoardCell doMove(Set<BoardCell> targets) {
+		System.out.println(targets.size());
+		for (BoardCell i : targets) {
+			System.out.print(i.getRow());
+			System.out.println(i.getCol());
+		}
+		BoardCell target = pickTarget(targets);
 		row = target.getRow();
 		column = target.getCol();
 		Board board = Board.getInstance();
 		return board.getCell(row, column);
 	}
 	
-	public BoardCell pickTarget(Set<BoardCell> adjList) {
+	public BoardCell pickTarget(Set<BoardCell> targets) {
 		BoardCell target;
 		Card room;
 		Board board = Board.getInstance();
-		for (BoardCell cell : adjList) {
+		for (BoardCell cell : targets) {
 			if (cell.isRoom()) {
 				room = new Card(board.getRoom(cell).getName());
 				room.setType(CardType.ROOM);
@@ -72,9 +76,9 @@ public class ComputerPlayer extends Player {
 			}
 		}
 		Random rand = new Random();
-		int index = rand.nextInt(adjList.size());
+		int index = rand.nextInt(targets.size());
 		int i = 0;
-		for (BoardCell cell : adjList) {
+		for (BoardCell cell : targets) {
 			if (i == index)
 				return cell;
 			i++;
