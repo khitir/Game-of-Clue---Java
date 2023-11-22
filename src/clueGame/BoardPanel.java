@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Set;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class BoardPanel extends JPanel{
@@ -103,7 +104,6 @@ public class BoardPanel extends JPanel{
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
 		}
 		@Override
 		public void mouseReleased(MouseEvent e) {
@@ -114,7 +114,30 @@ public class BoardPanel extends JPanel{
 			repaint();
 			
 			if(board.getWhoseTurn() == 0) {
+				if(board.getTargets().contains(board.getCell(x, y) ) ) {
+					Player currPlayer = board.getPlayers().get(0);
+					currPlayer.setRow(y);
+					currPlayer.setColumn(x);
+					if(board.getCell(x, y).isRoom()) {
+						//handle suggestion
+						// update results
+						repaint();
+						return;
+					}
+					else {
+						return;
+					}
 				
+					
+				}
+				else{
+					JOptionPane.showMessageDialog(null, "Not a target.");
+					//return;
+					
+				}
+			}
+			else {
+				return;
 			}
 		}
 		@Override

@@ -84,6 +84,7 @@ public class ClueGameCardsGUI extends JPanel{
 			noneText.setText("None");
 			temp.add(noneText);
 		}
+		
 		return temp;
 	}
 	

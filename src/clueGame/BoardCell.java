@@ -161,7 +161,6 @@ public class BoardCell {
 			g.setColor(Color.black);
 			g.fillRect(col*width, row*height, width, height);
 		}
-
 	}
 	
 	// draws the door name
