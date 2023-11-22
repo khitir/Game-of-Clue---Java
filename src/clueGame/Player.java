@@ -130,7 +130,7 @@ public abstract class Player {
 		return hand;
 	}
 	public BoardCell getCell() {
-		return new BoardCell(row, column);
+		return board.getCell(row, column);
 	}
 	public abstract BoardCell doMove(Set<BoardCell> adjList);
 	public abstract Solution createSuggestion();

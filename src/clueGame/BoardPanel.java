@@ -39,9 +39,7 @@ public class BoardPanel extends JPanel{
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				board.getCell(i, j).drawCell(g, cellWidth ,cellHeight, board.getTargets(), board.getWhoseTurn());
-
 			}
-
 		}
 
 		// draws room names, function in boardcell
@@ -50,9 +48,7 @@ public class BoardPanel extends JPanel{
 				if (board.getCell(i, j).isLabel()) {
 					board.getCell(i, j).drawRoomName(g, cellWidth ,cellHeight);
 				}
-
 			}
-
 		}
 
 		// draws players as ovals, function in player, but color map in main
@@ -63,12 +59,42 @@ public class BoardPanel extends JPanel{
 			}
 		}
 		//repaint(); // double check if  needed
-		
-
-			
-		
 	}
 	
+//	public void repaint(Graphics g) {
+//		super.paintComponent(g);
+//
+//		width = board.getNumColumns(); // gets board dimensions
+//		height = board.getNumRows();
+//		cellWidth = getWidth()/width; // makes sure resizing will work
+//		cellHeight = getHeight()/height;//// makes sure resizing will work
+//
+//		// draws cells from boadcell
+//		for (int i = 0; i < height; i++) {
+//			for (int j = 0; j < width; j++) {
+//				board.getCell(i, j).drawCell(g, cellWidth ,cellHeight, board.getTargets(), board.getWhoseTurn());
+//			}
+//		}
+//
+//		// draws room names, function in boardcell
+//		for (int i = 0; i < height; i++) {
+//			for (int j = 0; j < width; j++) {
+//				if (board.getCell(i, j).isLabel()) {
+//					board.getCell(i, j).drawRoomName(g, cellWidth ,cellHeight);
+//				}
+//			}
+//		}
+//
+//		// draws players as ovals, function in player, but color map in main
+//		for (Player player: board.getPlayers()) {
+//			player.drawPlayer(g, cellWidth, cellHeight);
+//			if (player.isHuman()) {
+//				point = new Point(cellWidth, cellHeight);
+//			}
+//		}
+//		//repaint(); // double check if  needed
+//	}
+//	
 
 	private class movementMouseEvent implements MouseListener{
 
