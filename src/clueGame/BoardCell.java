@@ -125,11 +125,15 @@ public class BoardCell {
 	public void drawCell(Graphics g, int width, int height, Set<BoardCell> targets, int whoseTurn) {
 		Board board = Board.getInstance();
 		if (isRoom == true) {
-			g.setColor(Color.GRAY);
+			Room room = board.getRooms().get(this.getRoomLabel());
+			if (targets.contains(room.getCenterCell()) && whoseTurn == 0 && board.isPlayerTurnFinished() == false)
+				g.setColor(Color.cyan);
+			else
+				g.setColor(Color.GRAY);
 			g.fillRect(col*width, row*height, width, height);
 		}
 		else if (isDoorway == true) {
-			if (targets.contains(board.getCell(row, col)) && whoseTurn == 0)
+			if (targets.contains(this) && whoseTurn == 0 && board.isPlayerTurnFinished() == false)
 				g.setColor(Color.CYAN);
 			else
 				g.setColor(Color.YELLOW);
@@ -153,7 +157,7 @@ public class BoardCell {
 			}
 		}
 		else if (roomLabel == 'W') { // check if walkway
-			if (targets.contains(board.getCell(row, col)) && whoseTurn == 0)
+			if (targets.contains(this) && whoseTurn == 0 && board.isPlayerTurnFinished() == false)
 				g.setColor(Color.CYAN);
 			else
 				g.setColor(Color.YELLOW);

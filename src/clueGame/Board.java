@@ -41,7 +41,7 @@ public class Board {
 	String csv_file;
 	String txt_file;
 	
-	private int whoseTurn = 2;
+	private int whoseTurn;
 	private int currRoll;
 	private boolean playerTurnFinished;
 
@@ -85,7 +85,7 @@ public class Board {
 	}
 
 	// Loads the .txt file used for setting up the board
-	public void loadSetupConfig() throws BadConfigFormatException {
+	public void loadSetupConfig() throws BadConfigFormatException {	
 		FileReader in;
 		BufferedReader reader;
 		
@@ -208,6 +208,7 @@ public class Board {
 			cardDeck.remove(0);
 			playerIndex++;
 		}
+		whoseTurn = rand.nextInt(players.size());
 	}
 
 	// Loads the .csv file for the board layout

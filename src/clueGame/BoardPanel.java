@@ -109,35 +109,37 @@ public class BoardPanel extends JPanel{
 		public void mouseReleased(MouseEvent e) {
 			int x = e.getX()/cellWidth;
 			int y = e.getY()/cellHeight;
-			System.out.println(x);
-			System.out.println(y);
 			repaint();
 			
-			if(board.getWhoseTurn() == 0) {
-				if(board.getTargets().contains(board.getCell(x, y) ) ) {
+			if(board.getWhoseTurn() == 0 && board.isPlayerTurnFinished() == false) {
+				Room room = board.getRooms().get(board.getCell(y,  x).getRoomLabel());
+				if (board.getTargets().contains(room.getCenterCell()) && board.getWhoseTurn() == 0 && board.isPlayerTurnFinished() == false) {
 					Player currPlayer = board.getPlayers().get(0);
-					currPlayer.setRow(y);
-					currPlayer.setColumn(x);
-					if(board.getCell(x, y).isRoom()) {
+					currPlayer.setRow(room.getCenterCell().getRow());
+					currPlayer.setColumn(room.getCenterCell().getCol());
+					board.setPlayerTurnFinished(true);
+					if(board.getCell(y, x).isRoom()) {
 						//handle suggestion
 						// update results
 						repaint();
 						return;
 					}
-					else {
+				}
+				else if (board.getTargets().contains(board.getCell(y, x) ) ) {
+					Player currPlayer = board.getPlayers().get(0);
+					currPlayer.setRow(y);
+					currPlayer.setColumn(x);
+					board.setPlayerTurnFinished(true);
+					if(board.getCell(y, x).isRoom()) {
+						//handle suggestion
+						// update results
+						repaint();
 						return;
 					}
-				
-					
 				}
 				else{
 					JOptionPane.showMessageDialog(null, "Not a target.");
-					//return;
-					
 				}
-			}
-			else {
-				return;
 			}
 		}
 		@Override
