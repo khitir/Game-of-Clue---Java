@@ -123,12 +123,16 @@ public class BoardCell {
 	
 	// draw a cell, pass in location where draw and what color to set, get's called in BoardPanel
 	public void drawCell(Graphics g, int width, int height, Set<BoardCell> targets, int whoseTurn) {
+		Board board = Board.getInstance();
 		if (isRoom == true) {
 			g.setColor(Color.GRAY);
 			g.fillRect(col*width, row*height, width, height);
 		}
 		else if (isDoorway == true) {
-			g.setColor(Color.YELLOW);
+			if (targets.contains(board.getCell(row, col)) && whoseTurn == 0)
+				g.setColor(Color.CYAN);
+			else
+				g.setColor(Color.YELLOW);
 			g.fillRect(col*width, row*height, width, height);
 			g.setColor(Color.BLACK);
 			g.drawRect(col*width, row*height, width, height);
@@ -149,7 +153,7 @@ public class BoardCell {
 			}
 		}
 		else if (roomLabel == 'W') { // check if walkway
-			if (targets.contains(new BoardCell(row, col)) && whoseTurn == 0)
+			if (targets.contains(board.getCell(row, col)) && whoseTurn == 0)
 				g.setColor(Color.CYAN);
 			else
 				g.setColor(Color.YELLOW);
