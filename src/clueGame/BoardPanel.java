@@ -9,9 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Set;
 
-
 import javax.swing.JPanel;
-
 
 public class BoardPanel extends JPanel{
 
@@ -24,6 +22,7 @@ public class BoardPanel extends JPanel{
 
 	public BoardPanel(Board b){
 		this.board = b;
+		addMouseListener(new movementMouseEvent());
 	}
 	
 	@Override
@@ -84,8 +83,11 @@ public class BoardPanel extends JPanel{
 		public void mouseReleased(MouseEvent e) {
 			int x = e.getX()/cellWidth;
 			int y = e.getY()/cellHeight;
+			System.out.println(x);
+			System.out.println(y);
+			repaint();
 			
-			if(x == point.x && y == point.y) {
+			if(board.getWhoseTurn() == 0) {
 				
 			}
 		}

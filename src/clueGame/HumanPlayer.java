@@ -43,10 +43,4 @@ public class HumanPlayer extends Player {
 		return null;
 	}
 
-//	@Override
-//	public Card doSuggestion(int whoseTurn) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-
 }
