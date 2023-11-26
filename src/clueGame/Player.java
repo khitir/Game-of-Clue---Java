@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.JPanel;
+
 public abstract class Player {
 	private String name;
 	private Color color;
@@ -82,10 +84,11 @@ public abstract class Player {
 	
 	// function to draw the player as oval with color
 	public void drawPlayer(Graphics g, int width, int height) {
-			g.setColor(this.color);
-			g.fillOval((int) displayCol*width+1, (int) displayRow*height+1, width-2, height-2);
-			g.setColor(Color.black);
-			g.drawOval((int) displayCol*width+1, (int) displayRow*height+1, width-2, height-2);
+		g.setColor(this.color);
+		System.out.println(displayRow*height+1);
+		g.fillOval((int) displayCol*width+1, (int) displayRow*height+1, width-2, height-2);
+		g.setColor(Color.black);
+		g.drawOval((int) displayCol*width+1, (int) displayRow*height+1, width-2, height-2);
 	}
 
 	public String getName() {
@@ -116,6 +119,7 @@ public abstract class Player {
 
 	public void setRow(int row) {
 		this.row = row;
+		this.displayRow = row;
 	}
 
 	public int getColumn() {
@@ -124,6 +128,7 @@ public abstract class Player {
 
 	public void setColumn(int column) {
 		this.column = column;
+		this.displayCol = column;
 	}
 
 	public ArrayList<Card> getHand() {
@@ -132,6 +137,6 @@ public abstract class Player {
 	public BoardCell getCell() {
 		return board.getCell(row, column);
 	}
-	public abstract BoardCell doMove(Set<BoardCell> adjList);
+	public abstract BoardCell doMove(Set<BoardCell> adjList, JPanel boardPanel, JPanel controlPanel, ClueGameCardsGUI cardsGUI);
 	public abstract Solution createSuggestion();
 }

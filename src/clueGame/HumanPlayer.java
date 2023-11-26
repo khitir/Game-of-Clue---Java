@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Set;
 
+import javax.swing.JPanel;
+
 public class HumanPlayer extends Player {
 	// human player turn (true/false)
 
@@ -32,7 +34,7 @@ public class HumanPlayer extends Player {
 	}
 
 	@Override
-	public BoardCell doMove(Set<BoardCell> adjList) {
+	public BoardCell doMove(Set<BoardCell> adjList, JPanel boardPanel, JPanel ControlPanel, ClueGameCardsGUI cardsGUI) {
 		// TODO Auto-generated method stub
 		return null;
 	}

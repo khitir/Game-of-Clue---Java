@@ -7,6 +7,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
+import javax.swing.JPanel;
 
 public class ComputerPlayer extends Player {
 	
@@ -52,16 +55,42 @@ public class ComputerPlayer extends Player {
 	}
 	
 	@Override
-	public BoardCell doMove(Set<BoardCell> targets) {
+	public BoardCell doMove(Set<BoardCell> targets, JPanel boardPanel, JPanel controlPanel, ClueGameCardsGUI cardsGUI) {
 //		BoardCell target = pickTarget(targets);
 		BoardCell target = findClosestRoom(targets);
-		int prevRow = row, prevCol = column;
+		int nextRow = target.getRow();
+		int nextCol = target.getCol();
+//		row = target.getRow();
+//		column = target.getCol();
+		int rowDiff = nextRow - row;
+		int colDiff = nextCol - column;
+		float steps = 10;
+		float deltaRow = (float) (rowDiff/steps), deltaCol = (float) (colDiff/steps);
+		System.out.println(deltaRow);
+		System.out.println(deltaCol);
+		for (int i = 0; i < (int) steps; i++) {
+			System.out.println(displayRow);
+			displayRow += deltaRow;
+			displayCol += deltaCol;
+//			controlPanel.repaint();
+//			boardPanel.revalidate();
+//			boardPanel.paintComponents(boardPanel.getGraphics());
+			
+//			cardsGUI.revalidate();
+//			cardsGUI.updatePanels(board);
+			try {
+			    Thread.sleep(100);
+			} catch (InterruptedException ie) {
+			    Thread.currentThread().interrupt();
+			}
+			boardPanel.removeAll();
+			boardPanel.revalidate();
+			boardPanel.repaint();
+		}
 		row = target.getRow();
 		column = target.getCol();
-		float slope = (column - prevCol)/(row - prevRow);
-		for (int i = 0; i <100; i++) {
-			
-		}
+		displayRow = row;
+		displayCol = column;
 		Board board = Board.getInstance();
 		return board.getCell(row, column);
 	}
@@ -109,9 +138,9 @@ public class ComputerPlayer extends Player {
 						BoardCell adjCell = board.getCell(adj.getRow(), adj.getCol());
 						adjacent.add(adjCell);
 						if (adjCell.getRoomLabel() != 'W' && adjCell.getRoomLabel() != 'X') {
-							System.out.println(adjCell.getRoomName());
-							System.out.println(adjCell.getRow());
-							System.out.println(adjCell.getCol());
+//							System.out.println(adjCell.getRoomName());
+//							System.out.println(adjCell.getRow());
+//							System.out.println(adjCell.getCol());
 							Card tempCard = new Card(adjCell.getRoomName());
 							tempCard.setType(CardType.ROOM);
 							if (roomsNotSeen.contains(tempCard)) {

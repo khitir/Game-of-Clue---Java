@@ -4,6 +4,7 @@ package clueGame;
  * Class showing control panel of game at the bottom of display, displays the buttons to play game
  */
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -111,6 +112,9 @@ public class ClueGameControlPanel extends JPanel{
 	}
 	
 	public void processNextTurn() {
+		setGuess("");
+		setGuessResult("");
+//		setGuessResultBackground(Color.WHITE);
 		int whoseTurn = board.getWhoseTurn();
 		board.nextTurn();
 		whoseTurn = board.getWhoseTurn();
@@ -118,7 +122,7 @@ public class ClueGameControlPanel extends JPanel{
 		setTheRoll(board.getCurrRoll());
 		if (whoseTurn != 0) {
 			Player currPlayer = board.getPlayers().get(whoseTurn);
-			BoardCell newLocation = currPlayer.doMove(board.getTargets());
+			BoardCell newLocation = currPlayer.doMove(board.getTargets(), boardPanel, this, cardsGUI);
 			if (newLocation.isRoom()) {
 				Solution suggestion = currPlayer.createSuggestion();
 				Card result = board.handleSuggestion(suggestion, currPlayer);
@@ -143,7 +147,7 @@ public class ClueGameControlPanel extends JPanel{
 				board.setPlayerTurnFinished(true);
 			}
 		}
-		repaint();
+		this.repaint();
 		boardPanel.repaint();
 		cardsGUI.revalidate();
 		cardsGUI.updatePanels(board);
