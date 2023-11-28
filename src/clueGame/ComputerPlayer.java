@@ -1,14 +1,20 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import javax.swing.Timer;
 import java.util.concurrent.TimeUnit;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class ComputerPlayer extends Player {
@@ -18,6 +24,9 @@ public class ComputerPlayer extends Player {
 	private ArrayList<Card> playersNotSeen;
 	private ArrayList<Card> weaponsNotSeen;
 	private Card lastPersonUnseen, lastWeaponUnseen;
+	private Timer myTimer;
+	private boolean updateCoords;
+	private JPanel boardPanel;
 
 	public ComputerPlayer(String name, Color color) {
 		super(name, color, true);
@@ -58,35 +67,61 @@ public class ComputerPlayer extends Player {
 	public BoardCell doMove(Set<BoardCell> targets, JPanel boardPanel, JPanel controlPanel, ClueGameCardsGUI cardsGUI) {
 //		BoardCell target = pickTarget(targets);
 		BoardCell target = findClosestRoom(targets);
+		
+		this.boardPanel = boardPanel;
+		
 		int nextRow = target.getRow();
 		int nextCol = target.getCol();
-//		row = target.getRow();
-//		column = target.getCol();
+
 		int rowDiff = nextRow - row;
 		int colDiff = nextCol - column;
 		float steps = 10;
 		float deltaRow = (float) (rowDiff/steps), deltaCol = (float) (colDiff/steps);
 		System.out.println(deltaRow);
 		System.out.println(deltaCol);
-		for (int i = 0; i < (int) steps; i++) {
-			System.out.println(displayRow);
-			displayRow += deltaRow;
-			displayCol += deltaCol;
-//			controlPanel.repaint();
-//			boardPanel.revalidate();
-//			boardPanel.paintComponents(boardPanel.getGraphics());
+		int count = 0;
+		int numIterations = 0;
+		updateCoords = true;
+		myTimer = new Timer(1, new timerActionListener());
+//		myTimer.setInitialDelay(0);
+		myTimer.start();
+		while (count < steps) {
+//		for (int i = 0; i < (int) steps; i++) {
+//			System.out.println(displayRow);
 			
+			if (updateCoords) {
+				displayRow += deltaRow;
+				displayCol += deltaCol;
+				updateCoords = false;
+				count++;
+			}
+			numIterations++;
+			if (numIterations == 1000000000) {
+				System.out.println("Break");
+				break;
+			}
+//			myTimer.schedule(boardPanel.repaint(), 100);
+			
+//			try {
+//				TimeUnit.MILLISECONDS.sleep(100);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			
+//			try {
+//			    Thread.sleep(100);
+//			} catch (InterruptedException ie) {
+//			    Thread.currentThread().interrupt();
+//			}
+//			controlPanel.repaint();
+////			boardPanel.removeAll();
+////			boardPanel.revalidate();
+//			boardPanel.repaint();
 //			cardsGUI.revalidate();
 //			cardsGUI.updatePanels(board);
-			try {
-			    Thread.sleep(100);
-			} catch (InterruptedException ie) {
-			    Thread.currentThread().interrupt();
-			}
-			boardPanel.removeAll();
-			boardPanel.revalidate();
-			boardPanel.repaint();
 		}
+		myTimer.stop();
 		row = target.getRow();
 		column = target.getCol();
 		displayRow = row;
@@ -237,6 +272,23 @@ public class ComputerPlayer extends Player {
 	public void setLocation(int i, int j) {
 		this.row = i;
 		this.column = j;
+	}
+	
+	public class timerActionListener implements ActionListener {
+		Board board = Board.getInstance();
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+//			if (!worker.isDone()) {
+//		        return;
+//		    }
+
+			boardPanel.repaint();
+			updateCoords = true;
+			
+			myTimer.restart();
+		}
+
 	}
 
 }
