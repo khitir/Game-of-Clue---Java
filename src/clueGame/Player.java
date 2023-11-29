@@ -85,10 +85,17 @@ public abstract class Player {
 	// function to draw the player as oval with color
 	public void drawPlayer(Graphics g, int width, int height) {
 		g.setColor(this.color);
-		System.out.println(displayRow*height+1);
 		g.fillOval((int) displayCol*width+1, (int) displayRow*height+1, width-2, height-2);
 		g.setColor(Color.black);
 		g.drawOval((int) displayCol*width+1, (int) displayRow*height+1, width-2, height-2);
+	}
+	
+	public int getWidth() {
+		return board.getNumColumns();
+	}
+	
+	public int getHeight() {
+		return board.getNumRows();
 	}
 
 	public String getName() {

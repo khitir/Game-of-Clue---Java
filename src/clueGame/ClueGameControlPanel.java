@@ -123,6 +123,7 @@ public class ClueGameControlPanel extends JPanel{
 		if (whoseTurn != 0) {
 			Player currPlayer = board.getPlayers().get(whoseTurn);
 			BoardCell newLocation = currPlayer.doMove(board.getTargets(), boardPanel, this, cardsGUI);
+			newLocation.setOccupied(true);
 			if (newLocation.isRoom()) {
 				Solution suggestion = currPlayer.createSuggestion();
 				Card result = board.handleSuggestion(suggestion, currPlayer);

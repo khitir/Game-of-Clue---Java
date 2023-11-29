@@ -28,7 +28,9 @@ public class ComputerPlayer extends Player {
 	private timerActionListener myTimerActionListener;
 	private boolean updateCoords;
 	private JPanel boardPanel;
+	int count;
 	float deltaRow, deltaCol;
+	float steps = 10;
 
 	public ComputerPlayer(String name, Color color) {
 		super(name, color, true);
@@ -69,6 +71,8 @@ public class ComputerPlayer extends Player {
 	
 	@Override
 	public BoardCell doMove(Set<BoardCell> targets, JPanel boardPanel, JPanel controlPanel, ClueGameCardsGUI cardsGUI) {
+		BoardCell current = board.getCell(row,  column);
+		current.setOccupied(false);
 //		BoardCell target = pickTarget(targets);
 		BoardCell target = findClosestRoom(targets);
 		
@@ -79,41 +83,14 @@ public class ComputerPlayer extends Player {
 
 		int rowDiff = nextRow - row;
 		int colDiff = nextCol - column;
-		float steps = 10;
 		deltaRow = (float) (rowDiff/steps);
 		deltaCol = (float) (colDiff/steps);
 		System.out.println(deltaRow);
 		System.out.println(deltaCol);
-		int count = 0;
+		count = 0;
 		int numIterations = 0;
-		updateCoords = false;
-//		myTimer = new Timer(100, new timerActionListener());
-//		myTimer.setInitialDelay(0);
 		myTimer.start();
-//		while (true) {
-////			System.out.println(board.getUpdateCoords());
-////			System.out.println(count);
-//			if (updateCoords) {
-////				System.out.println("Counting");
-////				
-////				board.setUpdateCoords(false);
-////				count++;
-////				System.out.println(count);
-//				break;
-//			}
-//			numIterations++;
-//			if (numIterations == 1000000000) {
-//				System.out.println("Break");
-//				break;
-//			}
-//			controlPanel.repaint();
-//			boardPanel.removeAll();
-//			boardPanel.revalidate();
-//			boardPanel.repaint();
-//			cardsGUI.revalidate();
-//			cardsGUI.updatePanels(board);
-//		}
-//		myTimer.stop();
+
 		row = target.getRow();
 		column = target.getCol();
 //		displayRow = row;
@@ -165,9 +142,6 @@ public class ComputerPlayer extends Player {
 						BoardCell adjCell = board.getCell(adj.getRow(), adj.getCol());
 						adjacent.add(adjCell);
 						if (adjCell.getRoomLabel() != 'W' && adjCell.getRoomLabel() != 'X') {
-//							System.out.println(adjCell.getRoomName());
-//							System.out.println(adjCell.getRow());
-//							System.out.println(adjCell.getCol());
 							Card tempCard = new Card(adjCell.getRoomName());
 							tempCard.setType(CardType.ROOM);
 							if (roomsNotSeen.contains(tempCard)) {
@@ -268,29 +242,17 @@ public class ComputerPlayer extends Player {
 	
 	public class timerActionListener implements ActionListener {
 		Board board = Board.getInstance();
-		int count = 0;
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("It's Time!");
-			
-//			updateCoords = true;
 			count++;
 			displayRow += deltaRow;
 			displayCol += deltaCol;
 			boardPanel.repaint();
 			
-			if (count == 10) {
-				updateCoords = true;
+			if (count == steps) {
 				myTimer.stop();
 			}
-//				board.setUpdateCoords(true);
-//			else
-//				myTimer.restart();
-			System.out.println(count);
-			System.out.println(board.getUpdateCoords());
-			
-			System.out.println("Exiting ISR");
 		}
 
 	}
