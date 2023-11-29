@@ -25,8 +25,10 @@ public class ComputerPlayer extends Player {
 	private ArrayList<Card> weaponsNotSeen;
 	private Card lastPersonUnseen, lastWeaponUnseen;
 	private Timer myTimer;
+	private timerActionListener myTimerActionListener;
 	private boolean updateCoords;
 	private JPanel boardPanel;
+	float deltaRow, deltaCol;
 
 	public ComputerPlayer(String name, Color color) {
 		super(name, color, true);
@@ -34,6 +36,8 @@ public class ComputerPlayer extends Player {
 		roomsNotSeen = new ArrayList<Card>();
 		playersNotSeen = new ArrayList<Card>();
 		roomLabelsNotSeen = new ArrayList<Character>();
+		myTimerActionListener = new timerActionListener();
+		myTimer = new Timer(100, myTimerActionListener);
 	}
 	
 	@Override
@@ -76,56 +80,44 @@ public class ComputerPlayer extends Player {
 		int rowDiff = nextRow - row;
 		int colDiff = nextCol - column;
 		float steps = 10;
-		float deltaRow = (float) (rowDiff/steps), deltaCol = (float) (colDiff/steps);
+		deltaRow = (float) (rowDiff/steps);
+		deltaCol = (float) (colDiff/steps);
 		System.out.println(deltaRow);
 		System.out.println(deltaCol);
 		int count = 0;
 		int numIterations = 0;
-		updateCoords = true;
-		myTimer = new Timer(1, new timerActionListener());
+		updateCoords = false;
+//		myTimer = new Timer(100, new timerActionListener());
 //		myTimer.setInitialDelay(0);
 		myTimer.start();
-		while (count < steps) {
-//		for (int i = 0; i < (int) steps; i++) {
-//			System.out.println(displayRow);
-			
-			if (updateCoords) {
-				displayRow += deltaRow;
-				displayCol += deltaCol;
-				updateCoords = false;
-				count++;
-			}
-			numIterations++;
-			if (numIterations == 1000000000) {
-				System.out.println("Break");
-				break;
-			}
-//			myTimer.schedule(boardPanel.repaint(), 100);
-			
-//			try {
-//				TimeUnit.MILLISECONDS.sleep(100);
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
+//		while (true) {
+////			System.out.println(board.getUpdateCoords());
+////			System.out.println(count);
+//			if (updateCoords) {
+////				System.out.println("Counting");
+////				
+////				board.setUpdateCoords(false);
+////				count++;
+////				System.out.println(count);
+//				break;
 //			}
-//			
-//			try {
-//			    Thread.sleep(100);
-//			} catch (InterruptedException ie) {
-//			    Thread.currentThread().interrupt();
+//			numIterations++;
+//			if (numIterations == 1000000000) {
+//				System.out.println("Break");
+//				break;
 //			}
 //			controlPanel.repaint();
-////			boardPanel.removeAll();
-////			boardPanel.revalidate();
+//			boardPanel.removeAll();
+//			boardPanel.revalidate();
 //			boardPanel.repaint();
 //			cardsGUI.revalidate();
 //			cardsGUI.updatePanels(board);
-		}
-		myTimer.stop();
+//		}
+//		myTimer.stop();
 		row = target.getRow();
 		column = target.getCol();
-		displayRow = row;
-		displayCol = column;
+//		displayRow = row;
+//		displayCol = column;
 		Board board = Board.getInstance();
 		return board.getCell(row, column);
 	}
@@ -276,17 +268,29 @@ public class ComputerPlayer extends Player {
 	
 	public class timerActionListener implements ActionListener {
 		Board board = Board.getInstance();
+		int count = 0;
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-//			if (!worker.isDone()) {
-//		        return;
-//		    }
-
-			boardPanel.repaint();
-			updateCoords = true;
+			System.out.println("It's Time!");
 			
-			myTimer.restart();
+//			updateCoords = true;
+			count++;
+			displayRow += deltaRow;
+			displayCol += deltaCol;
+			boardPanel.repaint();
+			
+			if (count == 10) {
+				updateCoords = true;
+				myTimer.stop();
+			}
+//				board.setUpdateCoords(true);
+//			else
+//				myTimer.restart();
+			System.out.println(count);
+			System.out.println(board.getUpdateCoords());
+			
+			System.out.println("Exiting ISR");
 		}
 
 	}

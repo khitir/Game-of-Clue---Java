@@ -589,5 +589,15 @@ public class Board {
 	public Map<Character, Room> getRooms() {
 		return rooms;
 	}
+	
+	private boolean updateCoords;
+
+	public boolean getUpdateCoords() {
+		return updateCoords;
+	}
+
+	public void setUpdateCoords(boolean b) {
+		updateCoords = b;
+	}
 
 }
