@@ -1,4 +1,5 @@
 package clueGame;
+import java.awt.BorderLayout;
 /*
  * Authors: John Taylor and Zakaria Khitirishvili
  * Class used to draw board with all cells and rooms, alongside names and players
@@ -12,8 +13,11 @@ import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class BoardPanel extends JPanel{
 
@@ -23,9 +27,11 @@ public class BoardPanel extends JPanel{
 	int cellWidth; // makes sure resizing will work
 	int cellHeight;//// makes sure resizing will work
 	Point point;
+	private JTextField roomLabel = new JTextField(15);
 	
 	// Create a dropdown menu for accusation options
     private JComboBox<String> roomName, weaponName, personName;
+    JDialog suggestion;
 
 
     
@@ -134,13 +140,28 @@ public class BoardPanel extends JPanel{
 					currPlayer.setColumn(room.getCenterCell().getCol());
 					board.setPlayerTurnFinished(true);
 					if(board.getCell(y, x).isRoom()) {
+						
+						suggestion = new JDialog();
+						suggestion.setTitle("Make a suggestion");
+						suggestion.setSize(300, 200);
+						suggestion.setLayout(new BorderLayout());
+						
+						suggestion.setVisible(true);
+						
+						
+						JLabel weaponLabel = new JLabel("Weapon");
+						
 						roomName = new JComboBox<String>();
 						weaponName = new JComboBox<String>();
 						personName = new JComboBox<String>();
 						
+						
+						
 						roomName.addItem(board.getCell(y, x).getRoomName());
 						add(roomName);
 						
+						
+						suggestion.add(weaponLabel);
 						weaponName.addItem("Laser");
 						weaponName.addItem("Cs137");
 						weaponName.addItem("Chuck's bicycle");
@@ -148,7 +169,9 @@ public class BoardPanel extends JPanel{
 						weaponName.addItem("Oscilloscope");
 						weaponName.addItem("Lead Block");
 						
-						add(weaponName);
+						
+						suggestion.add(weaponName);
+						
 						
 						personName.addItem("Physics Major");
 						personName.addItem("Dr. Callan");
@@ -157,14 +180,16 @@ public class BoardPanel extends JPanel{
 						personName.addItem("Pat Kohl");
 						personName.addItem("Vince Kuo");
 						
-						add(personName);
+						suggestion.add(personName);
 						
 						//handle suggestion
 						// update results
+						add(suggestion);
 						repaint();
-						roomName.setVisible(false);
-						weaponName.setVisible(false);
-						personName.setVisible(false);
+						roomName.setVisible(true);
+						weaponName.setVisible(true);
+						personName.setVisible(true);
+						weaponLabel.setVisible(true);
 						
 						return;
 					}
