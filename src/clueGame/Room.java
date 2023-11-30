@@ -17,6 +17,7 @@ public class Room {
 	private BoardCell labelCell;
 	private Set<BoardCell> entrances;
 	private BoardCell secretPassageTo;
+	private int numPlayersInRoom;
 
 	// Constructor, for when only the name and label of the room are available
 	public Room(char name, String fullNameOfRoom) {
@@ -69,5 +70,16 @@ public class Room {
 		entrances.add(secretPassageTo);
 	}
 
+	public int getNumPlayersInRoom() {
+		return numPlayersInRoom;
+	}
+	
+	public void oneMorePlayerInRoom() {
+		numPlayersInRoom++;
+	}
+	
+	public void oneLessPlayerInRoom() {
+		numPlayersInRoom--;
+	}
 
 }

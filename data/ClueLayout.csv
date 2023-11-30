@@ -1,8 +1,8 @@
 P,P,P,P,P,P,W,W,X,X,X,X,X,X,X,X,A,A,A,A,A,X,X,X
-P,P*,P,P,P,P,P,W,W,C,C,C,C,C,W,W,A,A,A,A,A,A,X,X
-P,P,P,P,P,P,P,W,W,C,C,C,C,C,W,W,A,A,A,A,A,A,A,X
-P,P#,P,P,P,P,P,W,W,C,C,C,C,C,W,W,A,A,A,A,A,A,A,A
+P,P,P,P,P,P,P,W,W,C,C,C,C,C,W,W,A,A,A,A,A,A,X,X
+P,P#,P,P,P,P,P,W,W,C,C,C,C,C,W,W,A,A,A,A,A,A,A,X
 P,P,P,P,P,P,P,W,W,C,C,C,C,C,W,W,A,A,A,A,A,A,A,A
+P,P,P*,P,P,P,P,W,W,C,C,C,C,C,W,W,A,A,A,A,A,A,A,A
 PR,P,P,P,P,P,P,W,W,C,C#,C,C,C,W,W,A,A,A#,A,A,A,A,A
 X,P,P,P,P,P,P,W,W,C,C*,C,C,C,W,W,A,A,A,A*,A,A,A,A
 X,W,W,W,W,W^,W,W,W,C,C,C,C,C,W,W,A,A,A,A,A,A,A,A

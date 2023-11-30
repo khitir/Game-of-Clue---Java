@@ -38,6 +38,7 @@ public abstract class Player {
 	float deltaRow, deltaCol;
 	float steps = 10;
 	float finalDisplayCol, finalDisplayRow;
+	ArrayList<Integer> offsets = new ArrayList<Integer>();
 	
 	private boolean updateCoords;
 	protected JPanel boardPanel = BoardPanel.getInstance();
@@ -60,6 +61,24 @@ public abstract class Player {
 		
 		myTimerActionListener = new timerActionListener();
 		myTimer = new Timer(100, myTimerActionListener);
+		
+		offsets.add(0);
+		offsets.add(0);
+		
+		offsets.add(1);
+		offsets.add(1);
+		
+		offsets.add(1);
+		offsets.add(0);
+		
+		offsets.add(1);
+		offsets.add(-1);
+		
+		offsets.add(0);
+		offsets.add(-1);
+		
+		offsets.add(-1);
+		offsets.add(-1);
 	}
 	
 
@@ -103,9 +122,24 @@ public abstract class Player {
 	public void showMove(BoardCell target) {
 		int nextRow = target.getRow();
 		int nextCol = target.getCol();
-
-		int rowDiff = nextRow - row;
-		int colDiff = nextCol - column;
+		
+		if (board.getCell(row, column).getRoomLabel() != 'W' && board.getCell(row, column).getRoomLabel() != 'X') {
+			board.getRoom(board.getCell(row, column)).oneLessPlayerInRoom();
+		}
+		
+		if (board.getCell(nextRow, nextCol).getRoomLabel() != 'W' && board.getCell(nextRow, nextCol).getRoomLabel() != 'X') {
+			Room tempRoom = board.getRoom(board.getCell(nextRow, nextCol));
+			int num = tempRoom.getNumPlayersInRoom();
+			finalDisplayRow = nextRow + offsets.get(2*num);
+			finalDisplayCol = nextCol + offsets.get(2*num+1);
+			tempRoom.oneMorePlayerInRoom();
+		}
+		else {
+			finalDisplayRow = nextRow;
+			finalDisplayCol = nextCol;
+		}
+		float rowDiff = finalDisplayRow - row;
+		float colDiff = finalDisplayCol - column;
 		deltaRow = (float) (rowDiff/steps);
 		deltaCol = (float) (colDiff/steps);
 		count = 0;
@@ -113,8 +147,6 @@ public abstract class Player {
 
 		row = target.getRow();
 		column = target.getCol();
-		finalDisplayRow = row;
-		finalDisplayCol = column;
 	}
 	
 	// function to draw the player as oval with color
