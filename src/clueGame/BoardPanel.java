@@ -6,6 +6,8 @@ package clueGame;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -21,6 +23,11 @@ public class BoardPanel extends JPanel{
 	
 	// Create a dropdown menu for accusation options
     private JComboBox<String> roomName, weaponName, personName;
+    private static BoardPanel theInstance = new BoardPanel(Board.getInstance());
+    
+    public static BoardPanel getInstance() {
+    	return theInstance;
+    }
 
 	public BoardPanel(Board b){
 		this.board = b;
@@ -78,8 +85,10 @@ public class BoardPanel extends JPanel{
 				Room room = board.getRooms().get(board.getCell(y,  x).getRoomLabel());
 				if (board.getTargets().contains(room.getCenterCell()) && board.getWhoseTurn() == 0 && board.isPlayerTurnFinished() == false) {
 					Player currPlayer = board.getPlayers().get(0);
-					currPlayer.setRow(room.getCenterCell().getRow());
-					currPlayer.setColumn(room.getCenterCell().getCol());
+					Set<BoardCell> tempSet = new HashSet<BoardCell>();
+					tempSet.add(board.getCell(room.getCenterCell().getRow(), room.getCenterCell().getCol()));
+					currPlayer.doMove(tempSet);
+//					currPlayer.setCell(room.getCenterCell().getRow(), room.getCenterCell().getCol());
 					board.setPlayerTurnFinished(true);
 					if(board.getCell(y, x).isRoom()) {
 						roomName = new JComboBox<String>();
@@ -119,8 +128,11 @@ public class BoardPanel extends JPanel{
 				}
 				else if (board.getTargets().contains(board.getCell(y, x) ) ) {
 					Player currPlayer = board.getPlayers().get(0);
-					currPlayer.setRow(y);
-					currPlayer.setColumn(x);
+					Set<BoardCell> tempSet = new HashSet<BoardCell>();
+					tempSet.add(board.getCell(y, x));
+					currPlayer.doMove(tempSet);
+//					currPlayer.setRow(y);
+//					currPlayer.setColumn(x);
 					board.setPlayerTurnFinished(true);
 					if(board.getCell(y, x).isRoom()) {
 						//handle suggestion

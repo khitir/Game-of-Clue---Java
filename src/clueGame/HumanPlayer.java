@@ -34,9 +34,11 @@ public class HumanPlayer extends Player {
 	}
 
 	@Override
-	public BoardCell doMove(Set<BoardCell> adjList, JPanel boardPanel, JPanel ControlPanel, ClueGameCardsGUI cardsGUI) {
-		// TODO Auto-generated method stub
-		return null;
+	public BoardCell doMove(Set<BoardCell> adjList) {
+		for (BoardCell target : adjList) {
+			showMove(board.getCell(target.getRow(),  target.getCol()));
+		}
+		return board.getCell(row,  column);
 	}
 
 	@Override

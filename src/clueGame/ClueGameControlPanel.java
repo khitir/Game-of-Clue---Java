@@ -26,13 +26,12 @@ public class ClueGameControlPanel extends JPanel{
 	private JTextField theRoll = new JTextField(5);
 	private JTextField whoseTurn = new JTextField(15);
 	private nextButtonMouse mouse = new nextButtonMouse();
-	private JPanel boardPanel;
+	private JPanel boardPanel = BoardPanel.getInstance();
 	private ClueGameCardsGUI cardsGUI;	
 	private Board board = Board.getInstance();
 	
 	
 	public ClueGameControlPanel(JPanel boardPanel, ClueGameCardsGUI cardsGUI) {
-		this.boardPanel = boardPanel;
 		this.cardsGUI = cardsGUI;
 		
 		setLayout(new GridLayout(2,0)); // create 2 row main grid
@@ -126,7 +125,7 @@ public class ClueGameControlPanel extends JPanel{
 		setTheRoll(board.getCurrRoll());
 		if (whoseTurn != 0) {
 			Player currPlayer = board.getPlayers().get(whoseTurn);
-			BoardCell newLocation = currPlayer.doMove(board.getTargets(), boardPanel, this, cardsGUI);
+			BoardCell newLocation = currPlayer.doMove(board.getTargets());
 			newLocation.setOccupied(true);
 			if (newLocation.isRoom()) {
 				Solution suggestion = currPlayer.createSuggestion();

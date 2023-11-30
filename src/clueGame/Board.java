@@ -457,8 +457,7 @@ public class Board {
 			if (players.get(i).getName().equals(suggestion1.getPerson().getCardName()))
 				indexAccusee = i;
 		}
-		players.get(indexAccusee).setRow(players.get(index).getRow());
-		players.get(indexAccusee).setColumn(players.get(index).getColumn());
+		players.get(indexAccusee).setCell(players.get(index).getRow(), players.get(index).getColumn());
 		for (int numPlayers = 0; numPlayers < players.size() - 1; numPlayers++) {
 			index++;
 			if (index == players.size())

@@ -24,14 +24,6 @@ public class ComputerPlayer extends Player {
 	private ArrayList<Card> playersNotSeen;
 	private ArrayList<Card> weaponsNotSeen;
 	private Card lastPersonUnseen, lastWeaponUnseen;
-	private Timer myTimer;
-	private timerActionListener myTimerActionListener;
-	private boolean updateCoords;
-	private JPanel boardPanel;
-	int count;
-	float deltaRow, deltaCol;
-	float steps = 10;
-	float finalDisplayCol, finalDisplayRow;
 
 	public ComputerPlayer(String name, Color color) {
 		super(name, color, true);
@@ -39,8 +31,6 @@ public class ComputerPlayer extends Player {
 		roomsNotSeen = new ArrayList<Card>();
 		playersNotSeen = new ArrayList<Card>();
 		roomLabelsNotSeen = new ArrayList<Character>();
-		myTimerActionListener = new timerActionListener();
-		myTimer = new Timer(100, myTimerActionListener);
 	}
 	
 	@Override
@@ -71,36 +61,17 @@ public class ComputerPlayer extends Player {
 	}
 	
 	@Override
-	public BoardCell doMove(Set<BoardCell> targets, JPanel boardPanel, JPanel controlPanel, ClueGameCardsGUI cardsGUI) {
+	public BoardCell doMove(Set<BoardCell> targets) {
 		BoardCell current = board.getCell(row,  column);
 		current.setOccupied(false);
 //		BoardCell target = pickTarget(targets);
 		BoardCell target = findClosestRoom(targets);
 		
-		this.boardPanel = boardPanel;
-		
-		int nextRow = target.getRow();
-		int nextCol = target.getCol();
-
-		int rowDiff = nextRow - row;
-		int colDiff = nextCol - column;
-		deltaRow = (float) (rowDiff/steps);
-		deltaCol = (float) (colDiff/steps);
-//		System.out.println(deltaRow);
-//		System.out.println(deltaCol);
-		count = 0;
-		int numIterations = 0;
-		myTimer.start();
-
-		row = target.getRow();
-		column = target.getCol();
+		showMove(target);
 		
 		//TODO: Change
-		finalDisplayRow = row;
-		finalDisplayCol = column;
-//		displayRow = row;
-//		displayCol = column;
-		Board board = Board.getInstance();
+		
+//		Board board = Board.getInstance();
 		return board.getCell(row, column);
 	}
 	
@@ -131,6 +102,13 @@ public class ComputerPlayer extends Player {
 	// More complicated AI for Computer
 	// Computer selects the closest unseen room, and then picks the cell that will get it the closest to that room
 	public BoardCell findClosestRoom(Set<BoardCell> targets) {
+		for (BoardCell target : targets) {
+			if (target.getRoomLabel() != 'X' && target.getRoomLabel() != 'W') {
+				Card tempCard = new Card(target.getRoomName(), CardType.ROOM, Color.WHITE);
+				if (roomsNotSeen.contains(tempCard))
+					return target;
+			}
+		}
 		Map<BoardCell, Integer> pathLengths = new HashMap<BoardCell, Integer>();
 		for (BoardCell target : targets) {
 			Set<BoardCell> seen = new HashSet<BoardCell>();
@@ -243,25 +221,6 @@ public class ComputerPlayer extends Player {
 	public void setLocation(int i, int j) {
 		this.row = i;
 		this.column = j;
-	}
-	
-	public class timerActionListener implements ActionListener {
-		Board board = Board.getInstance();
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			count++;
-			displayRow += deltaRow;
-			displayCol += deltaCol;
-			boardPanel.repaint();
-			
-			if (count == steps) {
-				myTimer.stop();
-				displayRow = finalDisplayRow;
-				displayCol = finalDisplayCol;
-			}
-		}
-
 	}
 
 }

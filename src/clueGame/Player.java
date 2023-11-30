@@ -5,6 +5,8 @@ package clueGame;
  */
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -12,6 +14,9 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JPanel;
+import javax.swing.Timer;
+
+//import clueGame.ComputerPlayer.timerActionListener;
 
 public abstract class Player {
 	private String name;
@@ -29,6 +34,17 @@ public abstract class Player {
 	private Map<Card, Color> seenCards;  
 	private ArrayList<Card> hand;
 	
+	int count;
+	float deltaRow, deltaCol;
+	float steps = 10;
+	float finalDisplayCol, finalDisplayRow;
+	
+	private boolean updateCoords;
+	protected JPanel boardPanel = BoardPanel.getInstance();
+	
+	private Timer myTimer;
+	private timerActionListener myTimerActionListener;
+	
 	public abstract void setUnseenPlayers(ArrayList<Card> peopleCards);
 	public abstract void setUnseenWeapons(ArrayList<Card> peopleCards);
 	public abstract void setUnseenRooms(ArrayList<Card> peopleCards);
@@ -41,6 +57,9 @@ public abstract class Player {
 		cards = new HashMap<String, Card>(); 
 		hand = new ArrayList<Card>();
 		seenCards = new HashMap<Card, Color>();
+		
+		myTimerActionListener = new timerActionListener();
+		myTimer = new Timer(100, myTimerActionListener);
 	}
 	
 
@@ -81,6 +100,22 @@ public abstract class Player {
 		}
 	}
 	
+	public void showMove(BoardCell target) {
+		int nextRow = target.getRow();
+		int nextCol = target.getCol();
+
+		int rowDiff = nextRow - row;
+		int colDiff = nextCol - column;
+		deltaRow = (float) (rowDiff/steps);
+		deltaCol = (float) (colDiff/steps);
+		count = 0;
+		myTimer.start();
+
+		row = target.getRow();
+		column = target.getCol();
+		finalDisplayRow = row;
+		finalDisplayCol = column;
+	}
 	
 	// function to draw the player as oval with color
 	public void drawPlayer(Graphics g, int width, int height) {
@@ -137,6 +172,12 @@ public abstract class Player {
 		this.column = column;
 		this.displayCol = column;
 	}
+	
+	public void setCell(int row, int col) {
+//		this.row = row;
+//		this.column = col;
+		showMove(board.getCell(row,  col));
+	}
 
 	public ArrayList<Card> getHand() {
 		return hand;
@@ -144,6 +185,26 @@ public abstract class Player {
 	public BoardCell getCell() {
 		return board.getCell(row, column);
 	}
-	public abstract BoardCell doMove(Set<BoardCell> adjList, JPanel boardPanel, JPanel controlPanel, ClueGameCardsGUI cardsGUI);
+	public abstract BoardCell doMove(Set<BoardCell> adjList);
 	public abstract Solution createSuggestion();
+	
+	public class timerActionListener implements ActionListener {
+		Board board = Board.getInstance();
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			count++;
+			displayRow += deltaRow;
+			displayCol += deltaCol;
+			boardPanel.repaint();
+			
+			if (count == steps) {
+				myTimer.stop();
+				// TODO: Change
+				displayRow = finalDisplayRow;
+				displayCol = finalDisplayCol;
+			}
+		}
+
+	}
 }
