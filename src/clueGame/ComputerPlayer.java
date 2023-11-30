@@ -31,6 +31,7 @@ public class ComputerPlayer extends Player {
 	int count;
 	float deltaRow, deltaCol;
 	float steps = 10;
+	float finalDisplayCol, finalDisplayRow;
 
 	public ComputerPlayer(String name, Color color) {
 		super(name, color, true);
@@ -85,14 +86,18 @@ public class ComputerPlayer extends Player {
 		int colDiff = nextCol - column;
 		deltaRow = (float) (rowDiff/steps);
 		deltaCol = (float) (colDiff/steps);
-		System.out.println(deltaRow);
-		System.out.println(deltaCol);
+//		System.out.println(deltaRow);
+//		System.out.println(deltaCol);
 		count = 0;
 		int numIterations = 0;
 		myTimer.start();
 
 		row = target.getRow();
 		column = target.getCol();
+		
+		//TODO: Change
+		finalDisplayRow = row;
+		finalDisplayCol = column;
 //		displayRow = row;
 //		displayCol = column;
 		Board board = Board.getInstance();
@@ -252,6 +257,8 @@ public class ComputerPlayer extends Player {
 			
 			if (count == steps) {
 				myTimer.stop();
+				displayRow = finalDisplayRow;
+				displayCol = finalDisplayCol;
 			}
 		}
 
