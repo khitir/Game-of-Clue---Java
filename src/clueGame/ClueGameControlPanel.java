@@ -117,7 +117,7 @@ public class ClueGameControlPanel extends JPanel{
 	public void processNextTurn() {
 		setGuess("");
 		setGuessResult("");
-//		setGuessResultBackground(Color.WHITE);
+		setGuessResultColor(Color.WHITE);
 		int whoseTurn = board.getWhoseTurn();
 		board.nextTurn();
 		whoseTurn = board.getWhoseTurn();

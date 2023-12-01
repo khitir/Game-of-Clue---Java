@@ -123,17 +123,21 @@ public abstract class Player {
 		int nextRow = target.getRow();
 		int nextCol = target.getCol();
 		
+		board.getCell(row, column).setOccupied(false);;
+		
+		// Check current room to update occupied spots list
 		if (board.getCell(row, column).getRoomLabel() != 'W' && board.getCell(row, column).getRoomLabel() != 'X') {
 			board.getRoom(board.getCell(row, column)).oneLessPlayerInRoom();
 			Room tempRoom = board.getRoom(board.getCell(row, column));
-			ArrayList<Boolean> spotsOccupied  = tempRoom.getOccupied();
-			for (int i = 0; i < spotsOccupied.size(); i++) {
-				if (offsets.get(2*i) == displayRow && offsets.get(2*i+1) == displayCol) {
-					tempRoom.setOccupied(i, false);
+//			ArrayList<Boolean> spotsOccupied  = tempRoom.getOccupied();
+			for (int i = 0; i < offsets.size(); i += 2) {
+				if (row + offsets.get(i) == displayRow && column + offsets.get(i+1) == displayCol) {
+					tempRoom.setOccupied(i/2, false);
 				}
 			}
 		}
 		
+		// Check next room for its occupied spots
 		if (board.getCell(nextRow, nextCol).getRoomLabel() != 'W' && board.getCell(nextRow, nextCol).getRoomLabel() != 'X') {
 			Room tempRoom = board.getRoom(board.getCell(nextRow, nextCol));
 			ArrayList<Boolean> spotsOccupied  = tempRoom.getOccupied();
@@ -145,6 +149,7 @@ public abstract class Player {
 					break;
 				}
 			}
+			System.out.println(index);
 //			int num = tempRoom.getNumPlayersInRoom();
 			finalDisplayRow = nextRow + offsets.get(2*index);
 			finalDisplayCol = nextCol + offsets.get(2*index+1);
@@ -153,6 +158,7 @@ public abstract class Player {
 		else {
 			finalDisplayRow = nextRow;
 			finalDisplayCol = nextCol;
+			board.getCell(nextRow, nextCol).setOccupied(true);
 		}
 		float rowDiff = finalDisplayRow - row;
 		float colDiff = finalDisplayCol - column;

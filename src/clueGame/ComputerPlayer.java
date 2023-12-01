@@ -68,10 +68,6 @@ public class ComputerPlayer extends Player {
 		BoardCell target = findClosestRoom(targets);
 		
 		showMove(target);
-		
-		//TODO: Change
-		
-//		Board board = Board.getInstance();
 		return board.getCell(row, column);
 	}
 	
