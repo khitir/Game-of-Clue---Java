@@ -125,13 +125,29 @@ public abstract class Player {
 		
 		if (board.getCell(row, column).getRoomLabel() != 'W' && board.getCell(row, column).getRoomLabel() != 'X') {
 			board.getRoom(board.getCell(row, column)).oneLessPlayerInRoom();
+			Room tempRoom = board.getRoom(board.getCell(row, column));
+			ArrayList<Boolean> spotsOccupied  = tempRoom.getOccupied();
+			for (int i = 0; i < spotsOccupied.size(); i++) {
+				if (offsets.get(2*i) == displayRow && offsets.get(2*i+1) == displayCol) {
+					tempRoom.setOccupied(i, false);
+				}
+			}
 		}
 		
 		if (board.getCell(nextRow, nextCol).getRoomLabel() != 'W' && board.getCell(nextRow, nextCol).getRoomLabel() != 'X') {
 			Room tempRoom = board.getRoom(board.getCell(nextRow, nextCol));
-			int num = tempRoom.getNumPlayersInRoom();
-			finalDisplayRow = nextRow + offsets.get(2*num);
-			finalDisplayCol = nextCol + offsets.get(2*num+1);
+			ArrayList<Boolean> spotsOccupied  = tempRoom.getOccupied();
+			int index = 0;
+			for (int i = 0; i < spotsOccupied.size(); i++) {
+				if (spotsOccupied.get(i) == false) {
+					tempRoom.setOccupied(i, true);
+					index = i;
+					break;
+				}
+			}
+//			int num = tempRoom.getNumPlayersInRoom();
+			finalDisplayRow = nextRow + offsets.get(2*index);
+			finalDisplayCol = nextCol + offsets.get(2*index+1);
 			tempRoom.oneMorePlayerInRoom();
 		}
 		else {

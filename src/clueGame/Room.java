@@ -1,5 +1,6 @@
 package clueGame;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,13 +19,24 @@ public class Room {
 	private Set<BoardCell> entrances;
 	private BoardCell secretPassageTo;
 	private int numPlayersInRoom;
-
+	private ArrayList<Boolean> spotsOccupied;
 	// Constructor, for when only the name and label of the room are available
 	public Room(char name, String fullNameOfRoom) {
 		super();
 		this.labelChar = name;
 		this.nameString = fullNameOfRoom;
 		entrances = new HashSet<BoardCell>();
+		spotsOccupied = new ArrayList<Boolean>();
+		for (int i = 0; i < 6; i++)
+			spotsOccupied.add(false);
+	}
+	
+	public void setOccupied(int index, boolean occupied) {
+		spotsOccupied.set(index, occupied);
+	}
+	
+	public ArrayList<Boolean> getOccupied(){
+		return spotsOccupied;
 	}
 
 	// Returns the room's name
