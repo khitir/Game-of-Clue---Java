@@ -6,11 +6,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-
 import clueGame.BadConfigFormatException;
 import clueGame.Board;
 import clueGame.Card;

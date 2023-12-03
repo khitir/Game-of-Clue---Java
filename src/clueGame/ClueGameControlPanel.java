@@ -145,6 +145,10 @@ public class ClueGameControlPanel extends JPanel{
 					setGuessResult("No new clue");
 				}
 			}
+			Solution accusation = currPlayer.createAccusation();
+			if (accusation != null) {
+				board.handleAccusation(accusation);
+			}
 		}
 		else {
 			setGuess("");

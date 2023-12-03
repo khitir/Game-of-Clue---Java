@@ -5,6 +5,7 @@ package clueGame;
  */
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -24,25 +25,24 @@ public abstract class Player {
 	protected int row;
 	protected int column;
 	protected float displayRow, displayCol;
+	private float finalDisplayCol, finalDisplayRow;
+	private Room location;
+	protected boolean justPulledIntoRoom = false;
+	
+	private int count;
+	private float deltaRow, deltaCol;
+	private float steps = 10;
+
 	private boolean isComputer;
 	private boolean isHuman;
-	Board board = Board.getInstance();
-	
-	public Room location;
+	protected Board board = Board.getInstance();
+	protected JPanel boardPanel = BoardPanel.getInstance();
 
 	private Map<String, Card> cards;  // set of cards for each player, hand 
 	private Map<Card, Color> seenCards;  
 	private ArrayList<Card> hand;
-	
-	int count;
-	float deltaRow, deltaCol;
-	float steps = 10;
-	float finalDisplayCol, finalDisplayRow;
-	ArrayList<Integer> offsets = new ArrayList<Integer>();
-	
-	private boolean updateCoords;
-	protected JPanel boardPanel = BoardPanel.getInstance();
-	
+	protected boolean suggestionDisproven = true;
+
 	private Timer myTimer;
 	private timerActionListener myTimerActionListener;
 	
@@ -61,24 +61,6 @@ public abstract class Player {
 		
 		myTimerActionListener = new timerActionListener();
 		myTimer = new Timer(100, myTimerActionListener);
-		
-		offsets.add(0);
-		offsets.add(0);
-		
-		offsets.add(1);
-		offsets.add(1);
-		
-		offsets.add(1);
-		offsets.add(0);
-		
-		offsets.add(1);
-		offsets.add(-1);
-		
-		offsets.add(0);
-		offsets.add(-1);
-		
-		offsets.add(-1);
-		offsets.add(-1);
 	}
 	
 
@@ -119,56 +101,57 @@ public abstract class Player {
 		}
 	}
 	
-	public void showMove(BoardCell target) {
-		int nextRow = target.getRow();
-		int nextCol = target.getCol();
+	public void showMove(int nextRow, int nextCol) {
+		if (board.getCell(row, column).getRoomLabel() == 'W')
+			board.getCell(row, column).setOccupied(false);
+		finalDisplayRow = nextRow;
+		finalDisplayCol = nextCol;
 		
-		board.getCell(row, column).setOccupied(false);;
-		
-		// Check current room to update occupied spots list
-		if (board.getCell(row, column).getRoomLabel() != 'W' && board.getCell(row, column).getRoomLabel() != 'X') {
-			board.getRoom(board.getCell(row, column)).oneLessPlayerInRoom();
-			Room tempRoom = board.getRoom(board.getCell(row, column));
-//			ArrayList<Boolean> spotsOccupied  = tempRoom.getOccupied();
-			for (int i = 0; i < offsets.size(); i += 2) {
-				if (row + offsets.get(i) == displayRow && column + offsets.get(i+1) == displayCol) {
-					tempRoom.setOccupied(i/2, false);
+		if (!(row == nextRow && column == nextCol)) {
+			// Check current room to update occupied spots list
+			if (board.getCell(row, column).getRoomLabel() != 'W' && board.getCell(row, column).getRoomLabel() != 'X') {
+				Room tempRoom = board.getRoom(board.getCell(row, column));
+				Map<Point, Player> roomSpaces = tempRoom.getRoomSpaces();
+				for (Point p : roomSpaces.keySet()) {
+					if (row + p.x == displayRow && column + p.y == displayCol) {
+						tempRoom.setRoomSpaceOccupied(p, null);
+						System.out.println(getName());
+						System.out.println(tempRoom.getName() + " Not Occupied");
+					}
 				}
 			}
-		}
-		
-		// Check next room for its occupied spots
-		if (board.getCell(nextRow, nextCol).getRoomLabel() != 'W' && board.getCell(nextRow, nextCol).getRoomLabel() != 'X') {
-			Room tempRoom = board.getRoom(board.getCell(nextRow, nextCol));
-			ArrayList<Boolean> spotsOccupied  = tempRoom.getOccupied();
-			int index = 0;
-			for (int i = 0; i < spotsOccupied.size(); i++) {
-				if (spotsOccupied.get(i) == false) {
-					tempRoom.setOccupied(i, true);
-					index = i;
-					break;
+			
+			// Check next room for its occupied spots
+			if (board.getCell(nextRow, nextCol).isRoom()) {
+				Room tempRoom = board.getRoom(board.getCell(nextRow, nextCol));
+				Map<Point, Player> roomSpaces = tempRoom.getRoomSpaces();
+				Point offset = null;
+				for (Point p : roomSpaces.keySet()) {
+					if (roomSpaces.get(p) == null) {
+						tempRoom.setRoomSpaceOccupied(p, this);
+						System.out.println(getName());
+						System.out.println(tempRoom.getName() + " Occupied");
+						offset = p;
+						break;
+					}
 				}
+				finalDisplayRow = nextRow + offset.x;
+				finalDisplayCol = nextCol + offset.y;
 			}
-			System.out.println(index);
-//			int num = tempRoom.getNumPlayersInRoom();
-			finalDisplayRow = nextRow + offsets.get(2*index);
-			finalDisplayCol = nextCol + offsets.get(2*index+1);
-			tempRoom.oneMorePlayerInRoom();
+			else {
+				board.getCell(nextRow, nextCol).setOccupied(true);
+			}
+			
+			float rowDiff = finalDisplayRow - row;
+			float colDiff = finalDisplayCol - column;
+			deltaRow = (float) (rowDiff/steps);
+			deltaCol = (float) (colDiff/steps);
+			count = 0;
+			myTimer.start();
 		}
-		else {
-			finalDisplayRow = nextRow;
-			finalDisplayCol = nextCol;
-			board.getCell(nextRow, nextCol).setOccupied(true);
-		}
-		float rowDiff = finalDisplayRow - row;
-		float colDiff = finalDisplayCol - column;
-		deltaRow = (float) (rowDiff/steps);
-		deltaCol = (float) (colDiff/steps);
-		count = 0;
-		myTimer.start();
 
-		row = target.getRow();
-		column = target.getCol();
+		row = nextRow;
+		column = nextCol;
 	}
 	
 	// function to draw the player as oval with color
@@ -227,10 +210,8 @@ public abstract class Player {
 		this.displayCol = column;
 	}
 	
-	public void setCell(int row, int col) {
-//		this.row = row;
-//		this.column = col;
-		showMove(board.getCell(row,  col));
+	public void setCell(int nextRow, int nextCol) {
+		showMove(nextRow, nextCol);
 	}
 
 	public ArrayList<Card> getHand() {
@@ -241,9 +222,13 @@ public abstract class Player {
 	}
 	public abstract BoardCell doMove(Set<BoardCell> adjList);
 	public abstract Solution createSuggestion();
+	public abstract Solution createAccusation();
+	
+	public void setSuggestionDisproven(boolean b) {
+		suggestionDisproven = b;
+	}
 	
 	public class timerActionListener implements ActionListener {
-		Board board = Board.getInstance();
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -254,7 +239,6 @@ public abstract class Player {
 			
 			if (count == steps) {
 				myTimer.stop();
-				// TODO: Change
 				displayRow = finalDisplayRow;
 				displayCol = finalDisplayCol;
 			}

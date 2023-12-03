@@ -420,11 +420,14 @@ public class Board {
 		return grid[i][j];
 	}
 
-	public void calcTargets(BoardCell cell, int pathLength) { // adds visited cells to to list and calls findTargets()
+	public void calcTargets(BoardCell cell, int pathLength, boolean justPulledIntoRoom) { // adds visited cells to to list and calls findTargets()
 		targets.clear();
 		visited.add(cell);
 		findTargets(cell, pathLength);
 		visited.clear();
+		if (justPulledIntoRoom) {
+			targets.add(cell);
+		}
 	}
 
 	public void findTargets(BoardCell cell, int pathLength) { // recursively finds targets by looking at adjacent list
@@ -458,6 +461,7 @@ public class Board {
 				indexAccusee = i;
 		}
 		players.get(indexAccusee).setCell(players.get(index).getRow(), players.get(index).getColumn());
+		players.get(indexAccusee).justPulledIntoRoom = true;
 		for (int numPlayers = 0; numPlayers < players.size() - 1; numPlayers++) {
 			index++;
 			if (index == players.size())
@@ -466,9 +470,11 @@ public class Board {
 			Card result = next.disproveSuggestion(suggestion1);
 			if (result != null) {
 				result.setWhoShowedCard(next.getColor());
+				accuser.setSuggestionDisproven(true);
 				return result;
 			}
 		}
+		accuser.setSuggestionDisproven(false);
 		return null;
 	}
 
@@ -548,7 +554,10 @@ public class Board {
 		Random rand = new Random();
 		currRoll = rand.nextInt(6);
 		currRoll++;
-		calcTargets(players.get(whoseTurn).getCell(), currRoll);
+		calcTargets(players.get(whoseTurn).getCell(), currRoll, players.get(whoseTurn).justPulledIntoRoom);
+		if (players.get(whoseTurn).justPulledIntoRoom) {
+			players.get(whoseTurn).justPulledIntoRoom = false;
+		}
 	}
 
 	public int getCurrRoll() {
@@ -597,6 +606,13 @@ public class Board {
 
 	public void setUpdateCoords(boolean b) {
 		updateCoords = b;
+	}
+
+	public void handleAccusation(Solution accusation) {
+		if (accusation == gameSolution) {
+			System.out.println("Correct");
+			// Display a message ending the game
+		}
 	}
 
 }

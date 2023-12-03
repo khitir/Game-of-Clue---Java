@@ -4,17 +4,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Set;
-
 import org.junit.jupiter.api.Test;
-
 import clueGame.Board;
 import clueGame.BoardCell;
 import clueGame.Card;
 import clueGame.CardType;
 import clueGame.ComputerPlayer;
-import clueGame.Player;
 import clueGame.Room;
 import clueGame.Solution;
 
@@ -34,7 +30,7 @@ class ComputerAITest {
 		roomsUnseen.add(new Card(board.getRoom('P').getName()));
 		roomsUnseen.get(0).setType(CardType.ROOM);
 		compPlayer.setRoomsNotSeen(roomsUnseen);
-		board.calcTargets(board.getCell(7, 5), 1);
+		board.calcTargets(board.getCell(7, 5), 1, false);
 		Set<BoardCell> adjList = board.getTargets();
 		// Make sure the computer picks the room as its target
 		BoardCell target = compPlayer.pickTarget(adjList);
@@ -43,7 +39,7 @@ class ComputerAITest {
 		
 		// Put the player in a square with no adjacent room
 		compPlayer.setLocation(21, 6);
-		board.calcTargets(board.getCell(21, 6), 1);
+		board.calcTargets(board.getCell(21, 6), 1, false);
 		adjList = board.getTargets();
 		// Count how many times each result occurs
 		int[] results = {0, 0, 0, 0};

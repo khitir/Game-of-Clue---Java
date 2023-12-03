@@ -36,13 +36,19 @@ public class HumanPlayer extends Player {
 	@Override
 	public BoardCell doMove(Set<BoardCell> adjList) {
 		for (BoardCell target : adjList) {
-			showMove(board.getCell(target.getRow(),  target.getCol()));
+			showMove(target.getRow(),  target.getCol());
 		}
 		return board.getCell(row,  column);
 	}
 
 	@Override
 	public Solution createSuggestion() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Solution createAccusation() {
 		// TODO Auto-generated method stub
 		return null;
 	}

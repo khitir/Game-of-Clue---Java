@@ -1,7 +1,10 @@
 package clueGame;
 
+import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /*
@@ -18,25 +21,31 @@ public class Room {
 	private BoardCell labelCell;
 	private Set<BoardCell> entrances;
 	private BoardCell secretPassageTo;
-	private int numPlayersInRoom;
-	private ArrayList<Boolean> spotsOccupied;
+	private Map<Point, Player> roomSpaces;
+	
 	// Constructor, for when only the name and label of the room are available
 	public Room(char name, String fullNameOfRoom) {
 		super();
 		this.labelChar = name;
 		this.nameString = fullNameOfRoom;
 		entrances = new HashSet<BoardCell>();
-		spotsOccupied = new ArrayList<Boolean>();
-		for (int i = 0; i < 6; i++)
-			spotsOccupied.add(false);
+		
+		roomSpaces = new HashMap<Point, Player>();
+		roomSpaces.put(new Point(0,0), null);
+		roomSpaces.put(new Point(0,1), null);
+		roomSpaces.put(new Point(1,1), null);
+		roomSpaces.put(new Point(1,0), null);
+		roomSpaces.put(new Point(1,-1), null);
+		roomSpaces.put(new Point(0,-1), null);
+		
 	}
 	
-	public void setOccupied(int index, boolean occupied) {
-		spotsOccupied.set(index, occupied);
+	public void setRoomSpaceOccupied(Point p, Player player) {
+		roomSpaces.replace(p, player);
 	}
 	
-	public ArrayList<Boolean> getOccupied(){
-		return spotsOccupied;
+	public Map<Point, Player> getRoomSpaces(){
+		return roomSpaces;
 	}
 
 	// Returns the room's name
@@ -80,18 +89,6 @@ public class Room {
 	public void setSecretPassageTo(BoardCell cell) {
 		secretPassageTo = cell;
 		entrances.add(secretPassageTo);
-	}
-
-	public int getNumPlayersInRoom() {
-		return numPlayersInRoom;
-	}
-	
-	public void oneMorePlayerInRoom() {
-		numPlayersInRoom++;
-	}
-	
-	public void oneLessPlayerInRoom() {
-		numPlayersInRoom--;
 	}
 
 }

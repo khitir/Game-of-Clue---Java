@@ -1,36 +1,38 @@
 package clueGame;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
-import javax.swing.Timer;
-import java.util.concurrent.TimeUnit;
-
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 public class ComputerPlayer extends Player {
 	
 	private ArrayList<Card> roomsNotSeen;
-	private ArrayList<Character> roomLabelsNotSeen;
 	private ArrayList<Card> playersNotSeen;
 	private ArrayList<Card> weaponsNotSeen;
 	private Card lastPersonUnseen, lastWeaponUnseen;
+	private Solution lastSuggestion;
 
 	public ComputerPlayer(String name, Color color) {
 		super(name, color, true);
 		weaponsNotSeen = new ArrayList<Card>();
 		roomsNotSeen = new ArrayList<Card>();
 		playersNotSeen = new ArrayList<Card>();
-		roomLabelsNotSeen = new ArrayList<Character>();
+	}
+	
+	@Override
+	public Solution createAccusation() {
+		if (suggestionDisproven == false) {
+			System.out.println("accusation thrown");
+			return lastSuggestion;
+		}
+		else if (playersNotSeen.size() != 1 && roomsNotSeen.size() != 1 && weaponsNotSeen.size() != 1)
+			return null;
+		System.out.println("accusation thrown");
+		return new Solution(roomsNotSeen.get(0), playersNotSeen.get(0), weaponsNotSeen.get(0));
 	}
 	
 	@Override
@@ -57,6 +59,7 @@ public class ComputerPlayer extends Player {
 		Room currRoom = rooms.get(board.getCell(row,  column).getRoomLabel());
 		roomCard = new Card(currRoom.getName(), CardType.ROOM, Color.WHITE);
 		Solution suggestion = new Solution(roomCard, playerCard, weaponCard);
+		lastSuggestion = suggestion;
 		return suggestion;
 	}
 	
@@ -64,10 +67,11 @@ public class ComputerPlayer extends Player {
 	public BoardCell doMove(Set<BoardCell> targets) {
 		BoardCell current = board.getCell(row,  column);
 		current.setOccupied(false);
+		// Less Advanced AI
 //		BoardCell target = pickTarget(targets);
+		// More Advanced AI
 		BoardCell target = findClosestRoom(targets);
-		
-		showMove(target);
+		showMove(target.getRow(), target.getCol());
 		return board.getCell(row, column);
 	}
 	
