@@ -4,14 +4,18 @@ package clueGame;
  * Class used to draw board with all cells and rooms, alongside names and players
  */
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class BoardPanel extends JPanel{
 
@@ -20,20 +24,19 @@ public class BoardPanel extends JPanel{
 	int height;
 	int cellWidth; // makes sure resizing will work
 	int cellHeight;//// makes sure resizing will work
-	
+
 	// Create a dropdown menu for accusation options
-    private JComboBox<String> roomName, weaponName, personName;
-    private static BoardPanel theInstance = new BoardPanel(Board.getInstance());
-    
-    public static BoardPanel getInstance() {
-    	return theInstance;
-    }
+	private static BoardPanel theInstance = new BoardPanel(Board.getInstance());
+
+	public static BoardPanel getInstance() {
+		return theInstance;
+	}
 
 	public BoardPanel(Board b){
 		this.board = b;
 		addMouseListener(new movementMouseEvent());
 	}
-	
+
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -88,42 +91,66 @@ public class BoardPanel extends JPanel{
 					Set<BoardCell> tempSet = new HashSet<BoardCell>();
 					tempSet.add(board.getCell(room.getCenterCell().getRow(), room.getCenterCell().getCol()));
 					currPlayer.doMove(tempSet);
-//					currPlayer.setCell(room.getCenterCell().getRow(), room.getCenterCell().getCol());
+					//					currPlayer.setCell(room.getCenterCell().getRow(), room.getCenterCell().getCol());
+					
 					board.setPlayerTurnFinished(true);
+					
 					if(board.getCell(y, x).isRoom()) {
-						roomName = new JComboBox<String>();
-						weaponName = new JComboBox<String>();
-						personName = new JComboBox<String>();
+						JDialog dialog = new JDialog();
+						dialog.setTitle("Make a Suggestion");
+						dialog.setLayout(new GridLayout(4,0));
 						
-						roomName.addItem(board.getCell(y, x).getRoomName());
-						add(roomName);
+						JPanel roomRow = new JPanel();
+						roomRow.setLayout(new GridLayout(0, 2));
+						JTextField roomLabel = new JTextField("Current Room");
+						roomLabel.setEditable(false);
+						roomRow.add(roomLabel);
+						JTextField roomName = new JTextField(board.getCell(currPlayer.getRow(), currPlayer.getColumn()).getRoomName());
+						roomName.setEditable(false);
+						roomRow.add(roomName);
+						dialog.add(roomRow);
+
+						JPanel personRow = new JPanel();
+						personRow.setLayout(new GridLayout(0,2));
+						JTextField personLabel = new JTextField("Person");
+						personLabel.setEditable(false);
+						personRow.add(personLabel);
+						JComboBox playerDropdown = new JComboBox();
+						for (Player p : board.getPlayers()) {
+							playerDropdown.addItem(p.getName());
+						}
+						personRow.add(playerDropdown);
+						dialog.add(personRow);
+
+						JPanel weaponRow = new JPanel();
+						weaponRow.setLayout(new GridLayout(0,2));
+						JTextField weaponLabel = new JTextField("Weapon");
+						weaponLabel.setEditable(false);
+						weaponRow.add(weaponLabel);
+						JComboBox weaponDropdown = new JComboBox();
+						for (Card c : board.getAllCards()) {
+							if (c.getType() == CardType.WEAPON)
+								weaponDropdown.addItem(c.getCardName());
+						}
+						weaponRow.add(weaponDropdown);
+						dialog.add(weaponRow);
+
+						JPanel buttons = new JPanel();
+						buttons.setLayout(new GridLayout(0,2));
+
+						JButton submitButton = new JButton("Submit");
+						submitButton.addMouseListener(new submitButtonMouse());
+						buttons.add(submitButton);
+
+						JButton cancelButton = new JButton("Cancel");
+						cancelButton.addMouseListener(new cancelButtonMouse());
+						buttons.add(cancelButton);
 						
-						weaponName.addItem("Laser");
-						weaponName.addItem("Cs137");
-						weaponName.addItem("Chuck's bicycle");
-						weaponName.addItem("Dilution Refrigerator");
-						weaponName.addItem("Oscilloscope");
-						weaponName.addItem("Lead Block");
-						
-						add(weaponName);
-						
-						personName.addItem("Physics Major");
-						personName.addItem("Dr. Callan");
-						personName.addItem("Laith Haddad");
-						personName.addItem("Chuck Ston");
-						personName.addItem("Pat Kohl");
-						personName.addItem("Vince Kuo");
-						
-						add(personName);
-						
-						//handle suggestion
-						// update results
-						repaint();
-						roomName.setVisible(false);
-						weaponName.setVisible(false);
-						personName.setVisible(false);
-						
-						return;
+						dialog.add(buttons);
+
+//						dialog.repaint();
+						dialog.setSize(300, 200);
+						dialog.setVisible(true);
 					}
 				}
 				else if (board.getTargets().contains(board.getCell(y, x) ) ) {
@@ -131,8 +158,8 @@ public class BoardPanel extends JPanel{
 					Set<BoardCell> tempSet = new HashSet<BoardCell>();
 					tempSet.add(board.getCell(y, x));
 					currPlayer.doMove(tempSet);
-//					currPlayer.setRow(y);
-//					currPlayer.setColumn(x);
+					//					currPlayer.setRow(y);
+					//					currPlayer.setColumn(x);
 					board.setPlayerTurnFinished(true);
 					if(board.getCell(y, x).isRoom()) {
 						//handle suggestion
@@ -154,5 +181,57 @@ public class BoardPanel extends JPanel{
 		public void mouseExited(MouseEvent e) {
 			// TODO Auto-generated method stub
 		}
+	}
+
+	public class cancelButtonMouse implements MouseListener {
+		Board board = Board.getInstance();
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+		}
+
+	}
+
+	public class submitButtonMouse implements MouseListener {
+		Board board = Board.getInstance();
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+		}
+
 	}
 }
