@@ -1,18 +1,24 @@
 package clueGame;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 /*
  * Authors: John Taylor and Zakaria Khitirishvili
  * Class used to draw board with all cells and rooms, alongside names and players
  */
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -27,7 +33,8 @@ public class BoardPanel extends JPanel{
 	
 	private SuggestionDialogBox dialog;
 
-	// Create a dropdown menu for accusation options
+//    private JComboBox<String> roomName, weaponName, personName;
+//    JDialog suggestion;
 	private static BoardPanel theInstance = new BoardPanel(Board.getInstance());
 
 	public static BoardPanel getInstance() {
@@ -71,7 +78,7 @@ public class BoardPanel extends JPanel{
 		//repaint(); // double check if  needed
 	}
 
-	private class movementMouseEvent implements MouseListener{
+	private class movementMouseEvent implements MouseListener {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
@@ -96,6 +103,72 @@ public class BoardPanel extends JPanel{
 					//					currPlayer.setCell(room.getCenterCell().getRow(), room.getCenterCell().getCol());
 					
 					if(board.getCell(y, x).isRoom()) {
+//<<<<<<< HEAD
+//						
+//						suggestion = new JDialog();
+//						suggestion.setTitle("Make a suggestion");
+//						suggestion.setSize(300, 200);
+//						suggestion.setLayout(new BorderLayout());
+//
+//						// Initialize JComboBoxes
+//						roomName = new JComboBox<String>();
+//						weaponName = new JComboBox<String>();
+//						personName = new JComboBox<String>();
+//
+//						// Add items to weaponName JComboBox
+//						weaponName.addItem("Laser");
+//						weaponName.addItem("Cs137");
+//						weaponName.addItem("Chuck's bicycle");
+//						weaponName.addItem("Dilution Refrigerator");
+//						weaponName.addItem("Oscilloscope");
+//						weaponName.addItem("Lead Block");
+//
+//						// Add items to personName JComboBox
+//						personName.addItem("Physics Major");
+//						personName.addItem("Dr. Callan");
+//						personName.addItem("Laith Haddad");
+//						personName.addItem("Chuck Ston");
+//						personName.addItem("Pat Kohl");
+//						personName.addItem("Vince Kuo");
+//
+//						// add room
+//						roomName.addItem(board.getCell(y, x).getRoomName());
+//
+//						// Create a panel with a 3x3 GridLayout
+//						JPanel suggestionPanel = new JPanel(new GridLayout(3, 3));
+//
+//						// Add labels and JComboBoxes to the panel
+//						suggestionPanel.add(new JLabel("Current room"));
+//						suggestionPanel.add(roomName);
+//						suggestionPanel.add(new JLabel("Weapon"));
+//						suggestionPanel.add(weaponName);
+//						suggestionPanel.add(new JLabel("Person"));
+//						suggestionPanel.add(personName);
+//
+//						// Create "Submit" and "Cancel" buttons
+//						JButton submitButton = new JButton("Submit");
+//						JButton cancelButton = new JButton("Cancel");
+//						
+//						// ActionListener for the Cancel button
+//						cancelButton.addActionListener(r -> {
+//						    suggestion.dispose(); // Close the dialog
+//						});
+//
+//						// Create a panel for buttons with FlowLayout
+//						JPanel buttonPanel = new JPanel(new FlowLayout());
+//
+//						// Add buttons to the panel
+//						buttonPanel.add(submitButton);
+//						buttonPanel.add(Box.createHorizontalGlue()); // Add space between buttons
+//						buttonPanel.add(cancelButton);
+//
+//						// Add suggestionPanel and buttonPanel to the center and bottom of the dialog respectively
+//						suggestion.add(suggestionPanel, BorderLayout.CENTER);
+//						suggestion.add(buttonPanel, BorderLayout.SOUTH);
+//
+//						// Display the dialog
+//						suggestion.setVisible(true);
+//=======
 						dialog = new SuggestionDialogBox(currPlayer);
 					}
 				}
