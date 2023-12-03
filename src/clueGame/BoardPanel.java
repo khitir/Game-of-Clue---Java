@@ -171,7 +171,7 @@ public class BoardPanel extends JPanel{
 						personName.addItem("Vince Kuo");
 
 						// add room
-						roomName.addItem("myRoom");
+						roomName.addItem(board.getCell(y, x).getRoomName());
 
 						// Create a panel with a 3x3 GridLayout
 						JPanel suggestionPanel = new JPanel(new GridLayout(3, 3));

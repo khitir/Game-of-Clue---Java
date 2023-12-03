@@ -13,9 +13,7 @@ import java.util.Set;
  */
 
 public class BoardCell {
-	public String getRoomName() {
-		return RoomName;
-	}
+	
 
 	private int row, col;
 	private boolean isRoom, isOccupied, isRoomCenter, isLabel, isDoorway; // bools for checking status
@@ -23,7 +21,7 @@ public class BoardCell {
 	private DoorDirection doorDirection;
 	private char secretPassage;
 	private char roomLabel;
-	private String RoomName;
+	private String roomName;
 
 
 	public BoardCell(int x, int y) { // constructor, that sets cell location on board, and intitializes room and occupied to false
@@ -48,6 +46,9 @@ public class BoardCell {
 		this.roomLabel = roomLabel;
 	}
 
+	public String getRoomName() {
+		return roomName;
+	}
 
 	public char getSecretPassage() { // gets the secret passage
 		return secretPassage;
@@ -121,7 +122,7 @@ public class BoardCell {
 	
 	
 	public void setRoomName(String roomName) {
-		RoomName = roomName;
+		this.roomName = roomName;
 	}
 
 	
@@ -180,7 +181,7 @@ public class BoardCell {
 			g.setColor(Color.BLACK);
 			Font myFont = new Font("Arial", Font.PLAIN, (width+height)/3);
 	        g.setFont(myFont);
-			g.drawString(RoomName, col*width, row*height);
+			g.drawString(roomName, col*width, row*height);
 	}
 
 	
