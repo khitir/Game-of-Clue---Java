@@ -13,12 +13,17 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+
+import clueGame.BoardPanel.cancelButtonMouse;
+import clueGame.BoardPanel.submitButtonMouse;
 
 public class ClueGameControlPanel extends JPanel{
 	private JTextField guess = new JTextField(15);
@@ -29,6 +34,8 @@ public class ClueGameControlPanel extends JPanel{
 	private JPanel boardPanel = BoardPanel.getInstance();
 	private ClueGameCardsGUI cardsGUI;	
 	private Board board = Board.getInstance();
+	
+	private AccusationDialogBox dialog;
 	
 	
 	public ClueGameControlPanel(JPanel boardPanel, ClueGameCardsGUI cardsGUI) {
@@ -42,6 +49,7 @@ public class ClueGameControlPanel extends JPanel{
 		
 		// buttons
 		JButton accusationButton = new JButton("Make Accusation");
+		accusationButton.addMouseListener(new accusationButtonMouse());
 		JButton nextButton = new JButton("NEXT!");
 		nextButton.addMouseListener(mouse);
 		
@@ -177,6 +185,158 @@ public class ClueGameControlPanel extends JPanel{
 				return;
 			}
 			processNextTurn();
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+		}
+
+	}
+	
+	public class accusationButtonMouse implements MouseListener {
+		Board board = Board.getInstance();
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			if (board.getWhoseTurn() == 0) {
+				dialog = new AccusationDialogBox(board.getPlayers().get(0));
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "It is not your turn.");
+			}
+			
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+		}
+
+	}
+	
+	
+	
+	
+	
+	public class AccusationDialogBox extends JDialog{
+		public AccusationDialogBox(Player currPlayer) {
+			setTitle("Make a Suggestion");
+			setLayout(new GridLayout(4,0));
+			
+			JPanel roomRow = new JPanel();
+			roomRow.setLayout(new GridLayout(0, 2));
+			JTextField roomLabel = new JTextField("Current Room");
+			roomLabel.setEditable(false);
+			roomRow.add(roomLabel);
+			JTextField roomName = new JTextField(board.getCell(currPlayer.getRow(), currPlayer.getColumn()).getRoomName());
+			roomName.setEditable(false);
+			roomRow.add(roomName);
+			add(roomRow);
+
+			JPanel personRow = new JPanel();
+			personRow.setLayout(new GridLayout(0,2));
+			JTextField personLabel = new JTextField("Person");
+			personLabel.setEditable(false);
+			personRow.add(personLabel);
+			JComboBox playerDropdown = new JComboBox();
+			for (Player p : board.getPlayers()) {
+				playerDropdown.addItem(p.getName());
+			}
+			personRow.add(playerDropdown);
+			add(personRow);
+
+			JPanel weaponRow = new JPanel();
+			weaponRow.setLayout(new GridLayout(0,2));
+			JTextField weaponLabel = new JTextField("Weapon");
+			weaponLabel.setEditable(false);
+			weaponRow.add(weaponLabel);
+			JComboBox weaponDropdown = new JComboBox();
+			for (Card c : board.getAllCards()) {
+				if (c.getType() == CardType.WEAPON)
+					weaponDropdown.addItem(c.getCardName());
+			}
+			weaponRow.add(weaponDropdown);
+			add(weaponRow);
+
+			JPanel buttons = new JPanel();
+			buttons.setLayout(new GridLayout(0,2));
+
+			JButton submitButton = new JButton("Submit");
+			submitButton.addMouseListener(new submitButtonMouse());
+			buttons.add(submitButton);
+
+			JButton cancelButton = new JButton("Cancel");
+			cancelButton.addMouseListener(new cancelButtonMouse());
+			buttons.add(cancelButton);
+			
+			add(buttons);
+
+			setSize(300, 200);
+			setVisible(true);
+		}
+	}
+
+	public class cancelButtonMouse implements MouseListener {
+		Board board = Board.getInstance();
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			dialog.setVisible(false);
+			board.setPlayerTurnFinished(true);
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+		}
+
+	}
+
+	public class submitButtonMouse implements MouseListener {
+		Board board = Board.getInstance();
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			// Figure out how to get selected player and weapon from the dialog box
+//			board.getPlayers().get(0).createSuggestion(null);
+			System.out.println("Suggestion Made");
+			dialog.setVisible(false);
+			board.setPlayerTurnFinished(true);
+			BoardPanel.getInstance().repaint();
 		}
 
 		@Override
