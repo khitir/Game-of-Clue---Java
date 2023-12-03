@@ -1,16 +1,19 @@
 package clueGame;
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 /*
  * Authors: John Taylor and Zakaria Khitirishvili
  * Class used to draw board with all cells and rooms, alongside names and players
  */
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Set;
 
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -116,7 +119,7 @@ public class BoardPanel extends JPanel{
 //	}
 //	
 
-	private class movementMouseEvent implements MouseListener{
+	private class movementMouseEvent implements MouseListener {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
@@ -145,53 +148,65 @@ public class BoardPanel extends JPanel{
 						suggestion.setTitle("Make a suggestion");
 						suggestion.setSize(300, 200);
 						suggestion.setLayout(new BorderLayout());
-						
-						suggestion.setVisible(true);
-						
-						
-						JLabel weaponLabel = new JLabel("Weapon");
-						
+
+						// Initialize JComboBoxes
 						roomName = new JComboBox<String>();
 						weaponName = new JComboBox<String>();
 						personName = new JComboBox<String>();
-						
-						
-						
-						roomName.addItem(board.getCell(y, x).getRoomName());
-						add(roomName);
-						
-						
-						suggestion.add(weaponLabel);
+
+						// Add items to weaponName JComboBox
 						weaponName.addItem("Laser");
 						weaponName.addItem("Cs137");
 						weaponName.addItem("Chuck's bicycle");
 						weaponName.addItem("Dilution Refrigerator");
 						weaponName.addItem("Oscilloscope");
 						weaponName.addItem("Lead Block");
-						
-						
-						suggestion.add(weaponName);
-						
-						
+
+						// Add items to personName JComboBox
 						personName.addItem("Physics Major");
 						personName.addItem("Dr. Callan");
 						personName.addItem("Laith Haddad");
 						personName.addItem("Chuck Ston");
 						personName.addItem("Pat Kohl");
 						personName.addItem("Vince Kuo");
+
+						// add room
+						roomName.addItem("myRoom");
+
+						// Create a panel with a 3x3 GridLayout
+						JPanel suggestionPanel = new JPanel(new GridLayout(3, 3));
+
+						// Add labels and JComboBoxes to the panel
+						suggestionPanel.add(new JLabel("Current room"));
+						suggestionPanel.add(roomName);
+						suggestionPanel.add(new JLabel("Weapon"));
+						suggestionPanel.add(weaponName);
+						suggestionPanel.add(new JLabel("Person"));
+						suggestionPanel.add(personName);
+
+						// Create "Submit" and "Cancel" buttons
+						JButton submitButton = new JButton("Submit");
+						JButton cancelButton = new JButton("Cancel");
 						
-						suggestion.add(personName);
-						
-						//handle suggestion
-						// update results
-						add(suggestion);
-						repaint();
-						roomName.setVisible(true);
-						weaponName.setVisible(true);
-						personName.setVisible(true);
-						weaponLabel.setVisible(true);
-						
-						return;
+						// ActionListener for the Cancel button
+						cancelButton.addActionListener(r -> {
+						    suggestion.dispose(); // Close the dialog
+						});
+
+						// Create a panel for buttons with FlowLayout
+						JPanel buttonPanel = new JPanel(new FlowLayout());
+
+						// Add buttons to the panel
+						buttonPanel.add(submitButton);
+						buttonPanel.add(Box.createHorizontalGlue()); // Add space between buttons
+						buttonPanel.add(cancelButton);
+
+						// Add suggestionPanel and buttonPanel to the center and bottom of the dialog respectively
+						suggestion.add(suggestionPanel, BorderLayout.CENTER);
+						suggestion.add(buttonPanel, BorderLayout.SOUTH);
+
+						// Display the dialog
+						suggestion.setVisible(true);
 					}
 				}
 				else if (board.getTargets().contains(board.getCell(y, x) ) ) {
