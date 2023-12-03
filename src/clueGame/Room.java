@@ -1,6 +1,10 @@
 package clueGame;
 
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /*
@@ -17,13 +21,31 @@ public class Room {
 	private BoardCell labelCell;
 	private Set<BoardCell> entrances;
 	private BoardCell secretPassageTo;
-
+	private Map<Point, Player> roomSpaces;
+	
 	// Constructor, for when only the name and label of the room are available
 	public Room(char name, String fullNameOfRoom) {
 		super();
 		this.labelChar = name;
 		this.nameString = fullNameOfRoom;
 		entrances = new HashSet<BoardCell>();
+		
+		roomSpaces = new HashMap<Point, Player>();
+		roomSpaces.put(new Point(0,0), null);
+		roomSpaces.put(new Point(0,1), null);
+		roomSpaces.put(new Point(1,1), null);
+		roomSpaces.put(new Point(1,0), null);
+		roomSpaces.put(new Point(1,-1), null);
+		roomSpaces.put(new Point(0,-1), null);
+		
+	}
+	
+	public void setRoomSpaceOccupied(Point p, Player player) {
+		roomSpaces.replace(p, player);
+	}
+	
+	public Map<Point, Player> getRoomSpaces(){
+		return roomSpaces;
 	}
 
 	// Returns the room's name
@@ -68,6 +90,5 @@ public class Room {
 		secretPassageTo = cell;
 		entrances.add(secretPassageTo);
 	}
-
 
 }

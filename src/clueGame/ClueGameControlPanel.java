@@ -4,6 +4,7 @@ package clueGame;
  * Class showing control panel of game at the bottom of display, displays the buttons to play game
  */
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -25,13 +26,12 @@ public class ClueGameControlPanel extends JPanel{
 	private JTextField theRoll = new JTextField(5);
 	private JTextField whoseTurn = new JTextField(15);
 	private nextButtonMouse mouse = new nextButtonMouse();
-	private JPanel boardPanel;
+	private JPanel boardPanel = BoardPanel.getInstance();
 	private ClueGameCardsGUI cardsGUI;	
 	private Board board = Board.getInstance();
 	
 	
 	public ClueGameControlPanel(JPanel boardPanel, ClueGameCardsGUI cardsGUI) {
-		this.boardPanel = boardPanel;
 		this.cardsGUI = cardsGUI;
 		
 		setLayout(new GridLayout(2,0)); // create 2 row main grid
@@ -49,7 +49,6 @@ public class ClueGameControlPanel extends JPanel{
 		JLabel turnLabel = new JLabel("Whose turn?");
 		JPanel turnPanel = new JPanel();
 		whoseTurn.setEditable(false);
-//		setTheTurn(board.getPlayers().get(board.getWhoseTurn()));
 		turnPanel.add(turnLabel);
 		turnPanel.add(whoseTurn);
 		topPanel.add(turnPanel);
@@ -58,7 +57,6 @@ public class ClueGameControlPanel extends JPanel{
 		JLabel rollLabel = new JLabel("Roll: ");
 		JPanel rollPanel = new JPanel();
 		theRoll.setEditable(false);
-//		setTheRoll(board.getCurrRoll());
 		rollPanel.add(rollLabel);
 		rollPanel.add(theRoll);
 		topPanel.add(rollPanel);
@@ -112,45 +110,57 @@ public class ClueGameControlPanel extends JPanel{
 		guessResult.setText(result);
 	}
 	
+	public void setGuessResultColor(Color color) {
+		guessResult.setBackground(color);
+	}
+	
 	public void processNextTurn() {
+		setGuess("");
+		setGuessResult("");
+		setGuessResultColor(Color.WHITE);
 		int whoseTurn = board.getWhoseTurn();
-		if (whoseTurn == 0 && board.isPlayerTurnFinished() == false) {
-			JOptionPane.showMessageDialog(null, "Your turn is not over.");
-			return;
-		}
 		board.nextTurn();
 		whoseTurn = board.getWhoseTurn();
 		setTheTurn(board.getPlayers().get(whoseTurn));
 		setTheRoll(board.getCurrRoll());
 		if (whoseTurn != 0) {
 			Player currPlayer = board.getPlayers().get(whoseTurn);
+			Solution accusation = currPlayer.createAccusation();
+			if (accusation != null) {
+				board.handleAccusation(accusation);
+			}
 			BoardCell newLocation = currPlayer.doMove(board.getTargets());
+			newLocation.setOccupied(true);
 			if (newLocation.isRoom()) {
 				Solution suggestion = currPlayer.createSuggestion();
 				Card result = board.handleSuggestion(suggestion, currPlayer);
 				setGuess(suggestion.getPerson().getCardName() + ", " + suggestion.getRoom().getCardName() + ", " + suggestion.getWeapon().getCardName());
 				if (result != null) {
-					setGuessResult(result.getCardName());
-					result.setWhoShowedCard(currPlayer.getColor());
-					for (Player player : board.getPlayers()) {
-						player.updateSeen(result, currPlayer.getColor());
+					if (whoseTurn == 0) {
+						setGuessResult(result.getCardName());
 					}
+					else {
+						setGuessResult("Suggestion Disproven");
+					}
+					setGuessResultColor(result.getWhoShowedColor());
+					board.getPlayers().get(whoseTurn).updateSeen(result, result.getWhoShowedColor());
 				}
 				else {
-					setGuessResult("None");
+					setGuessResult("No new clue");
 				}
 			}
 		}
 		else {
 			setGuess("");
 			setGuessResult("");
+			setGuessResultColor(Color.white);
 			board.setPlayerTurnFinished(false);
 			if (board.getTargets().size() == 0) {
 				JOptionPane.showMessageDialog(null, "You cannot move this turn");
 				board.setPlayerTurnFinished(true);
 			}
 		}
-		repaint();
+		this.repaint();
 		boardPanel.repaint();
 		cardsGUI.revalidate();
 		cardsGUI.updatePanels(board);
@@ -161,6 +171,11 @@ public class ClueGameControlPanel extends JPanel{
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
+			int whoseTurn = board.getWhoseTurn();
+			if (whoseTurn == 0 && board.isPlayerTurnFinished() == false) {
+				JOptionPane.showMessageDialog(null, "Your turn is not over.");
+				return;
+			}
 			processNextTurn();
 		}
 

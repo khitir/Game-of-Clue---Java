@@ -106,6 +106,7 @@ public class Board {
 	    colorMap.put("Magenta", Color.MAGENTA);
 	    colorMap.put("Black", Color.BLACK);
 	    colorMap.put("White", Color.WHITE);
+	    colorMap.put("Gray", Color.GRAY);
 	    
 		try {
 			in = new FileReader(txt_file);
@@ -333,6 +334,7 @@ public class Board {
 			// Set if the square is a room center
 			else if (currSpace.charAt(1) == '*') {
 				cell.setIsRoomCenter(true);
+				cell.setRoomName(rooms.get(currSpace.charAt(0)).getName());
 				Room tempRoom = rooms.get(currSpace.charAt(0));
 				tempRoom.setCenterCell(cell);
 				rooms.put(tempRoom.getLabel(), tempRoom);
@@ -418,11 +420,14 @@ public class Board {
 		return grid[i][j];
 	}
 
-	public void calcTargets(BoardCell cell, int pathLength) { // adds visited cells to to list and calls findTargets()
+	public void calcTargets(BoardCell cell, int pathLength, boolean justPulledIntoRoom) { // adds visited cells to to list and calls findTargets()
 		targets.clear();
 		visited.add(cell);
 		findTargets(cell, pathLength);
 		visited.clear();
+		if (justPulledIntoRoom) {
+			targets.add(cell);
+		}
 	}
 
 	public void findTargets(BoardCell cell, int pathLength) { // recursively finds targets by looking at adjacent list
@@ -443,25 +448,34 @@ public class Board {
 		}
 	}
 
-	public boolean checkAccusation(Card room, Card person, Card weapon) {  // returns true if all 3 cards match to solution
-		return ((gameSolution.getRoom().equals(room)) && (gameSolution.getWeapon().equals(weapon)) && (gameSolution.getPerson().equals(person)));
+	public boolean checkAccusation(Solution s) {  // returns true if all 3 cards match to solution
+		return ((gameSolution.getRoom().equals(s.getRoom())) && (gameSolution.getWeapon().equals(s.getWeapon())) && 
+				(gameSolution.getPerson().equals(s.getPerson())));
 	}
 	
 	public Card handleSuggestion(Solution suggestion1, Player accuser) {
-		int index = 0;
+		int index = 0, indexAccusee = 0;
 		for (int i = 0; i < players.size(); i++) {
 			if (players.get(i).equals(accuser))
 				index = i;
+			if (players.get(i).getName().equals(suggestion1.getPerson().getCardName()))
+				indexAccusee = i;
 		}
+		players.get(indexAccusee).setCell(players.get(index).getRow(), players.get(index).getColumn());
+		players.get(indexAccusee).justPulledIntoRoom = true;
 		for (int numPlayers = 0; numPlayers < players.size() - 1; numPlayers++) {
 			index++;
 			if (index == players.size())
 				index = 0;
 			Player next = players.get(index);
 			Card result = next.disproveSuggestion(suggestion1);
-			if (result != null)
+			if (result != null) {
+				result.setWhoShowedCard(next.getColor());
+				accuser.setSuggestionDisproven(true);
 				return result;
+			}
 		}
+		accuser.setSuggestionDisproven(false);
 		return null;
 	}
 
@@ -539,9 +553,12 @@ public class Board {
 		if (whoseTurn == players.size())
 			whoseTurn = 0;
 		Random rand = new Random();
-		currRoll = rand.nextInt(5);
+		currRoll = rand.nextInt(6);
 		currRoll++;
-		calcTargets(players.get(whoseTurn).getCell(), currRoll);
+		calcTargets(players.get(whoseTurn).getCell(), currRoll, players.get(whoseTurn).justPulledIntoRoom);
+		if (players.get(whoseTurn).justPulledIntoRoom) {
+			players.get(whoseTurn).justPulledIntoRoom = false;
+		}
 	}
 
 	public int getCurrRoll() {
@@ -580,6 +597,25 @@ public class Board {
 
 	public Map<Character, Room> getRooms() {
 		return rooms;
+	}
+	
+	private boolean updateCoords;
+
+	public boolean getUpdateCoords() {
+		return updateCoords;
+	}
+
+	public void setUpdateCoords(boolean b) {
+		updateCoords = b;
+	}
+
+	public void handleAccusation(Solution accusation) {
+		if (checkAccusation(accusation)) {
+			// Display a message ending the game
+			JOptionPane.showMessageDialog(null, players.get(whoseTurn).getName() + " has won the game.\nThe solution was:\n" + 
+					gameSolution.getPerson().getCardName() + ", in " + gameSolution.getRoom().getCardName() + ", with the " + 
+					gameSolution.getWeapon().getCardName() + ".");
+		}
 	}
 
 }

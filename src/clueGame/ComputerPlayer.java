@@ -2,6 +2,8 @@ package clueGame;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -9,17 +11,28 @@ import java.util.Set;
 public class ComputerPlayer extends Player {
 	
 	private ArrayList<Card> roomsNotSeen;
-	private ArrayList<Character> roomLabelsNotSeen;
 	private ArrayList<Card> playersNotSeen;
 	private ArrayList<Card> weaponsNotSeen;
 	private Card lastPersonUnseen, lastWeaponUnseen;
+	private Solution lastSuggestion;
 
 	public ComputerPlayer(String name, Color color) {
 		super(name, color, true);
 		weaponsNotSeen = new ArrayList<Card>();
 		roomsNotSeen = new ArrayList<Card>();
 		playersNotSeen = new ArrayList<Card>();
-		roomLabelsNotSeen = new ArrayList<Character>();
+	}
+	
+	@Override
+	public Solution createAccusation() {
+		if (suggestionDisproven == false) {
+			System.out.println("accusation thrown");
+			return lastSuggestion;
+		}
+		else if (playersNotSeen.size() != 1 && roomsNotSeen.size() != 1 && weaponsNotSeen.size() != 1)
+			return null;
+		System.out.println("accusation thrown");
+		return new Solution(roomsNotSeen.get(0), playersNotSeen.get(0), weaponsNotSeen.get(0));
 	}
 	
 	@Override
@@ -46,18 +59,29 @@ public class ComputerPlayer extends Player {
 		Room currRoom = rooms.get(board.getCell(row,  column).getRoomLabel());
 		roomCard = new Card(currRoom.getName(), CardType.ROOM, Color.WHITE);
 		Solution suggestion = new Solution(roomCard, playerCard, weaponCard);
+		lastSuggestion = suggestion;
 		return suggestion;
 	}
 	
 	@Override
+	public Solution createSuggestion(Solution s) {
+		return null;
+	}
+	
+	@Override
 	public BoardCell doMove(Set<BoardCell> targets) {
-		BoardCell target = pickTarget(targets);
-		row = target.getRow();
-		column = target.getCol();
-		Board board = Board.getInstance();
+		BoardCell current = board.getCell(row,  column);
+		current.setOccupied(false);
+		// Less Advanced AI
+//		BoardCell target = pickTarget(targets);
+		// More Advanced AI
+		BoardCell target = findClosestRoom(targets);
+		showMove(target.getRow(), target.getCol());
 		return board.getCell(row, column);
 	}
 	
+	// Simple AI for computer
+	// Computer picks a room if available, otherwise picks randomly
 	public BoardCell pickTarget(Set<BoardCell> targets) {
 		Card room;
 		Board board = Board.getInstance();
@@ -78,6 +102,61 @@ public class ComputerPlayer extends Player {
 			i++;
 		}
 		return null;
+	}
+	
+	// More complicated AI for Computer
+	// Computer selects the closest unseen room, and then picks the cell that will get it the closest to that room
+	public BoardCell findClosestRoom(Set<BoardCell> targets) {
+		for (BoardCell target : targets) {
+			if (target.getRoomLabel() != 'X' && target.getRoomLabel() != 'W') {
+				Card tempCard = new Card(target.getRoomName(), CardType.ROOM, Color.WHITE);
+				if (roomsNotSeen.contains(tempCard))
+					return target;
+			}
+		}
+		Map<BoardCell, Integer> pathLengths = new HashMap<BoardCell, Integer>();
+		for (BoardCell target : targets) {
+			Set<BoardCell> seen = new HashSet<BoardCell>();
+			Set<BoardCell> current = new HashSet<BoardCell>();
+			current.add(target);
+			Set<BoardCell> adjacent = new HashSet<BoardCell>();
+			boolean flag = false;
+			int pathLen = 0;
+			while (true) {
+				pathLen++;
+				for (BoardCell cell : current) {
+					seen.add(cell);
+					for (BoardCell adj : board.getAdjList(cell.getRow(), cell.getCol())) {
+						BoardCell adjCell = board.getCell(adj.getRow(), adj.getCol());
+						adjacent.add(adjCell);
+						if (adjCell.getRoomLabel() != 'W' && adjCell.getRoomLabel() != 'X') {
+							Card tempCard = new Card(adjCell.getRoomName());
+							tempCard.setType(CardType.ROOM);
+							if (roomsNotSeen.contains(tempCard)) {
+								flag = true;
+								break;
+							}
+						}
+					}
+					if (flag)
+						break;
+				}
+				current = adjacent;
+				adjacent = new HashSet<BoardCell>();
+				if (flag)
+					break;
+			}
+			pathLengths.put(target, pathLen);
+		}
+		int minPathLength = 100;
+		BoardCell selectedTarget = new BoardCell(0,0);
+		for (BoardCell target : pathLengths.keySet()) {
+			if (pathLengths.get(target) < minPathLength) {
+				minPathLength = pathLengths.get(target);
+				selectedTarget = target;				
+			}
+		}
+		return selectedTarget;
 	}
 	
 	@Override

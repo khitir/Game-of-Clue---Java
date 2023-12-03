@@ -33,6 +33,21 @@ public class HumanPlayer extends Player {
 
 	@Override
 	public BoardCell doMove(Set<BoardCell> adjList) {
+		for (BoardCell target : adjList) {
+			showMove(target.getRow(),  target.getCol());
+		}
+		return board.getCell(row,  column);
+	}
+
+	@Override
+	public Solution createSuggestion(Solution suggestion) {
+		Card result = board.handleSuggestion(suggestion, this);
+		seenCards.put(result, result.getWhoShowedColor());
+		return null;
+	}
+
+	@Override
+	public Solution createAccusation() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -42,5 +57,7 @@ public class HumanPlayer extends Player {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
 
 }
