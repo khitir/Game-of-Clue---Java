@@ -21,7 +21,7 @@ public class ClueGame extends JFrame{
 		setTitle("Clue Game - CSCI306"); // title
 		boardPanel = BoardPanel.getInstance();
 		cardsGUI = new ClueGameCardsGUI(b);
-		controlPanel = new ClueGameControlPanel(boardPanel, cardsGUI);
+		controlPanel = ClueGameControlPanel.getInstance();
 		
 		// set panel locations
 		add(boardPanel,BorderLayout.CENTER);

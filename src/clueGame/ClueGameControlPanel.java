@@ -32,14 +32,19 @@ public class ClueGameControlPanel extends JPanel{
 	private JTextField whoseTurn = new JTextField(15);
 	private nextButtonMouse mouse = new nextButtonMouse();
 	private JPanel boardPanel = BoardPanel.getInstance();
-	private ClueGameCardsGUI cardsGUI;	
+	private ClueGameCardsGUI cardsGUI = ClueGameCardsGUI.getInstance();	
 	private Board board = Board.getInstance();
 	
 	private AccusationDialogBox dialog;
 	
+	private static ClueGameControlPanel theInstance = new ClueGameControlPanel();
 	
-	public ClueGameControlPanel(JPanel boardPanel, ClueGameCardsGUI cardsGUI) {
-		this.cardsGUI = cardsGUI;
+	public static ClueGameControlPanel getInstance() {
+		return theInstance;
+	}
+	
+	
+	public ClueGameControlPanel() {
 		
 		setLayout(new GridLayout(2,0)); // create 2 row main grid
 

@@ -222,7 +222,7 @@ public abstract class Player {
 	}
 	public abstract BoardCell doMove(Set<BoardCell> adjList);
 	public abstract Solution createSuggestion();
-	public abstract Solution createSuggestion(Solution suggestion);
+	public abstract Card createSuggestion(Solution suggestion);
 	public abstract Solution createAccusation();
 	
 	public void setSuggestionDisproven(boolean b) {

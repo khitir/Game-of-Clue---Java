@@ -15,6 +15,11 @@ public class ClueGameCardsGUI extends JPanel{
 	JLabel inHandLabel1 = new JLabel("In Hand:"), inHandLabel2 = new JLabel("In Hand:"), inHandLabel3 = new JLabel("In Hand:");
 	JLabel seenLabel1 = new JLabel("Seen:"), seenLabel2 = new JLabel("Seen:"), seenLabel3 = new JLabel("Seen:");
 	
+	private static ClueGameCardsGUI theInstance = new ClueGameCardsGUI(Board.getInstance());
+	
+	public static ClueGameCardsGUI getInstance() {
+		return theInstance;
+	}
 	
 	public ClueGameCardsGUI(Board board) {
 		this.updatePanels(board);	

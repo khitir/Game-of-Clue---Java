@@ -64,7 +64,7 @@ public class ComputerPlayer extends Player {
 	}
 	
 	@Override
-	public Solution createSuggestion(Solution s) {
+	public Card createSuggestion(Solution s) {
 		return null;
 	}
 	

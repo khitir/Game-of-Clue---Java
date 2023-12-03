@@ -40,10 +40,10 @@ public class HumanPlayer extends Player {
 	}
 
 	@Override
-	public Solution createSuggestion(Solution suggestion) {
+	public Card createSuggestion(Solution suggestion) {
 		Card result = board.handleSuggestion(suggestion, this);
 		seenCards.put(result, result.getWhoShowedColor());
-		return null;
+		return result;
 	}
 
 	@Override

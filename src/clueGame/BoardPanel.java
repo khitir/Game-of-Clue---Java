@@ -1,5 +1,6 @@
 package clueGame;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 /*
  * Authors: John Taylor and Zakaria Khitirishvili
@@ -12,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.swing.Box;
@@ -31,7 +33,13 @@ public class BoardPanel extends JPanel{
 	private int cellWidth; // makes sure resizing will work
 	private int cellHeight;//// makes sure resizing will work
 	
-	private SuggestionDialogBox dialog;
+	private JDialog dialog;
+	
+	private JComboBox playerDropdown;
+	private JComboBox weaponDropdown;
+	private Player currPlayer;
+	
+	private ClueGameCardsGUI cardsGUI;
 
 //    private JComboBox<String> roomName, weaponName, personName;
 //    JDialog suggestion;
@@ -89,6 +97,8 @@ public class BoardPanel extends JPanel{
 		}
 		@Override
 		public void mouseReleased(MouseEvent e) {
+			cardsGUI = ClueGameCardsGUI.getInstance();
+			
 			int x = e.getX()/cellWidth;
 			int y = e.getY()/cellHeight;
 			repaint();
@@ -96,80 +106,72 @@ public class BoardPanel extends JPanel{
 			if(board.getWhoseTurn() == 0 && board.isPlayerTurnFinished() == false) {
 				Room room = board.getRooms().get(board.getCell(y,  x).getRoomLabel());
 				if (board.getTargets().contains(room.getCenterCell()) && board.getWhoseTurn() == 0 && board.isPlayerTurnFinished() == false) {
-					Player currPlayer = board.getPlayers().get(0);
+					currPlayer = board.getPlayers().get(0);
 					Set<BoardCell> tempSet = new HashSet<BoardCell>();
 					tempSet.add(board.getCell(room.getCenterCell().getRow(), room.getCenterCell().getCol()));
 					currPlayer.doMove(tempSet);
 					//					currPlayer.setCell(room.getCenterCell().getRow(), room.getCenterCell().getCol());
 					
 					if(board.getCell(y, x).isRoom()) {
-//<<<<<<< HEAD
-//						
-//						suggestion = new JDialog();
-//						suggestion.setTitle("Make a suggestion");
-//						suggestion.setSize(300, 200);
-//						suggestion.setLayout(new BorderLayout());
-//
-//						// Initialize JComboBoxes
-//						roomName = new JComboBox<String>();
-//						weaponName = new JComboBox<String>();
-//						personName = new JComboBox<String>();
-//
-//						// Add items to weaponName JComboBox
-//						weaponName.addItem("Laser");
-//						weaponName.addItem("Cs137");
-//						weaponName.addItem("Chuck's bicycle");
-//						weaponName.addItem("Dilution Refrigerator");
-//						weaponName.addItem("Oscilloscope");
-//						weaponName.addItem("Lead Block");
-//
-//						// Add items to personName JComboBox
-//						personName.addItem("Physics Major");
-//						personName.addItem("Dr. Callan");
-//						personName.addItem("Laith Haddad");
-//						personName.addItem("Chuck Ston");
-//						personName.addItem("Pat Kohl");
-//						personName.addItem("Vince Kuo");
-//
-//						// add room
-//						roomName.addItem(board.getCell(y, x).getRoomName());
-//
-//						// Create a panel with a 3x3 GridLayout
-//						JPanel suggestionPanel = new JPanel(new GridLayout(3, 3));
-//
-//						// Add labels and JComboBoxes to the panel
-//						suggestionPanel.add(new JLabel("Current room"));
-//						suggestionPanel.add(roomName);
-//						suggestionPanel.add(new JLabel("Weapon"));
-//						suggestionPanel.add(weaponName);
-//						suggestionPanel.add(new JLabel("Person"));
-//						suggestionPanel.add(personName);
-//
-//						// Create "Submit" and "Cancel" buttons
-//						JButton submitButton = new JButton("Submit");
-//						JButton cancelButton = new JButton("Cancel");
-//						
-//						// ActionListener for the Cancel button
-//						cancelButton.addActionListener(r -> {
-//						    suggestion.dispose(); // Close the dialog
-//						});
-//
-//						// Create a panel for buttons with FlowLayout
-//						JPanel buttonPanel = new JPanel(new FlowLayout());
-//
-//						// Add buttons to the panel
-//						buttonPanel.add(submitButton);
-//						buttonPanel.add(Box.createHorizontalGlue()); // Add space between buttons
-//						buttonPanel.add(cancelButton);
-//
-//						// Add suggestionPanel and buttonPanel to the center and bottom of the dialog respectively
-//						suggestion.add(suggestionPanel, BorderLayout.CENTER);
-//						suggestion.add(buttonPanel, BorderLayout.SOUTH);
-//
-//						// Display the dialog
-//						suggestion.setVisible(true);
-//=======
-						dialog = new SuggestionDialogBox(currPlayer);
+						dialog = new JDialog();
+						
+						dialog.setTitle("Make a Suggestion");
+						dialog.setLayout(new GridLayout(4,0));
+						
+						JPanel roomRow = new JPanel();
+						roomRow.setLayout(new GridLayout(0, 2));
+						JTextField roomLabel = new JTextField("Current Room");
+						roomLabel.setEditable(false);
+						roomRow.add(roomLabel);
+						JTextField roomName = new JTextField(board.getCell(currPlayer.getRow(), currPlayer.getColumn()).getRoomName());
+						roomName.setEditable(false);
+						roomRow.add(roomName);
+						dialog.add(roomRow);
+						
+						JPanel personRow = new JPanel();
+						personRow.setLayout(new GridLayout(0,2));
+						JTextField personLabel = new JTextField("Person");
+						personLabel.setEditable(false);
+						personRow.add(personLabel);
+						playerDropdown = new JComboBox();
+						for (Player p : board.getPlayers()) {
+							playerDropdown.addItem(p.getName());
+						}
+						personRow.add(playerDropdown);
+						dialog.add(personRow);
+
+						JPanel weaponRow = new JPanel();
+						weaponRow.setLayout(new GridLayout(0,2));
+						JTextField weaponLabel = new JTextField("Weapon");
+						weaponLabel.setEditable(false);
+						weaponRow.add(weaponLabel);
+						weaponDropdown = new JComboBox();
+						for (Card c : board.getAllCards()) {
+							if (c.getType() == CardType.WEAPON)
+								weaponDropdown.addItem(c.getCardName());
+						}
+						weaponRow.add(weaponDropdown);
+						dialog.add(weaponRow);
+
+						JPanel buttons = new JPanel();
+						buttons.setLayout(new GridLayout(0,2));
+
+						JButton submitButton = new JButton("Submit");
+						submitButton.addMouseListener(new submitButtonMouse());
+						buttons.add(submitButton);
+
+						JButton cancelButton = new JButton("Cancel");
+						cancelButton.addMouseListener(new cancelButtonMouse());
+						buttons.add(cancelButton);
+						
+						dialog.add(buttons);
+
+						dialog.setSize(300, 200);
+						dialog.setVisible(true);
+						
+						
+//						while (!submitted) {}
+						
 					}
 				}
 				else if (board.getTargets().contains(board.getCell(y, x) ) ) {
@@ -199,64 +201,6 @@ public class BoardPanel extends JPanel{
 		@Override
 		public void mouseExited(MouseEvent e) {
 			// TODO Auto-generated method stub
-		}
-	}
-	
-	public class SuggestionDialogBox extends JDialog{
-		public SuggestionDialogBox(Player currPlayer) {
-			setTitle("Make a Suggestion");
-			setLayout(new GridLayout(4,0));
-			
-			JPanel roomRow = new JPanel();
-			roomRow.setLayout(new GridLayout(0, 2));
-			JTextField roomLabel = new JTextField("Current Room");
-			roomLabel.setEditable(false);
-			roomRow.add(roomLabel);
-			JTextField roomName = new JTextField(board.getCell(currPlayer.getRow(), currPlayer.getColumn()).getRoomName());
-			roomName.setEditable(false);
-			roomRow.add(roomName);
-			add(roomRow);
-
-			JPanel personRow = new JPanel();
-			personRow.setLayout(new GridLayout(0,2));
-			JTextField personLabel = new JTextField("Person");
-			personLabel.setEditable(false);
-			personRow.add(personLabel);
-			JComboBox playerDropdown = new JComboBox();
-			for (Player p : board.getPlayers()) {
-				playerDropdown.addItem(p.getName());
-			}
-			personRow.add(playerDropdown);
-			add(personRow);
-
-			JPanel weaponRow = new JPanel();
-			weaponRow.setLayout(new GridLayout(0,2));
-			JTextField weaponLabel = new JTextField("Weapon");
-			weaponLabel.setEditable(false);
-			weaponRow.add(weaponLabel);
-			JComboBox weaponDropdown = new JComboBox();
-			for (Card c : board.getAllCards()) {
-				if (c.getType() == CardType.WEAPON)
-					weaponDropdown.addItem(c.getCardName());
-			}
-			weaponRow.add(weaponDropdown);
-			add(weaponRow);
-
-			JPanel buttons = new JPanel();
-			buttons.setLayout(new GridLayout(0,2));
-
-			JButton submitButton = new JButton("Submit");
-			submitButton.addMouseListener(new submitButtonMouse());
-			buttons.add(submitButton);
-
-			JButton cancelButton = new JButton("Cancel");
-			cancelButton.addMouseListener(new cancelButtonMouse());
-			buttons.add(cancelButton);
-			
-			add(buttons);
-
-			setSize(300, 200);
-			setVisible(true);
 		}
 	}
 
@@ -294,10 +238,43 @@ public class BoardPanel extends JPanel{
 		public void mouseClicked(MouseEvent e) {
 			// Figure out how to get selected player and weapon from the dialog box
 //			board.getPlayers().get(0).createSuggestion(null);
-			System.out.println("Suggestion Made");
+			
+			String person = (String) playerDropdown.getSelectedItem();
+			String weapon = (String) weaponDropdown.getSelectedItem();
+			
+			Card personCard = new Card(person);
+			personCard.setType(CardType.PERSON);
+			Card weaponCard = new Card(weapon);
+			weaponCard.setType(CardType.WEAPON);
+			Card roomCard = new Card(board.getCell(currPlayer.getRow(), currPlayer.getColumn()).getRoomName());
+			roomCard.setType(CardType.ROOM);
+			
+			Solution suggestion = new Solution(roomCard, personCard, weaponCard);
+			
+			Card result = currPlayer.createSuggestion(suggestion);
+			
 			dialog.setVisible(false);
 			board.setPlayerTurnFinished(true);
 			BoardPanel.getInstance().repaint();
+			
+			ClueGameControlPanel control = ClueGameControlPanel.getInstance();
+			control.setGuess(suggestion.getPerson().getCardName() + ", " + suggestion.getRoom().getCardName() + ", " + suggestion.getWeapon().getCardName());
+			control.setGuessResult(result.getCardName());
+			control.setGuessResultColor(result.getWhoShowedColor());
+			
+			board.getPlayers().get(0).updateSeen(result, result.getWhoShowedColor());
+			
+			Map<Card, Color> seen = currPlayer.getSeenCards();
+			for (Card c : seen.keySet())
+				System.out.println(c.getCardName());
+			
+			control.repaint();
+			BoardPanel boardPanel = BoardPanel.getInstance();
+			boardPanel.repaint();
+			
+			cardsGUI.revalidate();
+			cardsGUI.updatePanels(board);
+//			cardsGUI.repaint();
 		}
 
 		@Override
