@@ -64,6 +64,11 @@ public class ComputerPlayer extends Player {
 	}
 	
 	@Override
+	public Solution createSuggestion(Solution s) {
+		return null;
+	}
+	
+	@Override
 	public BoardCell doMove(Set<BoardCell> targets) {
 		BoardCell current = board.getCell(row,  column);
 		current.setOccupied(false);

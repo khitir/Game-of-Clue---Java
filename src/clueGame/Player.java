@@ -39,7 +39,7 @@ public abstract class Player {
 	protected JPanel boardPanel = BoardPanel.getInstance();
 
 	private Map<String, Card> cards;  // set of cards for each player, hand 
-	private Map<Card, Color> seenCards;  
+	protected Map<Card, Color> seenCards;  
 	private ArrayList<Card> hand;
 	protected boolean suggestionDisproven = true;
 
@@ -222,6 +222,7 @@ public abstract class Player {
 	}
 	public abstract BoardCell doMove(Set<BoardCell> adjList);
 	public abstract Solution createSuggestion();
+	public abstract Solution createSuggestion(Solution suggestion);
 	public abstract Solution createAccusation();
 	
 	public void setSuggestionDisproven(boolean b) {

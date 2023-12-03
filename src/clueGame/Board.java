@@ -448,8 +448,9 @@ public class Board {
 		}
 	}
 
-	public boolean checkAccusation(Card room, Card person, Card weapon) {  // returns true if all 3 cards match to solution
-		return ((gameSolution.getRoom().equals(room)) && (gameSolution.getWeapon().equals(weapon)) && (gameSolution.getPerson().equals(person)));
+	public boolean checkAccusation(Solution s) {  // returns true if all 3 cards match to solution
+		return ((gameSolution.getRoom().equals(s.getRoom())) && (gameSolution.getWeapon().equals(s.getWeapon())) && 
+				(gameSolution.getPerson().equals(s.getPerson())));
 	}
 	
 	public Card handleSuggestion(Solution suggestion1, Player accuser) {
@@ -609,9 +610,11 @@ public class Board {
 	}
 
 	public void handleAccusation(Solution accusation) {
-		if (accusation == gameSolution) {
-			System.out.println("Correct");
+		if (checkAccusation(accusation)) {
 			// Display a message ending the game
+			JOptionPane.showMessageDialog(null, players.get(whoseTurn).getName() + " has won the game.\nThe solution was:\n" + 
+					gameSolution.getPerson().getCardName() + ", in " + gameSolution.getRoom().getCardName() + ", with the " + 
+					gameSolution.getWeapon().getCardName() + ".");
 		}
 	}
 

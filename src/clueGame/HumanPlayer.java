@@ -1,19 +1,8 @@
 package clueGame;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Set;
-
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 public class HumanPlayer extends Player {
 	// human player turn (true/false)
@@ -51,13 +40,20 @@ public class HumanPlayer extends Player {
 	}
 
 	@Override
-	public Solution createSuggestion() {
-		// TODO Auto-generated method stub
+	public Solution createSuggestion(Solution suggestion) {
+		Card result = board.handleSuggestion(suggestion, this);
+		seenCards.put(result, result.getWhoShowedColor());
 		return null;
 	}
 
 	@Override
 	public Solution createAccusation() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Solution createSuggestion() {
 		// TODO Auto-generated method stub
 		return null;
 	}

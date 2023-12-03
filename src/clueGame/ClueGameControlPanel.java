@@ -125,6 +125,10 @@ public class ClueGameControlPanel extends JPanel{
 		setTheRoll(board.getCurrRoll());
 		if (whoseTurn != 0) {
 			Player currPlayer = board.getPlayers().get(whoseTurn);
+			Solution accusation = currPlayer.createAccusation();
+			if (accusation != null) {
+				board.handleAccusation(accusation);
+			}
 			BoardCell newLocation = currPlayer.doMove(board.getTargets());
 			newLocation.setOccupied(true);
 			if (newLocation.isRoom()) {
@@ -144,10 +148,6 @@ public class ClueGameControlPanel extends JPanel{
 				else {
 					setGuessResult("No new clue");
 				}
-			}
-			Solution accusation = currPlayer.createAccusation();
-			if (accusation != null) {
-				board.handleAccusation(accusation);
 			}
 		}
 		else {
