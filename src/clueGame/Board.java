@@ -197,6 +197,7 @@ public class Board {
 		cardDeck.remove(cardDeck.indexOf(solutionRoom));
 
 		gameSolution = new Solution(solutionRoom, solutionPerson, solutionWeapon);
+		System.out.println(solutionPerson.getCardName() + solutionWeapon.getCardName() + solutionRoom.getCardName());
 
 		// Set the unseen cards for each room
 		for (Player player : players) {
@@ -628,6 +629,7 @@ public class Board {
 //			control.disable();
 			
 			ClueGame game = ClueGame.getInstance();
+			game.closeGame();
 			// Close out game somehow
 		}
 		else {

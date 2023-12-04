@@ -352,7 +352,7 @@ public class ClueGameControlPanel extends JPanel{
 			Card weaponCard = new Card(weapon);
 			weaponCard.setType(CardType.WEAPON);
 			// Room?
-			Card roomCard = new Card(board.getCell(currPlayer.getRow(), currPlayer.getColumn()).getRoomName());
+			Card roomCard = new Card((String) roomDropdown.getSelectedItem());
 			roomCard.setType(CardType.ROOM);
 			
 			Solution accusation = new Solution(roomCard, personCard, weaponCard);

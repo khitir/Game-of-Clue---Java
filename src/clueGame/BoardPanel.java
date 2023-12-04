@@ -255,11 +255,20 @@ public class BoardPanel extends JPanel{
 			board.setPlayerTurnFinished(true);
 			
 			ClueGameControlPanel control = ClueGameControlPanel.getInstance();
-			control.setGuess(suggestion.getPerson().getCardName() + ", " + suggestion.getRoom().getCardName() + ", " + suggestion.getWeapon().getCardName());
-			control.setGuessResult(result.getCardName());
-			control.setGuessResultColor(result.getWhoShowedColor());
 			
-			currPlayer.updateSeen(result, result.getWhoShowedColor());
+			if (result != null) {
+				control.setGuess(suggestion.getPerson().getCardName() + ", " + suggestion.getRoom().getCardName() + ", " + suggestion.getWeapon().getCardName());
+				control.setGuessResult(result.getCardName());
+				control.setGuessResultColor(result.getWhoShowedColor());
+				currPlayer.updateSeen(result, result.getWhoShowedColor());				
+			}
+			else {
+				control.setGuess(suggestion.getPerson().getCardName() + ", " + suggestion.getRoom().getCardName() + ", " + suggestion.getWeapon().getCardName());
+				control.setGuessResult("No new clue");
+				control.setGuessResultColor(Color.white);
+			}
+			
+			
 			
 			cardsGUI.updatePanels(board);
 			cardsGUI.revalidate();
