@@ -14,6 +14,12 @@ public class ClueGame extends JFrame{
 	ClueGameCardsGUI cardsGUI;
 	ClueGameControlPanel controlPanel;
 	
+	private static ClueGame theInstance = ClueGame.getInstance();
+	
+	public static ClueGame getInstance() {
+		return theInstance;
+	}
+	
 	public ClueGame(Board b) {
 		// set-up the window
 		setSize(700,700);
@@ -35,10 +41,10 @@ public class ClueGame extends JFrame{
 		Board board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
 		board.initialize();
-		ClueGame game = new ClueGame(board);
-		game.setVisible(true);
+		theInstance = new ClueGame(board);
+		theInstance.setVisible(true);
 		JOptionPane.showMessageDialog(null, "You are a Physics Major. Can you find the solution before your professors?");
 
-		game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		theInstance.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }

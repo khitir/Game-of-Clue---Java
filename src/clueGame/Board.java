@@ -621,6 +621,8 @@ public class Board {
 					gameSolution.getWeapon().getCardName() + ".");
 //			ClueGameControlPanel control = ClueGameControlPanel.getInstance();
 //			control.disable();
+			ClueGame game = ClueGame.getInstance();
+			// Close out game somehow
 		}
 		else {
 			JOptionPane.showMessageDialog(null, players.get(whoseTurn).getName() + " has made an incorrect accusation.");

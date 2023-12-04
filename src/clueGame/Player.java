@@ -117,8 +117,8 @@ public abstract class Player {
 				for (Point p : roomSpaces.keySet()) {
 					if (row + p.x == displayRow && column + p.y == displayCol) {
 						tempRoom.setRoomSpaceOccupied(p, null);
-						System.out.println(getName());
-						System.out.println(tempRoom.getName() + " Not Occupied");
+//						System.out.println(getName());
+//						System.out.println(tempRoom.getName() + " Not Occupied");
 					}
 				}
 			}
@@ -131,8 +131,8 @@ public abstract class Player {
 				for (Point p : roomSpaces.keySet()) {
 					if (roomSpaces.get(p) == null) {
 						tempRoom.setRoomSpaceOccupied(p, this);
-						System.out.println(getName());
-						System.out.println(tempRoom.getName() + " Occupied");
+//						System.out.println(getName());
+//						System.out.println(tempRoom.getName() + " Occupied");
 						offset = p;
 						break;
 					}

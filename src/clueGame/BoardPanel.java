@@ -168,10 +168,7 @@ public class BoardPanel extends JPanel{
 
 						dialog.setSize(300, 200);
 						dialog.setVisible(true);
-						
-						
-//						while (!submitted) {}
-						
+						dialog.setModal(true);
 					}
 				}
 				else if (board.getTargets().contains(board.getCell(y, x) ) ) {
@@ -255,7 +252,7 @@ public class BoardPanel extends JPanel{
 			
 			dialog.setVisible(false);
 			board.setPlayerTurnFinished(true);
-			BoardPanel.getInstance().repaint();
+//			BoardPanel.getInstance().repaint();
 			
 			ClueGameControlPanel control = ClueGameControlPanel.getInstance();
 			control.setGuess(suggestion.getPerson().getCardName() + ", " + suggestion.getRoom().getCardName() + ", " + suggestion.getWeapon().getCardName());
@@ -269,14 +266,17 @@ public class BoardPanel extends JPanel{
 				System.out.println(c.getCardName());
 			
 //			control.repaint();
-			BoardPanel boardPanel = BoardPanel.getInstance();
-			boardPanel.repaint();
+//			BoardPanel boardPanel = BoardPanel.getInstance();
+//			boardPanel.repaint();
+//			
+//			cardsGUI.validate();
+//			
+			cardsGUI.revalidate();
+//			cardsGUI.updatePanels(board);
+			cardsGUI.repaint();
 			
-			cardsGUI.validate();
-			
-//			cardsGUI.revalidate();
-			cardsGUI.updatePanels(board);
-//			cardsGUI.repaint();
+//			ClueGame game = ClueGame.getInstance();
+//			game.repaint();
 		}
 
 		@Override

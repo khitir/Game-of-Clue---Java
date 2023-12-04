@@ -226,7 +226,7 @@ public class ClueGameControlPanel extends JPanel{
 				Player currPlayer = board.getPlayers().get(0);
 				
 				
-				dialog.setTitle("Make a Suggestion");
+				dialog.setTitle("Make an Accusation");
 				dialog.setLayout(new GridLayout(4,0));
 				
 				JPanel roomRow = new JPanel();
@@ -282,6 +282,7 @@ public class ClueGameControlPanel extends JPanel{
 
 				dialog.setSize(300, 200);
 				dialog.setVisible(true);
+				dialog.setModal(true);
 			}
 			else {
 				JOptionPane.showMessageDialog(null, "It is not your turn.");
