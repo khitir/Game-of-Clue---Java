@@ -83,7 +83,6 @@ public class BoardPanel extends JPanel{
 		for (Player player: board.getPlayers()) {
 			player.drawPlayer(g, cellWidth, cellHeight);
 		}
-		//repaint(); // double check if  needed
 	}
 
 	private class movementMouseEvent implements MouseListener {
@@ -190,7 +189,7 @@ public class BoardPanel extends JPanel{
 					JOptionPane.showMessageDialog(null, "Not a target.");
 				}
 			}
-			board.nextTurn(); // this is to make sure accusation is only done at the begining of turn+
+//			board.nextTurn(); // this is to make sure accusation is only done at the begining of turn+
 		}
 		@Override
 		public void mouseEntered(MouseEvent e) {
@@ -255,11 +254,20 @@ public class BoardPanel extends JPanel{
 			board.setPlayerTurnFinished(true);
 			
 			ClueGameControlPanel control = ClueGameControlPanel.getInstance();
-			control.setGuess(suggestion.getPerson().getCardName() + ", " + suggestion.getRoom().getCardName() + ", " + suggestion.getWeapon().getCardName());
-			control.setGuessResult(result.getCardName());
-			control.setGuessResultColor(result.getWhoShowedColor());
 			
-			currPlayer.updateSeen(result, result.getWhoShowedColor());
+			if (result != null) {
+				control.setGuess(suggestion.getPerson().getCardName() + ", " + suggestion.getRoom().getCardName() + ", " + suggestion.getWeapon().getCardName());
+				control.setGuessResult(result.getCardName());
+				control.setGuessResultColor(result.getWhoShowedColor());
+				currPlayer.updateSeen(result, result.getWhoShowedColor());				
+			}
+			else {
+				control.setGuess(suggestion.getPerson().getCardName() + ", " + suggestion.getRoom().getCardName() + ", " + suggestion.getWeapon().getCardName());
+				control.setGuessResult("No new clue");
+				control.setGuessResultColor(Color.white);
+			}
+			
+			
 			
 			cardsGUI.updatePanels(board);
 			cardsGUI.revalidate();

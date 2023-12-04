@@ -43,7 +43,9 @@ public class HumanPlayer extends Player {
 	public Card createSuggestion(Solution suggestion) {
 		Card result = board.handleSuggestion(suggestion, this);
 		if (result != null) {
+
 		seenCards.put(result, result.getWhoShowedColor());
+
 		}
 		board.setPlayerSuggestionFinished(true);
 		return result;

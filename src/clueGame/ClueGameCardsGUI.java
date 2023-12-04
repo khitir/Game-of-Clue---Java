@@ -42,7 +42,6 @@ public class ClueGameCardsGUI extends JPanel{
 		
 		// add panel to main grid
 		add(topPanel);
-//		revalidate();
 		repaint();
 		initialized = true;
 	}

@@ -29,7 +29,6 @@ public class ComputerPlayer extends Player {
 		if (playersNotSeen.size() != 1 && roomsNotSeen.size() != 1 && weaponsNotSeen.size() != 1) {
 			return null;
 			}
-//		System.out.println("accusation thrown");
 		return new Solution(roomsNotSeen.get(0), playersNotSeen.get(0), weaponsNotSeen.get(0));
 	
 	}

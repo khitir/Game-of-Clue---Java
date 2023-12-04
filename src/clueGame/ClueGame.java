@@ -36,6 +36,10 @@ public class ClueGame extends JFrame{
 		
 	}
 	
+	public void closeGame() {
+		theInstance.setVisible(false);
+	}
+	
 	// main function to initialize board and start the game
 	public static void main(String[] args) {
 		Board board = Board.getInstance();
