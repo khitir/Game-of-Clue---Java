@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -35,7 +36,10 @@ public class ClueGameControlPanel extends JPanel{
 	private ClueGameCardsGUI cardsGUI = ClueGameCardsGUI.getInstance();	
 	private Board board = Board.getInstance();
 	
-	private AccusationDialogBox dialog;
+	private JDialog dialog;
+	private JComboBox roomDropdown;
+	private JComboBox playerDropdown;
+	private JComboBox weaponDropdown;
 	
 	private static ClueGameControlPanel theInstance = new ClueGameControlPanel();
 	
@@ -128,6 +132,7 @@ public class ClueGameControlPanel extends JPanel{
 	}
 	
 	public void processNextTurn() {
+		
 		setGuess("");
 		setGuessResult("");
 		setGuessResultColor(Color.WHITE);
@@ -216,7 +221,67 @@ public class ClueGameControlPanel extends JPanel{
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			if (board.getWhoseTurn() == 0) {
-				dialog = new AccusationDialogBox(board.getPlayers().get(0));
+				dialog = new JDialog();
+				
+				Player currPlayer = board.getPlayers().get(0);
+				
+				
+				dialog.setTitle("Make a Suggestion");
+				dialog.setLayout(new GridLayout(4,0));
+				
+				JPanel roomRow = new JPanel();
+				roomRow.setLayout(new GridLayout(0, 2));
+				JTextField roomLabel = new JTextField("Current Room");
+				roomLabel.setEditable(false);
+				roomRow.add(roomLabel);
+				roomDropdown = new JComboBox();
+				for (Card c : board.getAllCards()) {
+					if (c.getType() == CardType.ROOM)
+						roomDropdown.addItem(c.getCardName());
+				}
+				roomRow.add(roomDropdown);
+				dialog.add(roomRow);
+
+				JPanel personRow = new JPanel();
+				personRow.setLayout(new GridLayout(0,2));
+				JTextField personLabel = new JTextField("Person");
+				personLabel.setEditable(false);
+				personRow.add(personLabel);
+				playerDropdown = new JComboBox();
+				for (Player p : board.getPlayers()) {
+					playerDropdown.addItem(p.getName());
+				}
+				personRow.add(playerDropdown);
+				dialog.add(personRow);
+
+				JPanel weaponRow = new JPanel();
+				weaponRow.setLayout(new GridLayout(0,2));
+				JTextField weaponLabel = new JTextField("Weapon");
+				weaponLabel.setEditable(false);
+				weaponRow.add(weaponLabel);
+				weaponDropdown = new JComboBox();
+				for (Card c : board.getAllCards()) {
+					if (c.getType() == CardType.WEAPON)
+						weaponDropdown.addItem(c.getCardName());
+				}
+				weaponRow.add(weaponDropdown);
+				dialog.add(weaponRow);
+
+				JPanel buttons = new JPanel();
+				buttons.setLayout(new GridLayout(0,2));
+
+				JButton submitButton = new JButton("Submit");
+				submitButton.addMouseListener(new submitButtonMouse());
+				buttons.add(submitButton);
+
+				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addMouseListener(new cancelButtonMouse());
+				buttons.add(cancelButton);
+				
+				dialog.add(buttons);
+
+				dialog.setSize(300, 200);
+				dialog.setVisible(true);
 			}
 			else {
 				JOptionPane.showMessageDialog(null, "It is not your turn.");
@@ -240,68 +305,6 @@ public class ClueGameControlPanel extends JPanel{
 		public void mouseExited(MouseEvent e) {
 		}
 
-	}
-	
-	
-	
-	
-	
-	public class AccusationDialogBox extends JDialog{
-		public AccusationDialogBox(Player currPlayer) {
-			setTitle("Make a Suggestion");
-			setLayout(new GridLayout(4,0));
-			
-			JPanel roomRow = new JPanel();
-			roomRow.setLayout(new GridLayout(0, 2));
-			JTextField roomLabel = new JTextField("Current Room");
-			roomLabel.setEditable(false);
-			roomRow.add(roomLabel);
-			JTextField roomName = new JTextField(board.getCell(currPlayer.getRow(), currPlayer.getColumn()).getRoomName());
-			roomName.setEditable(false);
-			roomRow.add(roomName);
-			add(roomRow);
-
-			JPanel personRow = new JPanel();
-			personRow.setLayout(new GridLayout(0,2));
-			JTextField personLabel = new JTextField("Person");
-			personLabel.setEditable(false);
-			personRow.add(personLabel);
-			JComboBox playerDropdown = new JComboBox();
-			for (Player p : board.getPlayers()) {
-				playerDropdown.addItem(p.getName());
-			}
-			personRow.add(playerDropdown);
-			add(personRow);
-
-			JPanel weaponRow = new JPanel();
-			weaponRow.setLayout(new GridLayout(0,2));
-			JTextField weaponLabel = new JTextField("Weapon");
-			weaponLabel.setEditable(false);
-			weaponRow.add(weaponLabel);
-			JComboBox weaponDropdown = new JComboBox();
-			for (Card c : board.getAllCards()) {
-				if (c.getType() == CardType.WEAPON)
-					weaponDropdown.addItem(c.getCardName());
-			}
-			weaponRow.add(weaponDropdown);
-			add(weaponRow);
-
-			JPanel buttons = new JPanel();
-			buttons.setLayout(new GridLayout(0,2));
-
-			JButton submitButton = new JButton("Submit");
-			submitButton.addMouseListener(new submitButtonMouse());
-			buttons.add(submitButton);
-
-			JButton cancelButton = new JButton("Cancel");
-			cancelButton.addMouseListener(new cancelButtonMouse());
-			buttons.add(cancelButton);
-			
-			add(buttons);
-
-			setSize(300, 200);
-			setVisible(true);
-		}
 	}
 
 	public class cancelButtonMouse implements MouseListener {
@@ -336,12 +339,47 @@ public class ClueGameControlPanel extends JPanel{
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			// Figure out how to get selected player and weapon from the dialog box
-//			board.getPlayers().get(0).createSuggestion(null);
-			System.out.println("Suggestion Made");
+			Player currPlayer = board.getPlayers().get(0);
+			
+			String person = (String) playerDropdown.getSelectedItem();
+			String weapon = (String) weaponDropdown.getSelectedItem();
+			
+			Card personCard = new Card(person);
+			personCard.setType(CardType.PERSON);
+			Card weaponCard = new Card(weapon);
+			weaponCard.setType(CardType.WEAPON);
+			// Room?
+			Card roomCard = new Card(board.getCell(currPlayer.getRow(), currPlayer.getColumn()).getRoomName());
+			roomCard.setType(CardType.ROOM);
+			
+			Solution accusation = new Solution(roomCard, personCard, weaponCard);
+			
+			board.handleAccusation(accusation);
+			
 			dialog.setVisible(false);
 			board.setPlayerTurnFinished(true);
 			BoardPanel.getInstance().repaint();
+			
+//			
+//			
+//			ClueGameControlPanel control = ClueGameControlPanel.getInstance();
+//			control.setGuess(suggestion.getPerson().getCardName() + ", " + suggestion.getRoom().getCardName() + ", " + suggestion.getWeapon().getCardName());
+//			control.setGuessResult(result.getCardName());
+//			control.setGuessResultColor(result.getWhoShowedColor());
+//			
+//			board.getPlayers().get(0).updateSeen(result, result.getWhoShowedColor());
+//			
+//			Map<Card, Color> seen = currPlayer.getSeenCards();
+//			for (Card c : seen.keySet())
+//				System.out.println(c.getCardName());
+			
+//			control.repaint();
+			BoardPanel boardPanel = BoardPanel.getInstance();
+			boardPanel.repaint();
+			
+			cardsGUI.revalidate();
+			cardsGUI.updatePanels(board);
+//			cardsGUI.repaint();
 		}
 
 		@Override

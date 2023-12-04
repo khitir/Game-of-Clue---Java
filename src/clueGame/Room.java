@@ -37,6 +37,9 @@ public class Room {
 		roomSpaces.put(new Point(1,0), null);
 		roomSpaces.put(new Point(1,-1), null);
 		roomSpaces.put(new Point(0,-1), null);
+		roomSpaces.put(new Point(-1,-1), null);
+		roomSpaces.put(new Point(-1,0), null);
+		roomSpaces.put(new Point(-1,1), null);
 		
 	}
 	

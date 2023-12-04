@@ -550,7 +550,11 @@ public class Board {
 
 	public void nextTurn() {
 		whoseTurn++;
-		if (whoseTurn == players.size())
+		if (whoseTurn >= players.size())
+			whoseTurn = 0;
+		if (players.get(whoseTurn).getCanPlay() == false)
+			whoseTurn++;
+		if (whoseTurn >= players.size())
 			whoseTurn = 0;
 		Random rand = new Random();
 		currRoll = rand.nextInt(6);
@@ -615,6 +619,12 @@ public class Board {
 			JOptionPane.showMessageDialog(null, players.get(whoseTurn).getName() + " has won the game.\nThe solution was:\n" + 
 					gameSolution.getPerson().getCardName() + ", in " + gameSolution.getRoom().getCardName() + ", with the " + 
 					gameSolution.getWeapon().getCardName() + ".");
+//			ClueGameControlPanel control = ClueGameControlPanel.getInstance();
+//			control.disable();
+		}
+		else {
+			JOptionPane.showMessageDialog(null, players.get(whoseTurn).getName() + " has made an incorrect accusation.");
+			Board.getInstance().getPlayers().get(whoseTurn).setCanPlay(false);
 		}
 	}
 

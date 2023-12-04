@@ -35,6 +35,8 @@ public abstract class Player {
 
 	private boolean isComputer;
 	private boolean isHuman;
+	private boolean canPlay = true;
+	
 	protected Board board = Board.getInstance();
 	protected JPanel boardPanel = BoardPanel.getInstance();
 
@@ -245,5 +247,13 @@ public abstract class Player {
 			}
 		}
 
+	}
+	
+	public void setCanPlay(boolean b) {
+		canPlay = b;
+	}
+	
+	public boolean getCanPlay() {
+		return canPlay;
 	}
 }
