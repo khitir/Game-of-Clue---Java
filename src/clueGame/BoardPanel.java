@@ -252,31 +252,18 @@ public class BoardPanel extends JPanel{
 			
 			dialog.setVisible(false);
 			board.setPlayerTurnFinished(true);
-//			BoardPanel.getInstance().repaint();
 			
 			ClueGameControlPanel control = ClueGameControlPanel.getInstance();
 			control.setGuess(suggestion.getPerson().getCardName() + ", " + suggestion.getRoom().getCardName() + ", " + suggestion.getWeapon().getCardName());
 			control.setGuessResult(result.getCardName());
 			control.setGuessResultColor(result.getWhoShowedColor());
 			
-			board.getPlayers().get(0).updateSeen(result, result.getWhoShowedColor());
+			currPlayer.updateSeen(result, result.getWhoShowedColor());
 			
-			Map<Card, Color> seen = currPlayer.getSeenCards();
-			for (Card c : seen.keySet())
-				System.out.println(c.getCardName());
-			
-//			control.repaint();
-//			BoardPanel boardPanel = BoardPanel.getInstance();
-//			boardPanel.repaint();
-//			
-//			cardsGUI.validate();
-//			
+			cardsGUI.updatePanels(board);
 			cardsGUI.revalidate();
-//			cardsGUI.updatePanels(board);
-			cardsGUI.repaint();
 			
-//			ClueGame game = ClueGame.getInstance();
-//			game.repaint();
+			cardsGUI.repaint();
 		}
 
 		@Override

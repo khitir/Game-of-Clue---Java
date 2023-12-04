@@ -42,7 +42,7 @@ public abstract class Player {
 
 	private Map<String, Card> cards;  // set of cards for each player, hand 
 	protected Map<Card, Color> seenCards;  
-	private ArrayList<Card> hand;
+	protected ArrayList<Card> hand;
 	protected boolean suggestionDisproven = true;
 
 	private Timer myTimer;

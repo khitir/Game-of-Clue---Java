@@ -14,6 +14,7 @@ import javax.swing.border.TitledBorder;
 public class ClueGameCardsGUI extends JPanel{
 	JLabel inHandLabel1 = new JLabel("In Hand:"), inHandLabel2 = new JLabel("In Hand:"), inHandLabel3 = new JLabel("In Hand:");
 	JLabel seenLabel1 = new JLabel("Seen:"), seenLabel2 = new JLabel("Seen:"), seenLabel3 = new JLabel("Seen:");
+	private boolean initialized = false;
 	
 	private static ClueGameCardsGUI theInstance = new ClueGameCardsGUI(Board.getInstance());
 	
@@ -26,7 +27,10 @@ public class ClueGameCardsGUI extends JPanel{
 	}
 	
 	public void updatePanels(Board board) {
-		removeAll();
+		System.out.println("Update Panels");
+		if (initialized)
+			this.remove(0);
+//		removeAll();
 		setLayout(new GridLayout(0,1)); // create 2 row main grid
 		// first panel
 		JPanel topPanel = new JPanel();
@@ -39,7 +43,9 @@ public class ClueGameCardsGUI extends JPanel{
 		
 		// add panel to main grid
 		add(topPanel);
+//		revalidate();
 		repaint();
+		initialized = true;
 	}
 	
 	public JPanel createSubpanel(String panelName, Board board, CardType type, JLabel inHandLabel, JLabel seenLabel) {
@@ -77,6 +83,7 @@ public class ClueGameCardsGUI extends JPanel{
 				temp.add(tempText);
 				z++;
 			}
+			
 		}
 
 		if(z == 0) {
