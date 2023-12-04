@@ -117,8 +117,6 @@ public abstract class Player {
 				for (Point p : roomSpaces.keySet()) {
 					if (row + p.x == displayRow && column + p.y == displayCol) {
 						tempRoom.setRoomSpaceOccupied(p, null);
-//						System.out.println(getName());
-//						System.out.println(tempRoom.getName() + " Not Occupied");
 					}
 				}
 			}
@@ -131,14 +129,17 @@ public abstract class Player {
 				for (Point p : roomSpaces.keySet()) {
 					if (roomSpaces.get(p) == null) {
 						tempRoom.setRoomSpaceOccupied(p, this);
-//						System.out.println(getName());
-//						System.out.println(tempRoom.getName() + " Occupied");
 						offset = p;
 						break;
 					}
 				}
-				finalDisplayRow = nextRow + offset.x;
-				finalDisplayCol = nextCol + offset.y;
+				if (offset != null) {
+				    finalDisplayRow = nextRow + offset.x;
+				    finalDisplayCol = nextCol + offset.y;
+				} else {
+				    finalDisplayRow = nextRow;
+				    finalDisplayCol = nextCol;
+				}
 			}
 			else {
 				board.getCell(nextRow, nextCol).setOccupied(true);
