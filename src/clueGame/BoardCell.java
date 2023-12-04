@@ -131,14 +131,16 @@ public class BoardCell {
 		Board board = Board.getInstance();
 		if (isRoom == true) {
 			Room room = board.getRooms().get(this.getRoomLabel());
-			if (targets.contains(room.getCenterCell()) && whoseTurn == 0 && board.isPlayerTurnFinished() == false)
+			if (targets.contains(room.getCenterCell()) && whoseTurn == 0 && board.isPlayerTurnFinished() == false  &&
+					!board.isPlayerSuggestionFinished())
 				g.setColor(Color.cyan);
 			else
 				g.setColor(Color.GRAY);
 			g.fillRect(col*width, row*height, width, height);
 		}
 		else if (isDoorway == true) {
-			if (targets.contains(this) && whoseTurn == 0 && board.isPlayerTurnFinished() == false)
+			if (targets.contains(this) && whoseTurn == 0 && board.isPlayerTurnFinished() == false  &&
+					!board.isPlayerSuggestionFinished())
 				g.setColor(Color.CYAN);
 			else
 				g.setColor(Color.YELLOW);

@@ -132,6 +132,7 @@ public class ClueGameControlPanel extends JPanel{
 	}
 	
 	public void processNextTurn() {
+		board.setPlayerSuggestionFinished(false);
 		
 		setGuess("");
 		setGuessResult("");
@@ -152,6 +153,7 @@ public class ClueGameControlPanel extends JPanel{
 			if (newLocation.isRoom()) {
 				Solution suggestion = currPlayer.createSuggestion();
 				Card result = board.handleSuggestion(suggestion, currPlayer);
+				board.setPlayerSuggestionFinished(true);
 				setGuess(suggestion.getPerson().getCardName() + ", " + suggestion.getRoom().getCardName() + ", " + suggestion.getWeapon().getCardName());
 				if (result != null) {
 					if (whoseTurn == 0) {

@@ -264,6 +264,8 @@ public class BoardPanel extends JPanel{
 			cardsGUI.revalidate();
 			
 			cardsGUI.repaint();
+			
+			BoardPanel.getInstance().repaint();
 		}
 
 		@Override

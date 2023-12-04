@@ -27,7 +27,6 @@ public class ClueGameCardsGUI extends JPanel{
 	}
 	
 	public void updatePanels(Board board) {
-		System.out.println("Update Panels");
 		if (initialized)
 			this.remove(0);
 //		removeAll();

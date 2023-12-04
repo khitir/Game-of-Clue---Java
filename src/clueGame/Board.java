@@ -43,7 +43,15 @@ public class Board {
 	
 	private int whoseTurn;
 	private int currRoll;
-	private boolean playerTurnFinished;
+	private boolean playerTurnFinished, playerSuggestionFinished;
+	
+	public boolean isPlayerSuggestionFinished() {
+		return playerSuggestionFinished;
+	}
+
+	public void setPlayerSuggestionFinished(boolean playerSuggestionFinished) {
+		this.playerSuggestionFinished = playerSuggestionFinished;
+	}
 
 	public boolean isPlayerTurnFinished() {
 		return playerTurnFinished;
@@ -601,16 +609,6 @@ public class Board {
 
 	public Map<Character, Room> getRooms() {
 		return rooms;
-	}
-	
-	private boolean updateCoords;
-
-	public boolean getUpdateCoords() {
-		return updateCoords;
-	}
-
-	public void setUpdateCoords(boolean b) {
-		updateCoords = b;
 	}
 
 	public void handleAccusation(Solution accusation) {
