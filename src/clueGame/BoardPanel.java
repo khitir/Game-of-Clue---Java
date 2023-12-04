@@ -268,11 +268,13 @@ public class BoardPanel extends JPanel{
 			for (Card c : seen.keySet())
 				System.out.println(c.getCardName());
 			
-			control.repaint();
+//			control.repaint();
 			BoardPanel boardPanel = BoardPanel.getInstance();
 			boardPanel.repaint();
 			
-			cardsGUI.revalidate();
+			cardsGUI.validate();
+			
+//			cardsGUI.revalidate();
 			cardsGUI.updatePanels(board);
 //			cardsGUI.repaint();
 		}

@@ -88,21 +88,21 @@ class GameSolutionTest {
 		Card personSolution = board.getSolution().getPerson();
 		Card weaponSolution = board.getSolution().getWeapon();
 		
-		assertTrue(board.checkAccusation(roomSolution, personSolution, weaponSolution));
+		assertTrue(board.checkAccusation(new Solution(roomSolution, personSolution, weaponSolution)));
 		
 		
 //		solution with wrong person
 		Card cardPerson = new Card("spades");
 		cardPerson.setType(CardType.PERSON);
-		assertFalse(board.checkAccusation(roomSolution, cardPerson, weaponSolution));
+		assertFalse(board.checkAccusation(new Solution(roomSolution, cardPerson, weaponSolution)));
 //		solution with wrong weapon
 		Card cardWeapon = new Card("spades");
 		cardWeapon.setType(CardType.WEAPON);
-		assertFalse(board.checkAccusation(roomSolution, personSolution, cardWeapon));
+		assertFalse(board.checkAccusation(new Solution(roomSolution, personSolution, cardWeapon)));
 //		solution with wrong room
 		Card cardRoom = new Card("spades");
 		cardRoom.setType(CardType.ROOM);
-		assertFalse(board.checkAccusation(cardRoom, personSolution, weaponSolution));
+		assertFalse(board.checkAccusation(new Solution(cardRoom, personSolution, weaponSolution)));
 		
 	}	
 	@Test
