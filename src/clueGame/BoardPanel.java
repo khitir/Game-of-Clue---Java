@@ -190,7 +190,7 @@ public class BoardPanel extends JPanel{
 					JOptionPane.showMessageDialog(null, "Not a target.");
 				}
 			}
-			board.nextTurn(); // this is to make sure accusation is only done at the begining of turn+
+//			board.nextTurn(); // this is to make sure accusation is only done at the begining of turn+
 		}
 		@Override
 		public void mouseEntered(MouseEvent e) {

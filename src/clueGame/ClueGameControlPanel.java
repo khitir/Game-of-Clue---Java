@@ -222,7 +222,7 @@ public class ClueGameControlPanel extends JPanel{
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			if (board.getWhoseTurn() == 0) {
+			if (board.getWhoseTurn() == 0 && !board.isPlayerSuggestionFinished()) {
 				dialog = new JDialog();
 				
 				Player currPlayer = board.getPlayers().get(0);
@@ -287,7 +287,7 @@ public class ClueGameControlPanel extends JPanel{
 				dialog.setModal(true);
 			}
 			else {
-				JOptionPane.showMessageDialog(null, "It is not your turn.");
+				JOptionPane.showMessageDialog(null, "You cannot make an accusation right now, wait until the start of your next turn.");
 			}
 			
 		}
@@ -316,7 +316,7 @@ public class ClueGameControlPanel extends JPanel{
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			dialog.setVisible(false);
-			board.setPlayerTurnFinished(true);
+			board.setPlayerTurnFinished(false);
 		}
 
 		@Override

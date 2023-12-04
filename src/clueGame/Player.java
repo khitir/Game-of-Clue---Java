@@ -44,6 +44,10 @@ public abstract class Player {
 	protected Map<Card, Color> seenCards;  
 	protected ArrayList<Card> hand;
 	protected boolean suggestionDisproven = true;
+	
+	protected ArrayList<Card> roomsNotSeen = new ArrayList<Card>();
+	protected ArrayList<Card> playersNotSeen = new ArrayList<Card>();
+	protected ArrayList<Card> weaponsNotSeen = new ArrayList<Card>();
 
 	private Timer myTimer;
 	private timerActionListener myTimerActionListener;
@@ -78,8 +82,42 @@ public abstract class Player {
 		location = room;
 	}
 	
+	public void initializeNotSeen(ArrayList<Card> deck) {
+		for (Card c : deck) {
+			if (!hand.contains(c)) {
+				switch (c.getType()) {
+					case PERSON:
+						playersNotSeen.add(c);
+						break;
+					case WEAPON:
+						weaponsNotSeen.add(c);
+						break;
+					case ROOM:
+						roomsNotSeen.add(c);
+						break;
+				}
+			}
+		}
+	}
+	
 	public void updateSeen(Card seenCard, Color seenColor) {
 		seenCards.put(seenCard, seenColor);
+		switch (seenCard.getType()) {
+			case PERSON:
+				playersNotSeen.remove(seenCard);
+				break;
+			case ROOM:
+				roomsNotSeen.remove(seenCard);
+				break;
+			case WEAPON:
+				weaponsNotSeen.remove(seenCard);
+				break;
+		}
+		System.out.println(getName() + ":");
+		for (Card c : seenCards.keySet()) {
+			System.out.println(c.getCardName());
+		}
+		System.out.println();
 	}
 	
 	public Card disproveSuggestion(Solution suggestion) {

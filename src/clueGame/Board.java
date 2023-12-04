@@ -470,7 +470,8 @@ public class Board {
 				indexAccusee = i;
 		}
 		players.get(indexAccusee).setCell(players.get(index).getRow(), players.get(index).getColumn());
-		players.get(indexAccusee).justPulledIntoRoom = true;
+		if (index != indexAccusee)
+			players.get(indexAccusee).justPulledIntoRoom = true;
 		for (int numPlayers = 0; numPlayers < players.size() - 1; numPlayers++) {
 			index++;
 			if (index == players.size())
@@ -612,6 +613,12 @@ public class Board {
 	}
 
 	public void handleAccusation(Solution accusation) {
+		for (Card c : players.get(whoseTurn).getSeenCards().keySet()) {
+			System.out.println(c.getCardName());
+		}
+		System.out.println(accusation.getPerson().getCardName());
+		System.out.println(accusation.getWeapon().getCardName());
+		System.out.println(accusation.getRoom().getCardName());
 		if (checkAccusation(accusation)) {
 			// Display a message ending the game
 			JOptionPane.showMessageDialog(null, players.get(whoseTurn).getName() + " has won the game.\nThe solution was:\n" + 
@@ -619,6 +626,7 @@ public class Board {
 					gameSolution.getWeapon().getCardName() + ".");
 //			ClueGameControlPanel control = ClueGameControlPanel.getInstance();
 //			control.disable();
+			
 			ClueGame game = ClueGame.getInstance();
 			// Close out game somehow
 		}
